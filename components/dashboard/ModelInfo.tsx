@@ -8,6 +8,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { modelData } from "@/src/app/dashboard/lib/data";
+import { cn } from "@/lib/utils";
 
 export function ModelInfo() {
   const [selectedModel, setSelectedModel] =
@@ -16,7 +17,7 @@ export function ModelInfo() {
   const currentModel = modelData[selectedModel];
 
   return (
-    <div className="rounded-xl border bg-card p-6">
+    <div className="rounded-xl border bg-card p-6 ">
       <div className="mb-4 flex items-center justify-between gap-4">
         <Select
           value={selectedModel}
@@ -24,33 +25,42 @@ export function ModelInfo() {
             setSelectedModel(value as keyof typeof modelData)
           }
         >
-          <SelectTrigger className="w-fit min-w-[240px] justify-start gap-3 border bg-transparent text-lg font-semibold shadow-none">
+          <SelectTrigger className="w-fit justify-start gap-3 text-md font-semibold border-border bg-card shadow-sm transition-all focus:ring-primary/20">
             <SelectValue placeholder="Pilih Model" />
           </SelectTrigger>
 
-          <SelectContent className="min-w-[260px]">
+          <SelectContent
+            position="popper"
+            sideOffset={5}
+            className="min-w-65 bg-card border-border shadow-lg animate-in fade-in zoom-in-95 duration-200"
+          >
             <SelectItem
               value="baseline"
-              className="cursor-pointer justify-start px-4 py-2"
+              className="cursor-pointer px-4 py-2.5 transition-colors focus:bg-secondary focus:text-primary data-[state=checked]:text-primary data-[state=checked]:font-md"
             >
               Model XGBoost (Baseline)
             </SelectItem>
+
             <SelectItem
               value="tuned"
-              className="cursor-pointer justify-start px-4 py-2"
+              className="cursor-pointer px-4 py-2.5 transition-colors focus:bg-secondary focus:text-primary data-[state=checked]:text-primary data-[state=checked]:font-md"
             >
               Model XGBoost (Tuned)
             </SelectItem>
+
             <SelectItem
               value="optimized"
-              className="cursor-pointer justify-start px-4 py-2"
+              className="cursor-pointer px-4 py-2.5 transition-colors focus:bg-secondary focus:text-primary data-[state=checked]:text-primary data-[state=checked]:font-md"
             >
               Model XGBoost (Optimized)
             </SelectItem>
           </SelectContent>
         </Select>
 
-        <Badge variant="secondary" className="bg-accent/10 text-accent">
+        <Badge
+          variant="secondary"
+          className="bg-sentiment-positive-light text-sentiment-positive"
+        >
           Active
         </Badge>
       </div>
@@ -63,7 +73,10 @@ export function ModelInfo() {
         {currentModel.metrics.map((metric) => (
           <div
             key={metric.label}
-            className="flex items-center gap-3 rounded-lg bg-muted/50 p-3"
+            className={cn(
+              "flex items-center gap-3 rounded-lg p-3 transition-colors",
+              "bg-secondary/50 border border-border/40",
+            )}
           >
             <div className="rounded-lg bg-primary/10 p-2">
               <metric.icon className="h-4 w-4 text-primary" />

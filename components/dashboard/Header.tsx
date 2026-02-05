@@ -17,6 +17,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { redirect } from "next/navigation";
 
 export function Header() {
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -63,7 +64,6 @@ export function Header() {
               <DropdownMenu open={open} onOpenChange={setOpen}>
                 <DropdownMenuTrigger asChild>
                   <Button
-                    // variant="outline"
                     size="sm"
                     className="gap-2 focus-visible:ring-0 border-border hover:bg-secondary hover:text-white transition-colors"
                   >
@@ -85,7 +85,7 @@ export function Header() {
 
                   <DropdownMenuItem
                     className="cursor-pointer gap-2 text-destructive focus:bg-destructive/10 focus:text-red-500 transition-colors"
-                    onClick={() => console.log("Logout clicked")}
+                    onClick={() => redirect("/")}
                   >
                     <LogOut className="h-4 w-4" />
                     <span>Logout</span>
