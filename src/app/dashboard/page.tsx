@@ -7,7 +7,7 @@ import {
   trendData,
   wordCloudData,
 } from "./lib/data";
-import { Header } from "@/components/dashboards/Header";
+import { Header } from "../../components/dashboards/Header";
 import {
   MessageSquareText,
   Minus,
@@ -15,17 +15,17 @@ import {
   ThumbsUp,
   TrendingUp,
 } from "lucide-react";
-import { StatCard } from "@/components/dashboards/StatCard";
-import { TrendChart } from "@/components/dashboards/TrendChart";
-import { SentimentChart } from "@/components/dashboards/SentimentChart";
-import { WordCloud } from "@/components/dashboards/WordCloud";
-import { ModelInfo } from "@/components/dashboards/ModelInfo";
-import { SentimentAnalyzer } from "@/components/dashboards/SentimentAnalyzer";
-import { BrandFilter } from "@/components/dashboards/BrandFilter";
-import { ReviewTable } from "@/components/dashboards/ReviewTable";
+import { StatCard } from "../../components/dashboards/StatCard";
+import { TrendChart } from "../../components/dashboards/TrendChart";
+import { SentimentChart } from "../../components/dashboards/SentimentChart";
+import { WordCloud } from "../../components/dashboards/WordCloud";
+import { ModelInfo } from "../../components/dashboards/ModelInfo";
+import { SentimentAnalyzer } from "../../components/dashboards/SentimentAnalyzer";
+import { BrandFilter } from "../../components/dashboards/BrandFilter";
+import { ReviewTable } from "../../components/dashboards/ReviewTable";
 import { getClassificationReport } from "./lib/actions";
 import { ModelDB } from "@/src/types";
-import { ModelInfoSkeleton } from "@/components/skeletons/ModelInfoSkeleton";
+import { ModelInfoSkeleton } from "../../components/skeletons/ModelInfoSkeleton";
 
 export default function DashboardPage() {
   const [selectedBrand, setSelectedBrand] = useState<string | null>(null);

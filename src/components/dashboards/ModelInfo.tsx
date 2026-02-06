@@ -1,14 +1,13 @@
 "use client";
 
-import { useState } from "react";
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "../../components/ui/badge";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "../../components/ui/select";
 import { ModelDB } from "@/src/types";
 import { useModelInfo } from "@/src/hooks/useModelInfo";
 

@@ -5,8 +5,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
+} from "../../components/ui/table";
+import { Badge } from "../../components/ui/badge";
 import { cn } from "@/lib/utils";
 import { Star } from "lucide-react";
 
@@ -59,7 +59,7 @@ export function ReviewTable({ reviews }: ReviewTableProps) {
               "h-4 w-4",
               i < rating
                 ? "fill-sentiment-neutral text-sentiment-neutral"
-                : "fill-muted text-muted"
+                : "fill-muted text-muted",
             )}
           />
         ))}

@@ -1,4 +1,4 @@
-import { ArrowDown, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 export function ModelInfoSkeleton() {
   return (
