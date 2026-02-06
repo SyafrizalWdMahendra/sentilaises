@@ -1,3 +1,5 @@
+"use client";
+import { useEffect, useState } from "react";
 import {
   AreaChart,
   Area,
@@ -21,6 +23,11 @@ interface TrendChartProps {
 }
 
 export function TrendChart({ data }: TrendChartProps) {
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
@@ -42,8 +49,12 @@ export function TrendChart({ data }: TrendChartProps) {
     return null;
   };
 
+  if (!isMounted) {
+    return <div className="h-[350px] w-full bg-transparent" />;
+  }
+
   return (
-    <div className="h-[350px] w-full">
+    <div className="h-[350px] min-h-[350px] w-full">
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
           data={data}
@@ -68,11 +79,7 @@ export function TrendChart({ data }: TrendChartProps) {
                 stopColor="hsl(0, 72%, 51%)"
                 stopOpacity={0.3}
               />
-              <stop
-                offset="95%"
-                stopColor="hsl(0, 72%, 51%)"
-                stopOpacity={0}
-              />
+              <stop offset="95%" stopColor="hsl(0, 72%, 51%)" stopOpacity={0} />
             </linearGradient>
             <linearGradient id="colorNetral" x1="0" y1="0" x2="0" y2="1">
               <stop
@@ -110,7 +117,9 @@ export function TrendChart({ data }: TrendChartProps) {
             verticalAlign="top"
             height={36}
             formatter={(value: string) => (
-              <span className="text-sm capitalize text-foreground">{value}</span>
+              <span className="text-sm capitalize text-foreground">
+                {value}
+              </span>
             )}
           />
           <Area

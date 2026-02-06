@@ -115,4 +115,10 @@
     @apply backdrop-blur-lg;
     background: hsl(var(--card) / 0.8);
   }
+
+  @keyframes shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }
 }

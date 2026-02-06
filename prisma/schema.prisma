@@ -5,3 +5,82 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+enum UserGender {
+  male
+  female
+  other
+}
+
+enum Sentiment {
+  positive
+  negative
+  neutral
+}
+
+model User {
+  id               Int         @id @default(autoincrement())
+  email            String      @unique
+  name             String?
+  gender           UserGender?
+  productReference String?
+  password         String
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+
+  analysis Analysis[]
+}
+
+model Analysis {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  reviewId  Int
+  productId Int
+  modelId   Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user    User    @relation(fields: [userId], references: [id])
+  review  Review  @relation(fields: [reviewId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+  model   Model   @relation(fields: [modelId], references: [id])
+}
+
+model Product {
+  id        Int      @id @default(autoincrement())
+  name      String
+  brand     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  reviews  Review[]
+  analysis Analysis[]
+}
+
+model Review {
+  id              Int       @id @default(autoincrement())
+  productId       Int
+  content         String
+  keywords        String[]
+  sentiment       Sentiment
+  confidenceScore Float
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  product  Product    @relation(fields: [productId], references: [id])
+  analysis Analysis[]
+}
+
+model Model {
+  id          Int      @id @default(autoincrement())
+  modelName   String
+  description String
+  accuracy    Float
+  macroF1     Float
+  f1Negative  Float
+  f1Neutral   Float
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  analysis Analysis[]
+}

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import {
   brandData,
   reviewData,
@@ -7,7 +7,7 @@ import {
   trendData,
   wordCloudData,
 } from "./lib/data";
-import { Header } from "@/components/dashboard/Header";
+import { Header } from "@/components/dashboards/Header";
 import {
   MessageSquareText,
   Minus,
@@ -15,18 +15,22 @@ import {
   ThumbsUp,
   TrendingUp,
 } from "lucide-react";
-import { StatCard } from "@/components/dashboard/StatCard";
-import { TrendChart } from "@/components/dashboard/TrendChart";
-import { SentimentChart } from "@/components/dashboard/SentimentChart";
-import { WordCloud } from "@/components/dashboard/WordCloud";
-import { ModelInfo } from "@/components/dashboard/ModelInfo";
-import { SentimentAnalyzer } from "@/components/dashboard/SentimentAnalyzer";
-import { BrandFilter } from "@/components/dashboard/BrandFilter";
-import { ReviewTable } from "@/components/dashboard/ReviewTable";
+import { StatCard } from "@/components/dashboards/StatCard";
+import { TrendChart } from "@/components/dashboards/TrendChart";
+import { SentimentChart } from "@/components/dashboards/SentimentChart";
+import { WordCloud } from "@/components/dashboards/WordCloud";
+import { ModelInfo } from "@/components/dashboards/ModelInfo";
+import { SentimentAnalyzer } from "@/components/dashboards/SentimentAnalyzer";
+import { BrandFilter } from "@/components/dashboards/BrandFilter";
+import { ReviewTable } from "@/components/dashboards/ReviewTable";
+import { getClassificationReport } from "./lib/actions";
+import { ModelDB } from "@/src/types";
+import { ModelInfoSkeleton } from "@/components/skeletons/ModelInfoSkeleton";
 
 export default function DashboardPage() {
   const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
-
+  const [loading, setLoading] = useState(true);
+  const [modelData, setModelData] = useState<ModelDB[]>([]);
   const totalReviews = sentimentDistribution.reduce(
     (sum, s) => sum + s.value,
     0,
@@ -41,6 +45,20 @@ export default function DashboardPage() {
   const filteredReviews = selectedBrand
     ? reviewData.filter((r) => r.brand === selectedBrand)
     : reviewData;
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const data = await getClassificationReport();
+        setModelData(data);
+      } catch (error) {
+        console.error("Failed to fetch model data", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchData();
+  }, []);
 
   return (
     <div className="min-h-screen bg-background">
@@ -122,6 +140,7 @@ export default function DashboardPage() {
 
         {/* Word Cloud & Model Info */}
         <div className="mb-8 grid gap-6 lg:grid-cols-2">
+          {/* Slot Kata Kunci */}
           <div className="rounded-xl border bg-card p-6">
             <h3 className="mb-4 text-lg font-semibold">Kata Kunci Populer</h3>
             <p className="mb-4 text-sm text-muted-foreground">
@@ -130,7 +149,16 @@ export default function DashboardPage() {
             </p>
             <WordCloud words={wordCloudData} />
           </div>
-          <ModelInfo />
+
+          {loading ? (
+            <ModelInfoSkeleton />
+          ) : modelData.length > 0 ? (
+            <ModelInfo data={modelData} />
+          ) : (
+            <div className="rounded-xl border bg-card p-6 text-center text-muted-foreground">
+              Data model tidak tersedia.
+            </div>
+          )}
         </div>
 
         {/* Sentiment Analyzer */}
