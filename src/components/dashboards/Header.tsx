@@ -1,3 +1,4 @@
+"use client";
 import {
   BarChart3,
   Database,
@@ -16,6 +17,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { signOut, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 
 export function Header() {
@@ -84,7 +86,7 @@ export function Header() {
 
                   <DropdownMenuItem
                     className="cursor-pointer gap-2 text-destructive focus:bg-destructive/10 focus:text-red-500 transition-colors"
-                    onClick={() => redirect("/")}
+                    onClick={() => signOut({ callbackUrl: "/" })}
                   >
                     <LogOut className="h-4 w-4" />
                     <span>Logout</span>

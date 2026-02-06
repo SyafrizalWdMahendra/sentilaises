@@ -86,20 +86,26 @@ export function ReviewTable({ reviews }: ReviewTableProps) {
               className="animate-fade-in"
               style={{ animationDelay: `${index * 50}ms` }}
             >
-              <TableCell>
-                <div>
-                  <p className="font-medium text-foreground">{review.brand}</p>
-                  <p className="text-sm text-muted-foreground line-clamp-1">
+              <TableCell className="max-w-40 overflow-hidden">
+                <div className="max-w-40">
+                  <p className="font-medium text-foreground">
+                    {review.brand}
+                  </p>
+                  <p className="text-sm text-muted-foreground truncate">
                     {review.product}
                   </p>
                 </div>
               </TableCell>
-              <TableCell>
-                <p className="line-clamp-2 text-sm">{review.review}</p>
-                <p className="mt-1 text-xs text-muted-foreground">
+
+              <TableCell className="max-w-60 overflow-hidden">
+                <p className="text-sm line-clamp-2 wrap-break-word truncate">
+                  {review.review}
+                </p>
+                <p className="mt-1 text-xs text-muted-foreground truncate">
                   {review.date}
                 </p>
               </TableCell>
+
               <TableCell>{renderStars(review.rating)}</TableCell>
               <TableCell>{getSentimentBadge(review.sentiment)}</TableCell>
               <TableCell className="text-right">
