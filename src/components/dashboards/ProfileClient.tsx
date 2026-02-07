@@ -4,14 +4,9 @@ import { Button } from "../ui/button";
 import { ArrowLeft, Pencil } from "lucide-react";
 import { Separator } from "../ui/separator";
 import { useSession } from "next-auth/react";
-import { UserGender } from "@prisma/client";
 import Link from "next/link";
 import { motion } from "framer-motion";
-
-interface ProfileClientProps {
-  gender?: UserGender;
-  productReference?: string;
-}
+import { ProfileClientProps } from "@/src/types";
 
 export default function ProfileClient({
   gender,
@@ -27,13 +22,15 @@ export default function ProfileClient({
       transition={{ duration: 0.4, ease: "easeInOut" }}
       className="container mx-auto px-4 py-8"
     >
-      <Link
-        href="/"
-        className="flex items-center gap-2 text-md text-primary max-w-xl mx-auto"
-      >
-        <ArrowLeft className="w-4 h-4" />
-        <span>Back to Dashboard</span>
-      </Link>
+      <div className="flex max-w-xl mx-auto">
+        <Link
+          href="/"
+          className="flex items-center gap-2 text-md text-primary max-w-xl w-max mr-auto hover:text-primary/80 transition-colors"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span>Back to Dashboard</span>
+        </Link>
+      </div>
 
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}

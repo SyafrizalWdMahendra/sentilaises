@@ -1,5 +1,4 @@
 "use client";
-import { useEffect, useState } from "react";
 import { Header } from "./Header";
 import {
   MessageSquareText,
@@ -9,70 +8,32 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { StatCard } from "./StatCard";
-import { ModelDB } from "@/src/types";
 import {
   brandData,
-  reviewData,
   sentimentDistribution,
   trendData,
   wordCloudData,
 } from "@/src/app/dashboard/lib/data";
-import { getClassificationReport } from "@/src/app/dashboard/lib/actions";
 import { ModelInfoSkeleton } from "../skeletons/ModelInfoSkeleton";
 import { ModelInfo } from "./ModelInfo";
 import { SentimentAnalyzer } from "./SentimentAnalyzer";
 import { BrandFilter } from "./BrandFilter";
 import { ReviewTable } from "./ReviewTable";
-import dynamic from "next/dynamic";
-
-const TrendChart = dynamic(
-  () => import("./TrendChart").then((mod) => ({ default: mod.TrendChart })),
-  { ssr: false },
-);
-const WordCloud = dynamic(
-  () => import("./WordCloud").then((mod) => ({ default: mod.WordCloud })),
-  { ssr: false },
-);
-const SentimentChart = dynamic(
-  () =>
-    import("./SentimentChart").then((mod) => ({ default: mod.SentimentChart })),
-  { ssr: false },
-);
+import { SentimentChart, TrendChart, WordCloud } from "@/src/utils/dImports";
+import { useDashboard } from "@/src/hooks/useDashboard";
 
 export default function DashboardClient() {
-  const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [modelData, setModelData] = useState<ModelDB[]>([]);
-
-  const totalReviews = sentimentDistribution.reduce(
-    (sum, s) => sum + s.value,
-    0,
-  );
-
-  const positiveCount =
-    sentimentDistribution.find((s) => s.name === "Positif")?.value || 0;
-  const negativeCount =
-    sentimentDistribution.find((s) => s.name === "Negatif")?.value || 0;
-  const neutralCount =
-    sentimentDistribution.find((s) => s.name === "Netral")?.value || 0;
-
-  const filteredReviews = selectedBrand
-    ? reviewData.filter((r) => r.brand === selectedBrand)
-    : reviewData;
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const data = await getClassificationReport();
-        setModelData(data);
-      } catch (error) {
-        console.error("Failed to fetch model data", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchData();
-  }, []);
+  const {
+    totalReviews,
+    positiveCount,
+    negativeCount,
+    neutralCount,
+    filteredReviews,
+    selectedBrand,
+    setSelectedBrand,
+    loading,
+    modelData,
+  } = useDashboard();
 
   return (
     <div className="min-h-screen bg-background">
@@ -102,7 +63,6 @@ export default function DashboardClient() {
           </div>
         </div>
 
-        {/* Stats Grid */}
         <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <StatCard
             title="Total Ulasan"
@@ -137,7 +97,6 @@ export default function DashboardClient() {
           />
         </div>
 
-        {/* Charts Section */}
         <div className="mb-8 grid gap-6 lg:grid-cols-3">
           <div className="rounded-xl border bg-card p-6 lg:col-span-2">
             <h3 className="mb-4 text-lg font-semibold">
@@ -151,9 +110,7 @@ export default function DashboardClient() {
           </div>
         </div>
 
-        {/* Word Cloud & Model Info */}
         <div className="mb-8 grid gap-6 lg:grid-cols-2">
-          {/* Slot Kata Kunci */}
           <div className="rounded-xl border bg-card p-6">
             <h3 className="mb-4 text-lg font-semibold">Kata Kunci Populer</h3>
             <p className="mb-4 text-sm text-muted-foreground">
@@ -174,12 +131,10 @@ export default function DashboardClient() {
           )}
         </div>
 
-        {/* Sentiment Analyzer */}
         <div className="mb-8">
           <SentimentAnalyzer />
         </div>
 
-        {/* Reviews Section */}
         <div className="space-y-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
@@ -197,7 +152,6 @@ export default function DashboardClient() {
           <ReviewTable reviews={filteredReviews} />
         </div>
 
-        {/* Footer */}
         <footer className="mt-12 border-t pt-8">
           <div className="flex flex-col items-center justify-between gap-4 text-sm text-muted-foreground sm:flex-row">
             <div>

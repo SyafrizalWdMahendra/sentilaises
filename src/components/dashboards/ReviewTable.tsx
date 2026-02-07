@@ -6,77 +6,21 @@ import {
   TableHeader,
   TableRow,
 } from "../../components/ui/table";
-import { Badge } from "../../components/ui/badge";
-import { cn } from "@/lib/utils";
-import { Star } from "lucide-react";
-
-interface Review {
-  id: string;
-  product: string;
-  brand: string;
-  review: string;
-  rating: number;
-  sentiment: "positif" | "negatif" | "netral";
-  date: string;
-  confidence: number;
-}
-
-interface ReviewTableProps {
-  reviews: Review[];
-}
+import { ReviewTableProps } from "@/src/types";
+import getSentimentBadge from "./SentimentBadge";
+import renderStars from "./RenderStars";
 
 export function ReviewTable({ reviews }: ReviewTableProps) {
-  const getSentimentBadge = (sentiment: Review["sentiment"]) => {
-    const styles = {
-      positif: "sentiment-positive",
-      negatif: "sentiment-negative",
-      netral: "sentiment-neutral",
-    };
-
-    const labels = {
-      positif: "Positif",
-      negatif: "Negatif",
-      netral: "Netral",
-    };
-
-    return (
-      <Badge
-        variant="secondary"
-        className={cn("font-medium", styles[sentiment])}
-      >
-        {labels[sentiment]}
-      </Badge>
-    );
-  };
-
-  const renderStars = (rating: number) => {
-    return (
-      <div className="flex items-center gap-0.5">
-        {Array.from({ length: 5 }).map((_, i) => (
-          <Star
-            key={i}
-            className={cn(
-              "h-4 w-4",
-              i < rating
-                ? "fill-sentiment-neutral text-sentiment-neutral"
-                : "fill-muted text-muted",
-            )}
-          />
-        ))}
-      </div>
-    );
-  };
-
   return (
     <div className="rounded-xl border bg-card">
       <Table>
         <TableHeader>
           <TableRow className="hover:bg-transparent">
-            <TableHead className="w-[200px]">Produk</TableHead>
-            <TableHead className="min-w-[300px]">Ulasan</TableHead>
-            <TableHead className="w-[100px]">Rating</TableHead>
-            <TableHead className="w-[100px]">Sentimen</TableHead>
-            <TableHead className="w-[100px] text-right">Confidence</TableHead>
+            <TableHead className="w-50">Produk</TableHead>
+            <TableHead className="min-w-75">Ulasan</TableHead>
+            <TableHead className="w-25">Rating</TableHead>
+            <TableHead className="w-25">Sentimen</TableHead>
+            <TableHead className="w-25 text-right">Confidence</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -88,9 +32,7 @@ export function ReviewTable({ reviews }: ReviewTableProps) {
             >
               <TableCell className="max-w-40 overflow-hidden">
                 <div className="max-w-40">
-                  <p className="font-medium text-foreground">
-                    {review.brand}
-                  </p>
+                  <p className="font-medium text-foreground">{review.brand}</p>
                   <p className="text-sm text-muted-foreground truncate">
                     {review.product}
                   </p>

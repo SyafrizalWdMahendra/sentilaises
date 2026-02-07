@@ -4,12 +4,9 @@ import {
   Database,
   Laptop,
   LogOut,
-  Smile,
   User,
   UserCircle,
 } from "lucide-react";
-import { Button } from "../../components/ui/button";
-import { useState } from "react";
 import { cn } from "@/lib/utils";
 import {
   DropdownMenu,
@@ -18,19 +15,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import Link from "next/link";
+import { useHeader } from "@/src/hooks/useHeader";
 
 export function Header() {
-  const [isRefreshing, setIsRefreshing] = useState(false);
-  const [open, setOpen] = useState(false);
-  const session = useSession();
-
-  const handleRefresh = () => {
-    setIsRefreshing(true);
-    setTimeout(() => setIsRefreshing(false), 1500);
-  };
-
+  const { open, setOpen, session } = useHeader();
   return (
     <header className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4">
@@ -59,21 +49,14 @@ export function Header() {
                 <Database className="h-4 w-4" />
                 <span>12,450 Ulasan</span>
               </div>
-              <div className="flex items-center gap-2 text-muted-foreground">
-                <Smile className="h-4 w-4" />
-                <span>{`Hi, ${session.data?.user?.name || "Guest"}`}</span>
-              </div>
             </div>
-            <div onMouseEnter={() => setOpen(true)}>
+            <div onClick={() => setOpen(true)}>
               <DropdownMenu open={open} onOpenChange={setOpen}>
                 <DropdownMenuTrigger asChild>
-                  <Button
-                    size="sm"
-                    className="gap-2 focus-visible:ring-0 border-border hover:bg-secondary hover:text-white transition-colors"
-                  >
+                  <div className="flex items-center gap-2 text-muted-foreground cursor-pointer">
+                    <span>{`Hi, ${session.data?.user?.name || "Guest"}`}</span>
                     <User className={cn("h-4 w-4 text-muted-foreground")} />
-                    <span className="hidden sm:inline">Profile</span>
-                  </Button>
+                  </div>
                 </DropdownMenuTrigger>
 
                 <DropdownMenuContent

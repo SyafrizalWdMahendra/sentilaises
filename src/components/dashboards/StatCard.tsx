@@ -1,19 +1,7 @@
 import { cn } from "@/lib/utils";
-import { LucideIcon } from "lucide-react";
-import { useEffect, useState } from "react";
-
-interface StatCardProps {
-  title: string;
-  value: number;
-  suffix?: string;
-  icon: LucideIcon;
-  trend?: {
-    value: number;
-    isPositive: boolean;
-  };
-  variant?: "default" | "positive" | "negative" | "neutral";
-  delay?: number;
-}
+import { useStatCard } from "@/src/hooks/useStatCard";
+import { StatCardProps } from "@/src/types";
+import { iconStyles, variantStyles } from "@/src/utils/styleType";
 
 export function StatCard({
   title,
@@ -24,63 +12,14 @@ export function StatCard({
   variant = "default",
   delay = 0,
 }: StatCardProps) {
-  const [displayValue, setDisplayValue] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsVisible(true);
-    }, delay);
-    return () => clearTimeout(timer);
-  }, [delay]);
-
-  useEffect(() => {
-    if (!isVisible) return;
-    
-    const duration = 1200;
-    const steps = 40;
-    const stepValue = value / steps;
-    let current = 0;
-    let step = 0;
-    
-    const timer = setInterval(() => {
-      step++;
-      // Easing function for smooth animation
-      const progress = step / steps;
-      const eased = 1 - Math.pow(1 - progress, 3);
-      current = value * eased;
-      
-      if (step >= steps) {
-        setDisplayValue(value);
-        clearInterval(timer);
-      } else {
-        setDisplayValue(Math.floor(current));
-      }
-    }, duration / steps);
-
-    return () => clearInterval(timer);
-  }, [value, isVisible]);
-
-  const variantStyles = {
-    default: "bg-card border-border",
-    positive: "bg-sentiment-positive-light border-sentiment-positive/20",
-    negative: "bg-sentiment-negative-light border-sentiment-negative/20",
-    neutral: "bg-sentiment-neutral-light border-sentiment-neutral/20",
-  };
-
-  const iconStyles = {
-    default: "bg-primary/10 text-primary",
-    positive: "bg-sentiment-positive/10 text-sentiment-positive",
-    negative: "bg-sentiment-negative/10 text-sentiment-negative",
-    neutral: "bg-sentiment-neutral/10 text-sentiment-neutral",
-  };
+  const { isVisible, displayValue } = useStatCard({ title, value, icon: Icon });
 
   return (
     <div
       className={cn(
         "relative overflow-hidden rounded-xl border p-6 card-elevated transition-all duration-500",
         variantStyles[variant],
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4",
       )}
     >
       <div className="flex items-start justify-between">
@@ -101,10 +40,13 @@ export function StatCard({
               <span
                 className={cn(
                   "font-medium",
-                  trend.isPositive ? "text-sentiment-positive" : "text-sentiment-negative"
+                  trend.isPositive
+                    ? "text-sentiment-positive"
+                    : "text-sentiment-negative",
                 )}
               >
-                {trend.isPositive ? "+" : "-"}{Math.abs(trend.value)}%
+                {trend.isPositive ? "+" : "-"}
+                {Math.abs(trend.value)}%
               </span>
               <span className="text-muted-foreground">dari periode lalu</span>
             </div>

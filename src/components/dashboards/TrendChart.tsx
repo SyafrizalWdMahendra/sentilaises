@@ -1,56 +1,24 @@
 "use client";
-import { useEffect, useState } from "react";
+
+import { useTrendChart } from "@/src/hooks/useTrendChart";
+import { TrendChartProps } from "@/src/types";
 import {
-  AreaChart,
   Area,
+  AreaChart,
+  CartesianGrid,
+  Legend,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Legend,
 } from "recharts";
-
-interface TrendData {
-  date: string;
-  positif: number;
-  negatif: number;
-  netral: number;
-}
-
-interface TrendChartProps {
-  data: TrendData[];
-}
+import TrendChartTooltip from "./TrendChartToolTip";
 
 export function TrendChart({ data }: TrendChartProps) {
-  const [isMounted, setIsMounted] = useState(false);
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  const CustomTooltip = ({ active, payload, label }: any) => {
-    if (active && payload && payload.length) {
-      return (
-        <div className="rounded-lg border bg-card px-4 py-3 shadow-lg">
-          <p className="mb-2 font-semibold text-foreground">{label}</p>
-          {payload.map((item: any, index: number) => (
-            <div key={index} className="flex items-center gap-2 text-sm">
-              <div
-                className="h-3 w-3 rounded-full"
-                style={{ backgroundColor: item.color }}
-              />
-              <span className="text-muted-foreground">{item.name}:</span>
-              <span className="font-medium">{item.value}</span>
-            </div>
-          ))}
-        </div>
-      );
-    }
-    return null;
-  };
+  const { isMounted } = useTrendChart();
 
   if (!isMounted) {
-    return <div className="h-[350px] w-full bg-transparent" />;
+    return <div className="h-87.5 w-full bg-transparent" />;
   }
 
   return (
@@ -112,7 +80,7 @@ export function TrendChart({ data }: TrendChartProps) {
             tickLine={false}
             axisLine={false}
           />
-          <Tooltip content={<CustomTooltip />} />
+          <Tooltip content={<TrendChartTooltip />} />
           <Legend
             verticalAlign="top"
             height={36}
