@@ -4,6 +4,7 @@ import {
   Database,
   Laptop,
   LogOut,
+  Smile,
   User,
   UserCircle,
 } from "lucide-react";
@@ -18,11 +19,11 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { signOut, useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
 
 export function Header() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [open, setOpen] = useState(false);
+  const session = useSession();
 
   const handleRefresh = () => {
     setIsRefreshing(true);
@@ -57,11 +58,12 @@ export function Header() {
                 <Database className="h-4 w-4" />
                 <span>12,450 Ulasan</span>
               </div>
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <Smile className="h-4 w-4" />
+                <span>{`Hi, ${session.data?.user?.name || "Guest"}`}</span>
+              </div>
             </div>
-            <div
-              onMouseEnter={() => setOpen(true)}
-              onMouseLeave={() => setOpen(false)}
-            >
+            <div onMouseEnter={() => setOpen(true)}>
               <DropdownMenu open={open} onOpenChange={setOpen}>
                 <DropdownMenuTrigger asChild>
                   <Button

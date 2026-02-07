@@ -42,7 +42,7 @@ export function LoginForm({
                 <Input
                   id="password"
                   type="password"
-                  placeholder="°°°°°°"
+                  placeholder="********"
                   required
                 />
               </Field>

@@ -38,7 +38,10 @@ export function ModelInfo({ data }: { data: ModelDB[] }) {
 
           <SelectContent className="bg-card border-border shadow-lg">
             {data.map((model, index) => (
-              <SelectItem key={model.modelName} value={index.toString()}>
+              <SelectItem
+                key={model.modelName + index}
+                value={index.toString()}
+              >
                 {model.modelName}
               </SelectItem>
             ))}
