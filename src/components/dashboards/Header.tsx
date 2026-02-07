@@ -19,6 +19,7 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 
 export function Header() {
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -34,7 +35,7 @@ export function Header() {
     <header className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-3 cursor-pointer">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground">
               <BarChart3 className="h-5 w-5" />
             </div>
@@ -46,7 +47,7 @@ export function Header() {
                 Analisis Sentimen Ulasan Laptop Tokopedia
               </p>
             </div>
-          </div>
+          </Link>
 
           <div className="flex items-center gap-6">
             <div className="hidden items-center gap-6 text-sm md:flex">
@@ -79,10 +80,12 @@ export function Header() {
                   align="end"
                   className="w-max bg-card border-border shadow-md"
                 >
-                  <DropdownMenuItem className="cursor-pointer gap-2 focus:bg-secondary focus:text-primary transition-colors hover:text-primary">
-                    <UserCircle className="h-4 w-4 text-muted-foreground" />
-                    <span>Menu Profil</span>
-                  </DropdownMenuItem>
+                  <Link href="/profile">
+                    <DropdownMenuItem className="cursor-pointer gap-2 focus:bg-secondary focus:text-primary transition-colors hover:text-primary">
+                      <UserCircle className="h-4 w-4 text-muted-foreground" />
+                      <span>Menu Profil</span>
+                    </DropdownMenuItem>
+                  </Link>
 
                   <DropdownMenuSeparator className="bg-border" />
 

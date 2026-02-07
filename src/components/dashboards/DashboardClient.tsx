@@ -79,7 +79,6 @@ export default function DashboardClient() {
       <Header />
 
       <main className="container mx-auto px-4 py-8">
-        {/* Hero Section */}
         <div
           className="mb-8 rounded-2xl p-8 text-center"
           style={{ background: "hsl(var(--primary))" }}
