@@ -1,50 +1,32 @@
 import { useEffect, useState } from "react";
-import { StatCardProps } from "../types";
+import { UseStatCardProps } from "../types";
 
-export const useStatCard = ({
-  title,
-  value,
-  suffix = "",
-  icon: Icon,
-  trend,
-  variant = "default",
-  delay = 0,
-}: StatCardProps) => {
-  const [displayValue, setDisplayValue] = useState(0);
+export function useStatCard({ value, delay = 0 }: UseStatCardProps) {
   const [isVisible, setIsVisible] = useState(false);
+  const [displayValue, setDisplayValue] = useState(0);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const timeout = setTimeout(() => {
       setIsVisible(true);
+
+      let start = 0;
+      const duration = 800;
+      const stepTime = 16;
+      const increment = value / (duration / stepTime);
+
+      const counter = setInterval(() => {
+        start += increment;
+        if (start >= value) {
+          setDisplayValue(value);
+          clearInterval(counter);
+        } else {
+          setDisplayValue(Math.floor(start));
+        }
+      }, stepTime);
     }, delay);
-    return () => clearTimeout(timer);
-  }, [delay]);
 
-  useEffect(() => {
-    if (!isVisible) return;
-
-    const duration = 1200;
-    const steps = 40;
-    const stepValue = value / steps;
-    let current = 0;
-    let step = 0;
-
-    const timer = setInterval(() => {
-      step++;
-      const progress = step / steps;
-      const eased = 1 - Math.pow(1 - progress, 3);
-      current = value * eased;
-
-      if (step >= steps) {
-        setDisplayValue(value);
-        clearInterval(timer);
-      } else {
-        setDisplayValue(Math.floor(current));
-      }
-    }, duration / steps);
-
-    return () => clearInterval(timer);
-  }, [value, isVisible]);
+    return () => clearTimeout(timeout);
+  }, [value, delay]);
 
   return { isVisible, displayValue };
-};
+}

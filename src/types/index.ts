@@ -1,4 +1,4 @@
-import { UserGender } from "@prisma/client";
+import { Sentiment, UserGender } from "@prisma/client";
 import { LucideIcon } from "lucide-react";
 
 export interface ModelDB {
@@ -28,12 +28,12 @@ export interface BrandFilterProps {
 }
 
 export interface Review {
-  id: string;
+  id: number;
   product: string;
   brand: string;
   review: string;
-  rating: number;
-  sentiment: "positif" | "negatif" | "netral";
+  rating?: number | null;
+  sentiment: Sentiment;
   date: string;
   confidence: number;
 }
@@ -109,4 +109,16 @@ export interface WordCloudItemProps {
   index: number;
   maxValue: number;
   minValue: number;
+}
+
+export interface StatCounts {
+  totalReviews: number;
+  positive: number;
+  negative: number;
+  neutral: number;
+}
+
+export interface UseStatCardProps {
+  value: number;
+  delay?: number;
 }

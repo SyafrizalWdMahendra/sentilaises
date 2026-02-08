@@ -12,7 +12,7 @@ export function StatCard({
   variant = "default",
   delay = 0,
 }: StatCardProps) {
-  const { isVisible, displayValue } = useStatCard({ title, value, icon: Icon });
+  const { isVisible, displayValue } = useStatCard({ value, delay });
 
   return (
     <div
@@ -25,6 +25,7 @@ export function StatCard({
       <div className="flex items-start justify-between">
         <div className="space-y-2">
           <p className="text-sm font-medium text-muted-foreground">{title}</p>
+
           <div className="flex items-baseline gap-1">
             <span className="text-3xl font-bold tracking-tight">
               {displayValue.toLocaleString()}
@@ -35,6 +36,7 @@ export function StatCard({
               </span>
             )}
           </div>
+
           {trend && (
             <div className="flex items-center gap-1 text-sm">
               <span
@@ -52,6 +54,7 @@ export function StatCard({
             </div>
           )}
         </div>
+
         <div className={cn("rounded-xl p-3", iconStyles[variant])}>
           <Icon className="h-6 w-6" />
         </div>

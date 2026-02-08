@@ -20,7 +20,7 @@ import { SentimentAnalyzer } from "./SentimentAnalyzer";
 import { BrandFilter } from "./BrandFilter";
 import { ReviewTable } from "./ReviewTable";
 import { SentimentChart, TrendChart, WordCloud } from "@/src/utils/dImports";
-import { useDashboard } from "@/src/hooks/useDashboard";
+import { useDashboards } from "@/src/hooks/useDashboard";
 
 export default function DashboardClient() {
   const {
@@ -30,10 +30,11 @@ export default function DashboardClient() {
     neutralCount,
     filteredReviews,
     selectedBrand,
-    setSelectedBrand,
     loading,
     modelData,
-  } = useDashboard();
+    setSelectedBrand,
+    percentage,
+  } = useDashboards();
 
   return (
     <div className="min-h-screen bg-background">
@@ -71,26 +72,29 @@ export default function DashboardClient() {
             trend={{ value: 12.5, isPositive: true }}
             delay={0}
           />
+
           <StatCard
             title="Sentimen Positif"
             value={positiveCount}
-            suffix={`(${((positiveCount / totalReviews) * 100).toFixed(1)}%)`}
+            suffix={`(${percentage(positiveCount, totalReviews)}%)`}
             icon={ThumbsUp}
             variant="positive"
             delay={100}
           />
+
           <StatCard
             title="Sentimen Negatif"
             value={negativeCount}
-            suffix={`(${((negativeCount / totalReviews) * 100).toFixed(1)}%)`}
+            suffix={`(${percentage(negativeCount, totalReviews)}%)`}
             icon={ThumbsDown}
             variant="negative"
             delay={200}
           />
+
           <StatCard
             title="Sentimen Netral"
             value={neutralCount}
-            suffix={`(${((neutralCount / totalReviews) * 100).toFixed(1)}%)`}
+            suffix={`(${percentage(neutralCount, totalReviews)}%)`}
             icon={Minus}
             variant="neutral"
             delay={300}

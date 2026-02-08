@@ -20,7 +20,9 @@ import Link from "next/link";
 import { useHeader } from "@/src/hooks/useHeader";
 
 export function Header() {
-  const { open, setOpen, session } = useHeader();
+  const { open, setOpen, session, mounted } = useHeader();
+
+  if (!mounted) return null;
   return (
     <header className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4">

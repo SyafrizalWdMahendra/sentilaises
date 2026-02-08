@@ -36,7 +36,7 @@ export function ModelInfo({ data }: { data: ModelDB[] }) {
             <SelectValue placeholder="Pilih Model" />
           </SelectTrigger>
 
-          <SelectContent className="bg-card border-border shadow-lg">
+          <SelectContent className="bg-card border-border shadow-lg" position="popper">
             {data.map((model, index) => (
               <SelectItem
                 key={model.modelName + index}
