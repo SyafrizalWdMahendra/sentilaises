@@ -16,11 +16,11 @@ import {
 } from "@/src/app/dashboard/lib/data";
 import { ModelInfoSkeleton } from "../skeletons/ModelInfoSkeleton";
 import { ModelInfo } from "./ModelInfo";
-import { SentimentAnalyzer } from "./SentimentAnalyzer";
 import { BrandFilter } from "./BrandFilter";
 import { ReviewTable } from "./ReviewTable";
 import { SentimentChart, TrendChart, WordCloud } from "@/src/utils/dImports";
 import { useDashboards } from "@/src/hooks/useDashboard";
+import SentimentForm from "./SentimentAnalyzer";
 
 export default function DashboardClient() {
   const {
@@ -136,7 +136,7 @@ export default function DashboardClient() {
         </div>
 
         <div className="mb-8">
-          <SentimentAnalyzer />
+          <SentimentForm />
         </div>
 
         <div className="space-y-6">

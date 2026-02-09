@@ -3,16 +3,16 @@ import { Badge } from "../ui/badge";
 import { cn } from "@/lib/utils";
 
 const getSentimentBadge = (sentiment: Review["sentiment"]) => {
-  const styles = {
-    positif: "sentiment-positive",
-    negatif: "sentiment-negative",
-    netral: "sentiment-neutral",
+  const styles: Record<Review["sentiment"], string> = {
+    positive: "sentiment-positive",
+    negative: "sentiment-negative",
+    neutral: "sentiment-neutral",
   };
 
-  const labels = {
-    positif: "Positif",
-    negatif: "Negatif",
-    netral: "Netral",
+  const labels: Record<Review["sentiment"], string> = {
+    positive: "Positif",
+    negative: "Negatif",
+    neutral: "Netral",
   };
 
   return (

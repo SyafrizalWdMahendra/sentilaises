@@ -8,7 +8,6 @@ import {
 } from "../../components/ui/table";
 import { ReviewTableProps } from "@/src/types";
 import getSentimentBadge from "./SentimentBadge";
-import renderStars from "./RenderStars";
 
 export function ReviewTable({ reviews }: ReviewTableProps) {
   return (
@@ -48,7 +47,7 @@ export function ReviewTable({ reviews }: ReviewTableProps) {
                 </p>
               </TableCell>
 
-              <TableCell>{renderStars(review.rating)}</TableCell>
+              {/* <TableCell>{renderStars(review.rating)}</TableCell> */}
               <TableCell>{getSentimentBadge(review.sentiment)}</TableCell>
               <TableCell className="text-right">
                 <span className="font-medium">

@@ -1,10 +1,8 @@
-import { Button } from "../../components/ui/button";
-import { Textarea } from "../../components/ui/textarea";
-import { Badge } from "../../components/ui/badge";
-import { cn } from "@/lib/utils";
-import { Loader2, Send, Sparkles } from "lucide-react";
+"use client";
+
+import { Send, Loader2, AlertCircle, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Input } from "../ui/input";
+import { cn } from "@/lib/utils";
 import {
   Combobox,
   ComboboxContent,
@@ -14,25 +12,30 @@ import {
   ComboboxList,
 } from "../ui/combobox";
 import { Item, ItemContent, ItemDescription, ItemTitle } from "../ui/item";
-import { useSentiment } from "@/src/hooks/useSentiment";
+import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
+import { Button } from "../ui/button";
+import { Badge } from "../ui/badge";
+import { getSentimentDisplay } from "@/src/utils/datas";
+import { useSentimentForm } from "@/src/hooks/useSentimentForm";
 
-export function SentimentAnalyzer() {
+export default function SentimentForm() {
   const {
     selectedModel,
-    setSelectedModel,
-    text,
-    setText,
-    laptopName,
-    setLaptopName,
-    isAnalyzing,
-    analyzeText,
-    result,
-    getSentimentDisplay,
     searchQuery,
-    setSearchQuery,
+    laptopName,
+    text,
+    isAnalyzing,
+    result,
     filteredItems,
     isFormValid,
-  } = useSentiment();
+    error,
+    analyzeText,
+    setSelectedModel,
+    setSearchQuery,
+    setLaptopName,
+    setText,
+  } = useSentimentForm();
 
   return (
     <div className="rounded-xl border bg-card p-6">
@@ -40,17 +43,29 @@ export function SentimentAnalyzer() {
         <Sparkles className="h-5 w-5 text-primary" />
         <h3 className="text-lg font-semibold">Analisis Sentimen Real-time</h3>
       </div>
+
       <p className="mb-4 text-sm text-muted-foreground">
         Masukkan ulasan produk laptop untuk menganalisis sentimennya menggunakan
         model XGBoost
       </p>
 
-      <form action="">
+      <form onSubmit={(e) => e.preventDefault()}>
         <div className="space-y-4">
+          {error && (
+            <div className="p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md flex items-center gap-2">
+              <AlertCircle size={16} />
+              {error}
+            </div>
+          )}
+
           <div className="flex gap-4">
             <Combobox
               value={selectedModel}
-              onValueChange={(val) => setSelectedModel(val)}
+              onValueChange={(value) => {
+                if (value !== null) {
+                  setSelectedModel(value);
+                }
+              }}
               itemToStringValue={(model) => model?.label ?? ""}
             >
               <ComboboxInput
@@ -58,14 +73,12 @@ export function SentimentAnalyzer() {
                 className="focus:ring-primary/20 border-border w-1/2"
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-
-              <ComboboxContent className="bg-card border-border shadow-lg animate-in fade-in zoom-in-95 duration-200">
+              <ComboboxContent className="bg-card border-border shadow-lg animate-in fade-in zoom-in-95 duration-200 z-50">
                 {filteredItems.length === 0 && (
                   <ComboboxEmpty className="text-muted-foreground py-3 px-4 text-sm text-center">
                     Model "{searchQuery}" tidak ditemukan.
                   </ComboboxEmpty>
                 )}
-
                 <ComboboxList className="p-1">
                   {filteredItems.map((model) => (
                     <ComboboxItem
@@ -78,8 +91,8 @@ export function SentimentAnalyzer() {
                           <ItemTitle className="whitespace-nowrap font-medium text-foreground">
                             {model.label}
                           </ItemTitle>
-                          <ItemDescription className="text-muted-foreground/80">
-                            {model.desc} ({model.code})
+                          <ItemDescription className="text-muted-foreground/80 text-xs">
+                            {model.desc}
                           </ItemDescription>
                         </ItemContent>
                       </Item>
@@ -91,14 +104,14 @@ export function SentimentAnalyzer() {
 
             <Input
               className="w-1/2"
-              placeholder="Masukkan nama laptop"
+              placeholder="Masukkan nama laptop (misal: Asus ROG)"
               value={laptopName}
               onChange={(e) => setLaptopName(e.target.value)}
             />
           </div>
 
           <Textarea
-            placeholder="Contoh: Laptop ini sangat bagus..."
+            placeholder="Tulis ulasan laptop di sini... (Contoh: Baterainya awet tapi kipas berisik)"
             value={text}
             onChange={(e) => setText(e.target.value)}
             rows={4}
@@ -113,7 +126,7 @@ export function SentimentAnalyzer() {
             {isAnalyzing ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin" />
-                Menganalisis...
+                Sedang Menganalisis...
               </>
             ) : (
               <>
@@ -139,23 +152,23 @@ export function SentimentAnalyzer() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     {(() => {
-                      const Icon = getSentimentDisplay(result.sentiment).icon;
+                      const {
+                        icon: Icon,
+                        bgClass,
+                        textClass,
+                      } = getSentimentDisplay(result.sentiment);
                       return (
                         <div
                           className={cn(
-                            "flex h-12 w-12 items-center justify-center rounded-full",
-                            getSentimentDisplay(result.sentiment).bgClass,
+                            "flex h-12 w-12 items-center justify-center rounded-full bg-white/50",
+                            textClass,
                           )}
                         >
-                          <Icon
-                            className={cn(
-                              "h-6 w-6",
-                              getSentimentDisplay(result.sentiment).textClass,
-                            )}
-                          />
+                          <Icon className="h-6 w-6" />
                         </div>
                       );
                     })()}
+
                     <div>
                       <p
                         className={cn(
@@ -166,22 +179,24 @@ export function SentimentAnalyzer() {
                         {getSentimentDisplay(result.sentiment).label}
                       </p>
                       <p className="text-sm text-muted-foreground">
-                        Confidence: {(result.confidence * 100).toFixed(1)}%
+                        Tingkat Keyakinan (Confidence):{" "}
+                        {(result.confidence * 100).toFixed(1)}%
                       </p>
                     </div>
                   </div>
                 </div>
 
-                {result.keywords.length > 0 && (
-                  <div className="mt-4">
-                    <p className="mb-2 text-sm font-medium text-muted-foreground">
+                {result.keywords && result.keywords.length > 0 && (
+                  <div className="mt-4 pt-4 border-t border-black/5 dark:border-white/5">
+                    <p className="mb-2 text-sm font-medium text-muted-foreground flex items-center gap-2">
                       Kata Kunci Terdeteksi:
                     </p>
                     <div className="flex flex-wrap gap-2">
                       {result.keywords.map((keyword, index) => (
                         <Badge
                           key={index}
-                          className="text-xs bg-white text-black"
+                          variant="secondary"
+                          className="text-xs px-2 py-1 bg-white/80 dark:bg-black/20 hover:bg-white border-black/10"
                         >
                           {keyword}
                         </Badge>
