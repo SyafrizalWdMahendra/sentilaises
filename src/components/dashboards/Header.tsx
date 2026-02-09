@@ -66,7 +66,7 @@ export function Header() {
                   className="w-max bg-card border-border shadow-md"
                 >
                   <Link href="/profile">
-                    <DropdownMenuItem className="cursor-pointer gap-2 focus:bg-secondary focus:text-primary transition-colors hover:text-primary">
+                    <DropdownMenuItem className="cursor-pointer gap-2 focus:bg-primary focus:text-card transition-colors hover:text-primary">
                       <UserCircle className="h-4 w-4 text-muted-foreground" />
                       <span>Menu Profil</span>
                     </DropdownMenuItem>
@@ -75,7 +75,7 @@ export function Header() {
                   <DropdownMenuSeparator className="bg-border" />
 
                   <DropdownMenuItem
-                    className="cursor-pointer gap-2 text-destructive focus:bg-destructive/10 focus:text-red-500 transition-colors"
+                    className="cursor-pointer gap-2 text-destructive focus:bg-red-500 focus:text-card transition-colors"
                     onClick={() => signOut({ callbackUrl: "/" })}
                   >
                     <LogOut className="h-4 w-4" />
