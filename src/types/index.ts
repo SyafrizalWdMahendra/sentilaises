@@ -122,3 +122,21 @@ export interface UseStatCardProps {
   value: number;
   delay?: number;
 }
+
+export interface ReviewItem {
+  id: number;
+  content: string;
+  sentiment: string;
+  confidenceScore: number;
+  createdAt: string;
+  keywords: string[];
+  product: {
+    name: string;
+    brand?: string;
+  } | null;
+}
+
+export interface ApiResponse {
+  message: string;
+  data: ReviewItem[];
+}

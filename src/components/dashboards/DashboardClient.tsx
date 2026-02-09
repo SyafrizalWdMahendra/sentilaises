@@ -1,4 +1,5 @@
 "use client";
+
 import { Header } from "./Header";
 import {
   MessageSquareText,
@@ -28,7 +29,6 @@ export default function DashboardClient() {
     positiveCount,
     negativeCount,
     neutralCount,
-    filteredReviews,
     selectedBrand,
     loading,
     modelData,
@@ -153,7 +153,7 @@ export default function DashboardClient() {
               onSelect={setSelectedBrand}
             />
           </div>
-          <ReviewTable reviews={filteredReviews} />
+          <ReviewTable />
         </div>
 
         <footer className="mt-12 border-t pt-8">
