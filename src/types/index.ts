@@ -1,4 +1,4 @@
-import { Sentiment, UserGender } from "@prisma/client";
+import { UserGender } from "@prisma/client";
 import { LucideIcon } from "lucide-react";
 
 export interface ModelDB {
@@ -27,16 +27,17 @@ export interface BrandFilterProps {
   onSelect: (brand: string | null) => void;
 }
 
-export interface Review {
+export type Review = {
   id: number;
-  product: string;
-  brand: string;
-  review: string;
-  rating?: number | null;
+  createdAt: string;
   sentiment: Sentiment;
-  date: string;
-  confidence: number;
-}
+  keywords: string[];
+  content: string;
+  product: {
+    name: string;
+    brand: string;
+  };
+};
 
 export interface ReviewTableProps {
   reviews: Review[];
@@ -94,11 +95,11 @@ export interface TrendChartTooltipProps {
   label?: string;
 }
 
-export interface WordItem {
-  text: string;
-  value: number;
-  sentiment: "positive" | "negative" | "neutral";
-}
+// export type WordItem = {
+//   text: string;
+//   value: number;
+//   sentiment: "positive" | "negative" | "neutral";
+// };
 
 export interface WordCloudProps {
   words: WordItem[];
@@ -140,3 +141,25 @@ export interface ApiResponse {
   message: string;
   data: ReviewItem[];
 }
+
+export type Sentiment = "positive" | "negative" | "neutral";
+
+export type WordItem = {
+  text: string;
+  value: number;
+  sentiment: Sentiment;
+};
+
+export type KeywordStats = {
+  count: number;
+} & Record<Sentiment, number>;
+
+export type ReviewResponse = {
+  message: string;
+  data: Review[];
+};
+
+export type WordCloudConfig = {
+  minValue: number;
+  maxValue: number;
+};

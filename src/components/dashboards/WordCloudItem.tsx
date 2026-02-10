@@ -1,30 +1,14 @@
-"use client";
-
 import { cn } from "@/lib/utils";
 import { WordCloudItemProps, WordItem } from "@/src/types";
+import { setWordCloud } from "@/src/utils/datas";
 
 const WordCloudItem: React.FC<WordCloudItemProps> = ({
   word,
   index,
-  maxValue,
   minValue,
+  maxValue,
 }) => {
-  const getSize = (value: number) => {
-    if (maxValue === minValue) return 1.5;
-    const normalized = (value - minValue) / (maxValue - minValue);
-    return 0.75 + normalized * 1.5;
-  };
-
-  const getColor = (sentiment: WordItem["sentiment"]) => {
-    switch (sentiment) {
-      case "positive":
-        return "text-sentiment-positive hover:bg-sentiment-positive-light";
-      case "negative":
-        return "text-sentiment-negative hover:bg-sentiment-negative-light";
-      default:
-        return "text-sentiment-neutral hover:bg-sentiment-neutral-light";
-    }
-  };
+  const { getSize, getColor } = setWordCloud({ minValue, maxValue });
 
   return (
     <span

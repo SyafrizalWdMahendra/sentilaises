@@ -1,4 +1,5 @@
 import { Frown, Meh, Smile } from "lucide-react";
+import { WordCloudConfig, WordCloudItemProps, WordItem } from "../types";
 
 export const MODEL_OPTIONS = [
   {
@@ -48,4 +49,27 @@ export const getSentimentDisplay = (sentiment: string) => {
         borderClass: "border-gray-200",
       };
   }
+};
+
+export const WORD_LIMIT = 20;
+
+export const setWordCloud = ({ maxValue, minValue }: WordCloudConfig) => {
+  const getSize = (value: number) => {
+    if (maxValue === minValue) return 1.5;
+    const normalized = (value - minValue) / (maxValue - minValue);
+    return 0.75 + normalized * 1.5;
+  };
+
+  const getColor = (sentiment: WordItem["sentiment"]) => {
+    switch (sentiment) {
+      case "positive":
+        return "text-sentiment-positive hover:bg-sentiment-positive-light";
+      case "negative":
+        return "text-sentiment-negative hover:bg-sentiment-negative-light";
+      default:
+        return "text-sentiment-neutral hover:bg-sentiment-neutral-light";
+    }
+  };
+
+  return { getSize, getColor };
 };

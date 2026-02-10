@@ -1,13 +1,10 @@
 "use client";
 
-import { WordCloudProps } from "@/src/types";
-import WordCloudItem from "./WordCloudItem";
 import { useWordCloud } from "@/src/hooks/useWordCloud";
+import WordCloudItem from "./WordCloudItem";
 
-export function WordCloud({ words }: WordCloudProps) {
-  const { mounted, maxValue, minValue, shuffledWords } = useWordCloud({
-    words,
-  });
+export function WordCloud() {
+  const { mounted, maxValue, minValue, shuffledWords } = useWordCloud();
 
   if (!mounted) {
     return (
