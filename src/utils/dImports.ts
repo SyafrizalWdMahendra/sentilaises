@@ -7,13 +7,13 @@ const TrendChart = dynamic(
     })),
   { ssr: false },
 );
-const WordCloud = dynamic(
-  () =>
-    import("../components/dashboards/WordCloud").then((mod) => ({
-      default: mod.WordCloud,
-    })),
-  { ssr: false },
-);
+// const WordCloud = dynamic(
+//   () =>
+//     import("../components/dashboards/WordCloud").then((mod) => ({
+//       default: mod.WordCloud,
+//     })),
+//   { ssr: false },
+// );
 const SentimentChart = dynamic(
   () =>
     import("../components/dashboards/SentimentChart").then((mod) => ({
@@ -22,4 +22,4 @@ const SentimentChart = dynamic(
   { ssr: false },
 );
 
-export { TrendChart, WordCloud, SentimentChart };
+export { TrendChart, SentimentChart };

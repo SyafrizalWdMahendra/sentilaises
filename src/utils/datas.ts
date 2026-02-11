@@ -51,7 +51,7 @@ export const getSentimentDisplay = (sentiment: string) => {
   }
 };
 
-export const WORD_LIMIT = 20;
+export const WORD_LIMIT = 15;
 
 export const setWordCloud = ({ maxValue, minValue }: WordCloudConfig) => {
   const getSize = (value: number) => {

@@ -2,8 +2,11 @@
 
 import { Header } from "./Header";
 import {
+  Frown,
+  Meh,
   MessageSquareText,
   Minus,
+  Smile,
   ThumbsDown,
   ThumbsUp,
   TrendingUp,
@@ -13,15 +16,15 @@ import {
   brandData,
   sentimentDistribution,
   trendData,
-  wordCloudData,
 } from "@/src/app/dashboard/lib/data";
 import { ModelInfoSkeleton } from "../skeletons/ModelInfoSkeleton";
 import { ModelInfo } from "./ModelInfo";
 import { BrandFilter } from "./BrandFilter";
 import { ReviewTable } from "./ReviewTable";
-import { SentimentChart, TrendChart, WordCloud } from "@/src/utils/dImports";
+import { SentimentChart, TrendChart } from "@/src/utils/dImports";
 import { useDashboards } from "@/src/hooks/useDashboard";
 import SentimentForm from "./SentimentAnalyzer";
+import { WordCloud } from "./WordCloud";
 
 export default function DashboardClient() {
   const {
@@ -77,7 +80,7 @@ export default function DashboardClient() {
             title="Sentimen Positif"
             value={positiveCount}
             suffix={`(${percentage(positiveCount, totalReviews)}%)`}
-            icon={ThumbsUp}
+            icon={Smile}
             variant="positive"
             delay={100}
           />
@@ -86,7 +89,7 @@ export default function DashboardClient() {
             title="Sentimen Negatif"
             value={negativeCount}
             suffix={`(${percentage(negativeCount, totalReviews)}%)`}
-            icon={ThumbsDown}
+            icon={Frown}
             variant="negative"
             delay={200}
           />
@@ -95,7 +98,7 @@ export default function DashboardClient() {
             title="Sentimen Netral"
             value={neutralCount}
             suffix={`(${percentage(neutralCount, totalReviews)}%)`}
-            icon={Minus}
+            icon={Meh}
             variant="neutral"
             delay={300}
           />
@@ -121,7 +124,7 @@ export default function DashboardClient() {
               Kata-kata yang sering muncul dalam ulasan berdasarkan kategori
               sentimen
             </p>
-            <WordCloud words={wordCloudData} />
+            <WordCloud />
           </div>
 
           {loading ? (
