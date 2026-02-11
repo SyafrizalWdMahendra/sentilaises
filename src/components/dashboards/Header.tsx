@@ -18,10 +18,12 @@ import {
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { useHeader } from "@/src/hooks/useHeader";
+import { useDashboards } from "@/src/hooks/useDashboard";
 
 export function Header() {
-  const { open, setOpen, session, mounted, productCount, loadingProductCount } =
+  const { open, setOpen, session, mounted, productCount } =
     useHeader();
+  const { totalReviews } = useDashboards();
 
   if (!mounted) return null;
   return (
@@ -50,7 +52,7 @@ export function Header() {
               </div>
               <div className="flex items-center gap-2 text-muted-foreground">
                 <Database className="h-4 w-4" />
-                <span>12,450 Ulasan</span>
+                <span>{totalReviews} Ulasan</span>
               </div>
             </div>
             <div onClick={() => setOpen(true)}>

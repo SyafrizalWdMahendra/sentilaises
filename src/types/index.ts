@@ -28,6 +28,7 @@ export interface BrandFilterProps {
 }
 
 export type Review = {
+  brand: string;
   id: number;
   createdAt: string;
   sentiment: Sentiment;
