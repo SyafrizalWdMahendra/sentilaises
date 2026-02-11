@@ -1,10 +1,10 @@
 import prisma from "@/lib/prisma";
-import { Sentiment } from "@prisma/client";
+import { Prisma, Sentiment } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
-export async function POST(request: Request) {
+export async function POST(_request: Request) {
   try {
     const reviews = [
       {
@@ -40,13 +40,18 @@ export async function POST(request: Request) {
 
     return NextResponse.json(
       {
-        message: "Booking successful",
+        message: "Analysis successful",
         data: result,
       },
       { status: 201 },
     );
-  } catch (error: any) {
-    console.error("Create product Error:", error);
+  } catch (error: unknown) {
+    console.error("Create analysis error:", error);
+
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      return NextResponse.json({ error: error.message }, { status: 400 });
+    }
+
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 },

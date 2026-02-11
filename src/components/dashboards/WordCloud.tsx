@@ -4,7 +4,8 @@ import { useWordCloud } from "@/src/hooks/useWordCloud";
 import WordCloudItem from "./WordCloudItem";
 
 export function WordCloud() {
-  const { mounted, maxValue, minValue, shuffledWords } = useWordCloud();
+  const mounted = true;
+  const { maxValue, minValue, shuffledWords } = useWordCloud();
 
   if (!mounted) {
     return (

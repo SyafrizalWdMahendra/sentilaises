@@ -121,7 +121,7 @@ export function ReviewTable() {
                 </TableCell>
 
                 <TableCell className="align-top">
-                  {getSentimentBadge(review.sentiment as any)}
+                  {getSentimentBadge(review.sentiment ?? null)}
                 </TableCell>
 
                 <TableCell className="align-top">

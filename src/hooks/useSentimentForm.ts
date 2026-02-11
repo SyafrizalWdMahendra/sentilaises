@@ -22,7 +22,7 @@ export const useSentimentForm = () => {
 
   const isFormValid = selectedModel && laptopName.trim() && text.trim();
 
-  const analyzeText = async (e: any) => {
+  const analyzeText = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!isFormValid) return;
 
@@ -54,9 +54,14 @@ export const useSentimentForm = () => {
         confidence: data.confidenceScore,
         keywords: data.keywords || [],
       });
-    } catch (err) {
+    } catch (err: unknown) {
       console.error("Failed to analyze:", err);
-      setError("Gagal menghubungi server. Pastikan API berjalan.");
+
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Gagal menghubungi server. Pastikan API berjalan.");
+      }
     } finally {
       setIsAnalyzing(false);
     }

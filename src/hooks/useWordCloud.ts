@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   KeywordStats,
   Review,
@@ -9,12 +9,11 @@ import {
 import { WORD_LIMIT } from "../utils/datas";
 
 export const useWordCloud = () => {
-  const [mounted, setMounted] = useState(false);
   const [words, setWords] = useState<WordItem[]>([]);
+  const [shuffledWords, setShuffledWords] = useState<WordItem[]>([]);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
-
     const fetchWords = async () => {
       try {
         const res = await fetch("/api/review");
@@ -90,14 +89,26 @@ export const useWordCloud = () => {
   const maxValue = Math.max(...words.map((w) => w.value), 1);
   const minValue = Math.min(...words.map((w) => w.value), 0);
 
-  const shuffledWords = useMemo(() => {
-    return [...words].sort(() => Math.random() - 0.5);
+  useEffect(() => {
+    const id = setTimeout(() => {
+      const result = [...words];
+
+      for (let i = result.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [result[i], result[j]] = [result[j], result[i]];
+      }
+
+      setShuffledWords(result);
+      setReady(true);
+    }, 0);
+
+    return () => clearTimeout(id);
   }, [words]);
 
   return {
-    mounted,
     maxValue,
     minValue,
     shuffledWords,
+    ready,
   };
 };

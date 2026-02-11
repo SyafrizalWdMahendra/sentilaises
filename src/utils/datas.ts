@@ -1,5 +1,5 @@
 import { Frown, Meh, Smile } from "lucide-react";
-import { WordCloudConfig, WordCloudItemProps, WordItem } from "../types";
+import { WordCloudConfig, WordItem } from "../types";
 
 export const MODEL_OPTIONS = [
   {

@@ -49,7 +49,7 @@ export default function SentimentForm() {
         model XGBoost
       </p>
 
-      <form onSubmit={(e) => e.preventDefault()}>
+      <form onSubmit={analyzeText}>
         <div className="space-y-4">
           {error && (
             <div className="p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md flex items-center gap-2">
@@ -76,7 +76,7 @@ export default function SentimentForm() {
               <ComboboxContent className="bg-card border-border shadow-lg animate-in fade-in zoom-in-95 duration-200 z-50">
                 {filteredItems.length === 0 && (
                   <ComboboxEmpty className="text-muted-foreground py-3 px-4 text-sm text-center">
-                    Model "{searchQuery}" tidak ditemukan.
+                    {` Model "${searchQuery}" tidak ditemukan.`}
                   </ComboboxEmpty>
                 )}
                 <ComboboxList className="p-1">
@@ -119,7 +119,7 @@ export default function SentimentForm() {
           />
 
           <Button
-            onClick={analyzeText}
+            type="submit"
             disabled={!isFormValid || isAnalyzing}
             className="w-full gap-2"
           >
@@ -152,11 +152,9 @@ export default function SentimentForm() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     {(() => {
-                      const {
-                        icon: Icon,
-                        bgClass,
-                        textClass,
-                      } = getSentimentDisplay(result.sentiment);
+                      const { icon: Icon, textClass } = getSentimentDisplay(
+                        result.sentiment,
+                      );
                       return (
                         <div
                           className={cn(

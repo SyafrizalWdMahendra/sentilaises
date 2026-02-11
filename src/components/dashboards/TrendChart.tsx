@@ -1,6 +1,5 @@
 "use client";
 
-import { useTrendChart } from "@/src/hooks/useTrendChart";
 import { TrendChartProps } from "@/src/types";
 import {
   Area,
@@ -15,7 +14,7 @@ import {
 import TrendChartTooltip from "./TrendChartToolTip";
 
 export function TrendChart({ data }: TrendChartProps) {
-  const { isMounted } = useTrendChart();
+  const isMounted = true;
 
   if (!isMounted) {
     return <div className="h-87.5 w-full bg-transparent" />;

@@ -62,7 +62,7 @@ export interface SentimentChartProps {
 
 export interface CustomTooltipProps {
   active?: boolean;
-  payload?: any[];
+  payload?: string[];
   total: number;
 }
 
@@ -92,15 +92,9 @@ export interface TrendChartProps {
 
 export interface TrendChartTooltipProps {
   active?: boolean;
-  payload?: any[];
+  payload?: LegendPayloadItem[];
   label?: string;
 }
-
-// export type WordItem = {
-//   text: string;
-//   value: number;
-//   sentiment: "positive" | "negative" | "neutral";
-// };
 
 export interface WordCloudProps {
   words: WordItem[];
@@ -128,7 +122,7 @@ export interface UseStatCardProps {
 export interface ReviewItem {
   id: number;
   content: string;
-  sentiment: string;
+  sentiment: Sentiment;
   confidenceScore: number;
   createdAt: string;
   keywords: string[];
@@ -163,4 +157,19 @@ export type ReviewResponse = {
 export type WordCloudConfig = {
   minValue: number;
   maxValue: number;
+};
+
+export interface CLabelProps {
+  cx: number;
+  cy: number;
+  midAngle: number;
+  innerRadius: number;
+  outerRadius: number;
+  percent: number;
+}
+
+export type LegendPayloadItem = {
+  color?: string;
+  name?: string;
+  value?: string;
 };

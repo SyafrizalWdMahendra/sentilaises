@@ -1,16 +1,7 @@
 "use client";
 
 import { Header } from "./Header";
-import {
-  Frown,
-  Meh,
-  MessageSquareText,
-  Minus,
-  Smile,
-  ThumbsDown,
-  ThumbsUp,
-  TrendingUp,
-} from "lucide-react";
+import { Frown, Meh, MessageSquareText, Smile, TrendingUp } from "lucide-react";
 import { StatCard } from "./StatCard";
 import {
   brandData,
