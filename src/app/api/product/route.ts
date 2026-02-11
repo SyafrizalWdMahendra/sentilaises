@@ -5,16 +5,6 @@ export const dynamic = "force-dynamic";
 
 export async function POST(request: Request) {
   try {
-    // const body = await request.json();
-
-    // const { name, brand } = body;
-    // if (!name || !brand) {
-    //   return NextResponse.json(
-    //     { error: "Missing required fields" },
-    //     { status: 400 },
-    //   );
-    // }
-
     const products = [
       { name: "ZenBook 14", brand: "ASUS" },
       { name: "Swift 3", brand: "Acer" },
@@ -36,6 +26,21 @@ export async function POST(request: Request) {
     console.error("Create product Error:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
+      { status: 500 },
+    );
+  }
+}
+
+export async function GET() {
+  try {
+    const count = await prisma.product.count();
+
+    return NextResponse.json({ count }, { status: 200 });
+  } catch (error) {
+    console.error("GET /product/count error:", error);
+
+    return NextResponse.json(
+      { message: "Internal server error" },
       { status: 500 },
     );
   }

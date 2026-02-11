@@ -6,6 +6,8 @@ export const useHeader = () => {
   const [open, setOpen] = useState(false);
   const session = useSession();
   const [mounted, setMounted] = useState(false);
+  const [productCount, setProductCount] = useState<number | null>(null);
+  const [loadingProductCount, setLoadingProductCount] = useState(false);
 
   const handleRefresh = () => {
     setIsRefreshing(true);
@@ -14,7 +16,37 @@ export const useHeader = () => {
 
   useEffect(() => {
     setMounted(true);
+    const getProductCount = async () => {
+      try {
+        setLoadingProductCount(true);
+
+        const res = await fetch("/api/product");
+        if (!res.ok) throw new Error("Failed to fetch product count");
+
+        const data = await res.json();
+        setProductCount(data.count);
+      } catch (error) {
+        console.error("Failed get product count:", error);
+      } finally {
+        setLoadingProductCount(false);
+      }
+    };
+
+    getProductCount();
   }, []);
 
-  return { open, setOpen, session, isRefreshing, handleRefresh, mounted };
+  useEffect(()=>{
+    
+  })
+
+  return {
+    open,
+    setOpen,
+    session,
+    isRefreshing,
+    handleRefresh,
+    mounted,
+    productCount,
+    loadingProductCount,
+  };
 };

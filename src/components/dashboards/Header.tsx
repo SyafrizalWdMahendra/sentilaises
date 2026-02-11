@@ -20,7 +20,8 @@ import Link from "next/link";
 import { useHeader } from "@/src/hooks/useHeader";
 
 export function Header() {
-  const { open, setOpen, session, mounted } = useHeader();
+  const { open, setOpen, session, mounted, productCount, loadingProductCount } =
+    useHeader();
 
   if (!mounted) return null;
   return (
@@ -45,7 +46,7 @@ export function Header() {
             <div className="hidden items-center gap-6 text-sm md:flex">
               <div className="flex items-center gap-2 text-muted-foreground">
                 <Laptop className="h-4 w-4" />
-                <span>5 Brand</span>
+                <span>{productCount} Brand</span>
               </div>
               <div className="flex items-center gap-2 text-muted-foreground">
                 <Database className="h-4 w-4" />
