@@ -19,7 +19,7 @@ import { Badge } from "../ui/badge";
 import { getSentimentDisplay } from "@/src/utils/datas";
 import { useSentimentForm } from "@/src/hooks/useSentimentForm";
 
-export default function SentimentForm() {
+export default function SentimentAnalyzer() {
   const {
     selectedModel,
     searchQuery,
