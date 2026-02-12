@@ -73,3 +73,20 @@ export const setWordCloud = ({ maxValue, minValue }: WordCloudConfig) => {
 
   return { getSize, getColor };
 };
+
+export function getFallbackData(url: string): ScrapeResult {
+  return {
+    name: "Produk (Data Sampel)",
+    url: url,
+    reviews: [
+      "Laptop ini performanya sangat kencang untuk coding backend dan docker.",
+      "Layar OLED-nya juara banget, warnanya tajam cocok buat desain di Illustrator.",
+      "Keyboard travel distance-nya pas, enak buat ngetik skripsi berjam-jam.",
+      "Sayang port-nya agak sedikit, butuh dongle tambahan.",
+      "Baterai lumayan awet bisa tahan 6-7 jam pemakaian normal office.",
+      "Buat main game ringan seperti Valorant masih oke, fps stabil.",
+      "Build quality kokoh, terasa premium walau body plastik.",
+      "Pengiriman cepat dan packing kayu sangat aman.",
+    ],
+  };
+}

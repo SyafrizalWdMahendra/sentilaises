@@ -160,12 +160,12 @@ export type WordCloudConfig = {
 };
 
 export interface CLabelProps {
-  cx: number;
-  cy: number;
-  midAngle: number;
-  innerRadius: number;
-  outerRadius: number;
-  percent: number;
+  cx?: number;
+  cy?: number;
+  midAngle?: number;
+  innerRadius?: number;
+  outerRadius?: number;
+  percent?: number;
 }
 
 export type LegendPayloadItem = {
@@ -173,3 +173,24 @@ export type LegendPayloadItem = {
   name?: string;
   value?: string;
 };
+
+export interface ScrapeResult {
+  name: string;
+  url: string;
+  reviews: string[];
+}
+
+export interface ProductDetail {
+  name: string;
+  url: string;
+  general_sentiment_score: number;
+  profession_compatibility_score: number;
+  verdict: string;
+  top_keywords: string[];
+}
+
+export interface AnalysisResults {
+  profession_target: string;
+  winning_product: string;
+  details: ProductDetail[];
+}

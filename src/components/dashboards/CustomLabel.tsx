@@ -1,12 +1,12 @@
 import { CLabelProps } from "@/src/types";
 
 const renderCustomLabel = ({
-  cx,
-  cy,
-  midAngle,
-  innerRadius,
-  outerRadius,
-  percent,
+  cx = 0,
+  cy = 0,
+  midAngle = 0,
+  innerRadius = 0,
+  outerRadius = 0,
+  percent = 0,
 }: CLabelProps) => {
   if (percent < 0.05) return null;
   const RADIAN = Math.PI / 180;

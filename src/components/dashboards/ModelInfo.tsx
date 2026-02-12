@@ -41,6 +41,7 @@ export function ModelInfo({ data }: { data: ModelDB[] }) {
               <SelectItem
                 key={model.modelName + index}
                 value={index.toString()}
+                className="cursor-pointer"
               >
                 {model.modelName}
               </SelectItem>

@@ -16,6 +16,8 @@ import { SentimentChart, TrendChart } from "@/src/utils/dImports";
 import { useDashboards } from "@/src/hooks/useDashboard";
 import SentimentForm from "./SentimentAnalyzer";
 import { WordCloud } from "./WordCloud";
+import AnalysisPage from "@/src/app/analyze/page";
+import SentimentAnalyzer from "./SentimentAnalyzer";
 
 export default function DashboardClient() {
   const {
@@ -130,7 +132,8 @@ export default function DashboardClient() {
         </div>
 
         <div className="mb-8">
-          <SentimentForm />
+          {/* <SentimentAnalyzer /> */}
+          <AnalysisPage />
         </div>
 
         <div className="space-y-6">
