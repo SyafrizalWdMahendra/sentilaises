@@ -18,6 +18,7 @@ import SentimentForm from "./SentimentAnalyzer";
 import { WordCloud } from "./WordCloud";
 import AnalysisPage from "@/src/app/analyze/page";
 import SentimentAnalyzer from "./SentimentAnalyzer";
+import AnalysisClient from "./AnalysisClient";
 
 export default function DashboardClient() {
   const {
@@ -33,7 +34,7 @@ export default function DashboardClient() {
   } = useDashboards();
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#F8FBFF]">
       <Header />
 
       <main className="container mx-auto px-4 py-8">
@@ -133,7 +134,7 @@ export default function DashboardClient() {
 
         <div className="mb-8">
           {/* <SentimentAnalyzer /> */}
-          <AnalysisPage />
+          <AnalysisClient />
         </div>
 
         <div className="space-y-6">

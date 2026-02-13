@@ -194,3 +194,7 @@ export interface AnalysisResults {
   winning_product: string;
   details: ProductDetail[];
 }
+
+export interface ResultProps {
+  result: AnalysisResults | null;
+}

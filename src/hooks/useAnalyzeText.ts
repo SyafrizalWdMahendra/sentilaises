@@ -4,6 +4,7 @@ import { AnalysisResults } from "../types";
 export const useAnalyseText = () => {
   const [url1, setUrl1] = useState("");
   const [url2, setUrl2] = useState("");
+  const [url3, setUrl3] = useState("");
   const [profession, setProfession] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<AnalysisResults | null>(null);
@@ -14,11 +15,27 @@ export const useAnalyseText = () => {
     setResult(null);
 
     try {
-      const scrapePromises = [url1, url2].map((u) =>
+      const urlsToScrape = [url1, url2, url3].filter(
+        (url) => url && url.trim() !== "",
+      );
+
+      if (urlsToScrape.length < 2) {
+        alert("Produk Utama dan minimal 1 Produk Pembanding wajib diisi!");
+        setLoading(false); 
+        return;
+      }
+
+      const scrapePromises = urlsToScrape.map((u) =>
         fetch("/api/scrape", {
           method: "POST",
+          headers: {
+            "Content-Type": "application/json", 
+          },
           body: JSON.stringify({ url: u }),
-        }).then((res) => res.json()),
+        }).then((res) => {
+          if (!res.ok) throw new Error(`Gagal scraping: ${u}`);
+          return res.json();
+        }),
       );
 
       const scrapeResults = await Promise.all(scrapePromises);
@@ -59,6 +76,7 @@ export const useAnalyseText = () => {
   return {
     url1,
     url2,
+    url3,
     profession,
     loading,
     result,
@@ -67,6 +85,7 @@ export const useAnalyseText = () => {
     setProfession,
     setUrl1,
     setUrl2,
+    setUrl3,
     setDisabled,
   };
 };
