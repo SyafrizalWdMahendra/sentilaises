@@ -6,7 +6,6 @@ datasource db {
   provider = "postgresql"
 }
 
-// --- ENUMS ---
 enum UserGender {
   male
   female
@@ -22,6 +21,28 @@ enum Sentiment {
   POSITIVE
   NEGATIVE
   NEUTRAL
+}
+
+enum OS {
+  WINDOWS
+  MACOS
+  LINUX
+  CHROME_OS
+  OTHER
+}
+
+enum Brand {
+  APPLE
+  ASUS
+  ACER
+  LENOVO
+  HP
+  DELL
+  MSI
+  AXIOO
+  ADVAN
+  ZYREX
+  OTHER
 }
 
 model Account {
@@ -64,87 +85,105 @@ model User {
   email         String?     @unique
   emailVerified DateTime?
   image         String?
-  gender        UserGender?
   password      String?
-  role          Role        @default(USER)
-  
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+  bio           String?     @db.Text
+  location      String?
+  birthDate     DateTime?
+  gender        UserGender?
 
-  accounts      Account[]
-  sessions      Session[]
-  
-  analyses      Analysis[]
-}
-
-model Product {
-  id        Int      @id @default(autoincrement())
-  name      String
-  brand     String?
-  url       String   @unique 
-  image     String?
-  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  reviews   Review[]   
-  analyses  Analysis[] 
+  accounts Account[]
+  sessions Session[]
+  analyses Analysis[]
+
+  preference UserPreference?
+}
+
+model UserPreference {
+  id            Int     @id @default(autoincrement())
+  profession    String?
+  preferredOS   OS?
+  preferedBrand Brand?
+  budgetMin     Int?
+  budgetMax     Int?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId Int  @unique
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Product {
+  id    Int     @id @default(autoincrement())
+  name  String
+  brand String?
+  url   String  @unique
+  image String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  reviews  Review[]
+  analyses Analysis[]
 }
 
 model Review {
   id              Int       @id @default(autoincrement())
-  content         String    
-  sentiment       Sentiment 
-  confidenceScore Float     
-  keywords        String[]  
-  
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  content         String
+  sentiment       Sentiment
+  confidenceScore Float
+  keywords        String[]
 
-  productId       Int
-  product         Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
-  
-  modelId         Int?
-  model           Model?    @relation(fields: [modelId], references: [id])
-}
-
-model Analysis {
-  id                 Int      @id @default(autoincrement())
-  
-  targetProfession   String   
-  
-  generalSentiment   Float     
-  compatibilityScore Float    
-  verdict            String   
-  
-  topKeywords        String[] 
-  
-  createdAt          DateTime @default(now())
-
-  userId    Int
-  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   productId Int
   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
-  modelId   Int
-  model     Model   @relation(fields: [modelId], references: [id])
+  modelId Int?
+  model   Model? @relation(fields: [modelId], references: [id])
+}
+
+model Analysis {
+  id Int @id @default(autoincrement())
+
+  targetProfession String
+
+  generalSentiment   Float
+  compatibilityScore Float
+  verdict            String
+
+  topKeywords String[]
+
+  createdAt DateTime @default(now())
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  productId Int
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  modelId Int
+  model   Model @relation(fields: [modelId], references: [id])
 }
 
 model Model {
-  id          Int      @id @default(autoincrement())
-  modelName   String   
+  id          Int     @id @default(autoincrement())
+  modelName   String
   description String?
-  version     String? 
-  
-  accuracy    Float
-  macroF1     Float
-  f1Negative  Float
-  f1Neutral   Float
-  
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  version     String?
 
-  analyses    Analysis[]
-  reviews     Review[]
+  accuracy   Float
+  macroF1    Float
+  f1Negative Float
+  f1Neutral  Float
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  analyses Analysis[]
+  reviews  Review[]
 }

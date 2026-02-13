@@ -12,7 +12,6 @@ export const getAnotherUserData = async () => {
       where: { email: session.user.email },
       select: {
         gender: true,
-        productReference: true,
       },
     });
 
