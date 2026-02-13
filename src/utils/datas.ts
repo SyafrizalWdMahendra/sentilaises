@@ -90,3 +90,10 @@ export function getFallbackData(url: string): ScrapeResult {
     ],
   };
 }
+
+export const professions = [
+  { value: "programmer", label: "Programmer" },
+  { value: "designer", label: "Designer" },
+  { value: "student", label: "Student" },
+  { value: "gamer", label: "Gamer" },
+];

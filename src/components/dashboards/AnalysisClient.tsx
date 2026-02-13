@@ -1,7 +1,7 @@
 "use client";
 
 import { useAnalyseText } from "@/src/hooks/useAnalyzeText";
-import { Sparkles, Trophy } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -11,9 +11,8 @@ import {
 } from "../ui/select";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { motion } from "framer-motion";
-import { useState } from "react";
 import ResultSection from "./ResultSection";
+import { professions } from "@/src/utils/datas";
 
 export default function AnalysisClient() {
   const {
@@ -24,20 +23,15 @@ export default function AnalysisClient() {
     loading,
     result,
     disabled,
+    showField,
     handleAnalyze,
     setProfession,
     setUrl1,
     setUrl2,
     setDisabled,
     setUrl3,
+    setShowField,
   } = useAnalyseText();
-  const [showField, setShowField] = useState(false);
-
-  const getSentimentTone = (score: number) => {
-    if (score >= 80) return "strong";
-    if (score >= 60) return "light";
-    return "neutral";
-  };
 
   return (
     <div className="w-full mx-auto">
@@ -62,18 +56,11 @@ export default function AnalysisClient() {
                 className="bg-card border-border shadow-lg"
                 position="popper"
               >
-                <SelectItem className="cursor-pointer" value="programmer">
-                  Programmer
-                </SelectItem>
-                <SelectItem className="cursor-pointer" value="designer">
-                  Designer
-                </SelectItem>
-                <SelectItem className="cursor-pointer" value="student">
-                  Student
-                </SelectItem>
-                <SelectItem className="cursor-pointer" value="gamer">
-                  Gamer
-                </SelectItem>
+                {professions.map((item) => (
+                  <SelectItem key={item.value} value={item.value}>
+                    {item.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>

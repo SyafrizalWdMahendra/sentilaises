@@ -9,6 +9,7 @@ export const useAnalyseText = () => {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<AnalysisResults | null>(null);
   const [disabled, setDisabled] = useState(false);
+  const [showField, setShowField] = useState(false);
 
   const handleAnalyze = async () => {
     setLoading(true);
@@ -21,7 +22,7 @@ export const useAnalyseText = () => {
 
       if (urlsToScrape.length < 2) {
         alert("Produk Utama dan minimal 1 Produk Pembanding wajib diisi!");
-        setLoading(false); 
+        setLoading(false);
         return;
       }
 
@@ -29,7 +30,7 @@ export const useAnalyseText = () => {
         fetch("/api/scrape", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json", 
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({ url: u }),
         }).then((res) => {
@@ -81,11 +82,13 @@ export const useAnalyseText = () => {
     loading,
     result,
     disabled,
+    showField,
     handleAnalyze,
     setProfession,
     setUrl1,
     setUrl2,
     setUrl3,
     setDisabled,
+    setShowField,
   };
 };
