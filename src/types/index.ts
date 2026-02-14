@@ -1,9 +1,9 @@
-import { UserGender } from "@prisma/client";
 import { LucideIcon } from "lucide-react";
+import Brand from "@prisma/client";
 
 export interface ModelDB {
   modelName: string;
-  description: string;
+  description: string | null;
   accuracy: number;
   macroF1: number;
   f1Negative: number;
@@ -11,8 +11,13 @@ export interface ModelDB {
 }
 
 export interface ProfileClientProps {
-  gender?: UserGender;
-  productReference?: string;
+  bio?: string;
+  preferenceBrand?: string;
+  preferenceOS: string;
+  budgetMin: number;
+  budgetMax: number;
+  profession: string;
+  id?: number;
 }
 
 interface Brand {
@@ -62,7 +67,7 @@ export interface SentimentChartProps {
 
 export interface CustomTooltipProps {
   active?: boolean;
-  payload?: string[];
+  payload?: any[];
   total: number;
 }
 

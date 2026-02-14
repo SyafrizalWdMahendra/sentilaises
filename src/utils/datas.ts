@@ -1,23 +1,10 @@
 import { Frown, Meh, Smile } from "lucide-react";
-import { ScrapeResult, WordCloudConfig, WordItem } from "../types";
-
-export const MODEL_OPTIONS = [
-  {
-    label: "Model XGBoost (Baseline)",
-    code: "baseline",
-    desc: "Raw Data (Imbalanced)",
-  },
-  {
-    label: "Model XGBoost (Tuned)",
-    code: "tuned",
-    desc: "Hyperparameter Tuned",
-  },
-  {
-    label: "Model XGBoost (Optimized)",
-    code: "optimized",
-    desc: "Pipeline (SMOTE + Chi2)",
-  },
-];
+import {
+  ProfileClientProps,
+  ScrapeResult,
+  WordCloudConfig,
+  WordItem,
+} from "../types";
 
 export const getSentimentDisplay = (sentiment: string) => {
   switch (sentiment?.toLowerCase()) {
@@ -50,8 +37,6 @@ export const getSentimentDisplay = (sentiment: string) => {
       };
   }
 };
-
-export const WORD_LIMIT = 15;
 
 export const setWordCloud = ({ maxValue, minValue }: WordCloudConfig) => {
   const getSize = (value: number) => {
@@ -91,9 +76,22 @@ export function getFallbackData(url: string): ScrapeResult {
   };
 }
 
-export const professions = [
-  { value: "programmer", label: "Programmer" },
-  { value: "designer", label: "Designer" },
-  { value: "student", label: "Student" },
-  { value: "gamer", label: "Gamer" },
-];
+export const formatRupiah = (value: number | string) => {
+  if (!value) return "Rp 0";
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    maximumFractionDigits: 0,
+  }).format(Number(value));
+};
+
+export function brandFormat({
+  preferenceBrand,
+}: Pick<ProfileClientProps, "preferenceBrand">) {
+  const brands = Array.isArray(preferenceBrand)
+    ? preferenceBrand
+    : preferenceBrand
+      ? [preferenceBrand]
+      : [];
+  return { brands };
+}

@@ -14,11 +14,9 @@ import { BrandFilter } from "./BrandFilter";
 import { ReviewTable } from "./ReviewTable";
 import { SentimentChart, TrendChart } from "@/src/utils/dImports";
 import { useDashboards } from "@/src/hooks/useDashboard";
-import SentimentForm from "./SentimentAnalyzer";
 import { WordCloud } from "./WordCloud";
-import AnalysisPage from "@/src/app/analyze/page";
-import SentimentAnalyzer from "./SentimentAnalyzer";
 import AnalysisClient from "./AnalysisClient";
+import Footer from "./Footer";
 
 export default function DashboardClient() {
   const {
@@ -133,7 +131,6 @@ export default function DashboardClient() {
         </div>
 
         <div className="mb-8">
-          {/* <SentimentAnalyzer /> */}
           <AnalysisClient />
         </div>
 
@@ -154,20 +151,7 @@ export default function DashboardClient() {
           <ReviewTable />
         </div>
 
-        <footer className="mt-12 border-t pt-8">
-          <div className="flex flex-col items-center justify-between gap-4 text-sm text-muted-foreground sm:flex-row">
-            <div>
-              <p className="font-medium text-foreground text-center lg:text-start md:text-start">
-                SentiLaptop - Analisis Sentimen
-              </p>
-              <p>Skripsi oleh Syafrizal Wd Mahendra (E41222719)</p>
-            </div>
-            <div className="text-center lg:text-end md:text-end">
-              <p>Politeknik Negeri Jember</p>
-              <p>PSDKU Teknik Informatika Kampus 3 Nganjuk</p>
-            </div>
-          </div>
-        </footer>
+        <Footer />
       </main>
     </div>
   );

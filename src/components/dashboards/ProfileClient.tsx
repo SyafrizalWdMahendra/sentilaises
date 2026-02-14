@@ -1,27 +1,13 @@
-"use client";
-import Image from "next/image";
-import { Button } from "../ui/button";
-import { ArrowLeft, Pencil } from "lucide-react";
-import { Separator } from "../ui/separator";
-import { useSession } from "next-auth/react";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { ProfileClientProps } from "@/src/types";
+import ProfileCard from "./ProfileCard";
+import { getAnotherUserData } from "@/src/app/profile/lib/action";
 
-export default function ProfileClient({
-  gender,
-  productReference,
-}: ProfileClientProps) {
-  const session = useSession();
+export default async function ProfileClient() {
+  const user = await getAnotherUserData();
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.4, ease: "easeInOut" }}
-      className="container mx-auto px-4 py-8"
-    >
+    <div className="container mx-auto px-4 py-8">
       <div className="flex max-w-xl mx-auto">
         <Link
           href="/"
@@ -32,55 +18,14 @@ export default function ProfileClient({
         </Link>
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.4, ease: "easeOut" }}
-        className="mx-auto w-full max-w-xl rounded-xl border bg-background shadow-sm mt-4"
-      >
-        <div className="flex items-center justify-between gap-4 p-6">
-          <div className="flex items-center gap-4">
-            <Image
-              src={session?.data?.user?.image ?? "file.svg"}
-              alt="User Avatar"
-              width={80}
-              height={80}
-              className="h-14 w-14 rounded-full border object-cover"
-            />
-            <div>
-              <h1 className="text-lg font-semibold leading-tight">
-                {session?.data?.user?.name || "Guest"}
-              </h1>
-              <p className="text-sm text-muted-foreground">
-                {session?.data?.user?.email || "Not logged in"}
-              </p>
-            </div>
-          </div>
-
-          <Button
-            variant="outline"
-            size="sm"
-            className="gap-2 bg-primary text-card border-none"
-          >
-            <Pencil className="h-4 w-4" />
-            Edit Profile
-          </Button>
-        </div>
-
-        <Separator />
-
-        <div className="grid grid-cols-1 gap-4 p-6 sm:grid-cols-2">
-          <div className="space-y-1">
-            <p className="text-sm text-muted-foreground">Gender</p>
-            <p className="font-medium">{gender || "Not specified"}</p>
-          </div>
-
-          <div className="space-y-1">
-            <p className="text-sm text-muted-foreground">Product Preference</p>
-            <p className="font-medium">{productReference || "None"}</p>
-          </div>
-        </div>
-      </motion.div>
-    </motion.div>
+      <ProfileCard
+        bio={user?.bio || "None"}
+        preferenceBrand={user?.preference?.preferedBrand || "None"}
+        preferenceOS={user?.preference?.preferredOS || "None"}
+        budgetMax={user?.preference?.budgetMax || 0}
+        budgetMin={user?.preference?.budgetMin || 0}
+        profession={user?.preference?.profession || "None"}
+      />
+    </div>
   );
 }

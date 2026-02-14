@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { MODEL_OPTIONS } from "../utils/datas";
+import { MODEL_OPTIONS } from "../utils/const";
 
 export const useSentimentForm = () => {
   const [selectedModel, setSelectedModel] = useState(MODEL_OPTIONS[2]);

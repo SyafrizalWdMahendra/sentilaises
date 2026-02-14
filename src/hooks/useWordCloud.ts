@@ -6,7 +6,7 @@ import {
   Sentiment,
   WordItem,
 } from "@/src/types";
-import { WORD_LIMIT } from "../utils/datas";
+import { WORD_LIMIT } from "../utils/const";
 
 export const useWordCloud = () => {
   const [words, setWords] = useState<WordItem[]>([]);

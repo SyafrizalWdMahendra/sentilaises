@@ -1,11 +1,6 @@
 import { CustomTooltipProps } from "@/src/types";
-import React from "react";
 
-const CustomTooltip: React.FC<CustomTooltipProps> = ({
-  active,
-  payload,
-  total,
-}) => {
+const CustomTooltip = ({ active, payload, total }: CustomTooltipProps) => {
   if (active && payload && payload.length) {
     const item = payload[0].payload;
     const percentage = ((item.value / total) * 100).toFixed(1);

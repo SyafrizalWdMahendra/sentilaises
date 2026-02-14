@@ -13,7 +13,7 @@ export function ModelInfoSkeleton() {
         <div className="h-4.5 w-13.5 rounded-full bg-gray-200" />
       </div>
 
-      <div className="mb-6 min-h-[40px] space-y-2">
+      <div className="mb-6 min-h-10 space-y-2">
         <div className="h-4 w-3/4 rounded bg-gray-100" />
         <div className="h-4 w-1/2 rounded bg-gray-100" />
       </div>

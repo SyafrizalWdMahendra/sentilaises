@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { WordCloudItemProps, WordItem } from "@/src/types";
+import { WordCloudItemProps } from "@/src/types";
 import { setWordCloud } from "@/src/utils/datas";
 
 const WordCloudItem: React.FC<WordCloudItemProps> = ({

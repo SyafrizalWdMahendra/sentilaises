@@ -1,4 +1,4 @@
-import { AnalysisResults, ResultProps } from "@/src/types";
+import { ResultProps } from "@/src/types";
 import { motion } from "framer-motion";
 import { Trophy, ExternalLink, CheckCircle2, TrendingUp } from "lucide-react";
 
@@ -24,7 +24,6 @@ export default function ResultSection({ result }: ResultProps) {
         },
       }}
     >
-      {/* ================= HEADER WINNER ================= */}
       <motion.div
         variants={{
           hidden: { opacity: 0, y: -20, height: 0 },
@@ -37,7 +36,6 @@ export default function ResultSection({ result }: ResultProps) {
         }}
         className="bg-sentiment-positive text-card p-8 rounded-2xl text-center mb-12 relative overflow-hidden"
       >
-        {/* Dekorasi Background Abstrak */}
         <div className="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 left-0 -mb-10 -ml-10 w-40 h-40 bg-primary/20 rounded-full blur-3xl"></div>
 
@@ -62,7 +60,6 @@ export default function ResultSection({ result }: ResultProps) {
         </div>
       </motion.div>
 
-      {/* ================= CARDS GRID ================= */}
       <div className={`grid gap-8 ${getGridClass(result.details.length)}`}>
         {result.details.map((item, index) => {
           const isWinner = item.name === result.winning_product;
@@ -84,7 +81,6 @@ export default function ResultSection({ result }: ResultProps) {
                   : "bg-white border-gray-200 hover:border-primary/50 hover:shadow-lg"
               }`}
             >
-              {/* WINNER BADGE (Floating) */}
               {isWinner && (
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-sentiment-positive text-white px-6 py-1.5 rounded-full shadow-lg flex items-center gap-2 z-20">
                   <Trophy className="w-4 h-4 fill-yellow-400 text-yellow-400" />
@@ -95,7 +91,6 @@ export default function ResultSection({ result }: ResultProps) {
               )}
 
               <div className="p-6 md:p-8 flex flex-col h-full">
-                {/* 1. HEADER KARTU */}
                 <div className="mb-6">
                   <div className="flex justify-between items-start gap-4">
                     <h3
@@ -127,9 +122,7 @@ export default function ResultSection({ result }: ResultProps) {
                   </a>
                 </div>
 
-                {/* 2. STATISTIK UTAMA (Progress Bars) */}
                 <div className="space-y-5 mb-8">
-                  {/* Kecocokan Profesi */}
                   <div>
                     <div className="flex justify-between items-end mb-2">
                       <span className="text-sm font-medium text-gray-600 flex items-center gap-1.5">
@@ -158,7 +151,6 @@ export default function ResultSection({ result }: ResultProps) {
                     </div>
                   </div>
 
-                  {/* Sentimen Publik */}
                   <div>
                     <div className="flex justify-between items-end mb-2">
                       <span className="text-sm font-medium text-gray-600 flex items-center gap-1.5">
@@ -182,7 +174,6 @@ export default function ResultSection({ result }: ResultProps) {
                   </div>
                 </div>
 
-                {/* 3. FOOTER (Keywords) */}
                 <div className="mt-auto pt-5 border-t border-gray-100">
                   <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
                     Kata Kunci

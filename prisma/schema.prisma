@@ -166,7 +166,6 @@ model Model {
   id          Int     @id @default(autoincrement())
   modelName   String
   description String?
-  version     String?
 
   accuracy   Float
   macroF1    Float

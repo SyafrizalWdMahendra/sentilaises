@@ -7,13 +7,7 @@ const TrendChart = dynamic(
     })),
   { ssr: false },
 );
-// const WordCloud = dynamic(
-//   () =>
-//     import("../components/dashboards/WordCloud").then((mod) => ({
-//       default: mod.WordCloud,
-//     })),
-//   { ssr: false },
-// );
+
 const SentimentChart = dynamic(
   () =>
     import("../components/dashboards/SentimentChart").then((mod) => ({

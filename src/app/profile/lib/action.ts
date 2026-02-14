@@ -8,14 +8,26 @@ export const getAnotherUserData = async () => {
 
     if (!session?.user?.email) return null;
 
-    const user = await prisma.user.findUnique({
-      where: { email: session.user.email },
+    const userData = await prisma.user.findUnique({
+      where: {
+        email: session.user.email,
+      },
       select: {
-        gender: true,
+        bio: true,
+        preference: {
+          select: {
+            id: true,
+            profession: true,
+            preferedBrand: true,
+            preferredOS: true,
+            budgetMin: true,
+            budgetMax: true,
+          },
+        },
       },
     });
 
-    return user;
+    return userData;
   } catch (error) {
     console.error("Error fetching user data:", error);
     return null;

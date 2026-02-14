@@ -17,7 +17,7 @@ export function ModelInfo({ data }: { data: ModelDB[] }) {
 
   if (!data || data.length === 0) {
     return (
-      <div className="rounded-xl border bg-card p-6 flex items-center justify-center h-[350px]">
+      <div className="rounded-xl border bg-card p-6 flex items-center justify-center h-87.5">
         <p className="text-muted-foreground text-sm">
           Data model tidak tersedia.
         </p>

@@ -12,7 +12,7 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import ResultSection from "./ResultSection";
-import { professions } from "@/src/utils/datas";
+import { professions } from "@/src/utils/const";
 
 export default function AnalysisClient() {
   const {
@@ -49,18 +49,30 @@ export default function AnalysisClient() {
               <SelectTrigger
                 className={`w-full mb-6 ${!profession ? "text-gray-500" : "text-black"}`}
               >
-                <SelectValue placeholder="-- Pilih Profesi/Kebutuhan --" />
+                <SelectValue placeholder="Pilih Profesi/Kebutuhan" />
               </SelectTrigger>
 
               <SelectContent
                 className="bg-card border-border shadow-lg"
                 position="popper"
               >
-                {professions.map((item) => (
-                  <SelectItem key={item.value} value={item.value}>
-                    {item.label}
-                  </SelectItem>
-                ))}
+                {professions.map((item) => {
+                  const PIcon = item.icon;
+                  return (
+                    <SelectItem
+                      key={item.value}
+                      value={item.value}
+                      className="cursor-pointer hover:bg-primary hover:text-card focus:bg-primary focus:text-card"
+                    >
+                      <div className="flex gap-2 items-center">
+                        <span>
+                          <PIcon className="h-4 w-4 text-muted-foreground" />
+                        </span>
+                        <span>{item.label}</span>
+                      </div>
+                    </SelectItem>
+                  );
+                })}
               </SelectContent>
             </Select>
           </div>
