@@ -41,7 +41,7 @@ export function ModelInfo({ data }: { data: ModelDB[] }) {
               <SelectItem
                 key={model.modelName + index}
                 value={index.toString()}
-                className="cursor-pointer"
+                className="cursor-pointer hover:bg-primary hover:text-card focus:bg-primary focus:text-card"
               >
                 {model.modelName}
               </SelectItem>
