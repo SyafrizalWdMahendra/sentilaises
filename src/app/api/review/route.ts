@@ -1,6 +1,8 @@
 import prisma from "@/lib/prisma";
 import { Prisma, Sentiment } from "@prisma/client";
+import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
+import { authOptions } from "../auth/[...nextauth]/route";
 
 export const dynamic = "force-dynamic";
 
@@ -60,10 +62,32 @@ export async function POST(_request: Request) {
 }
 
 export async function GET() {
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user?.email) {
+    return NextResponse.json(
+      { success: false, message: "Unauthorized. User belum login." },
+      { status: 401 },
+    );
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { email: session.user.email },
+    select: { id: true },
+  });
+
+  if (!user) {
+    return NextResponse.json(
+      { success: false, message: "User tidak ditemukan." },
+      { status: 404 },
+    );
+  }
+
   try {
     const review = await prisma.review.findMany({
+      where: { userId: user.id },
       orderBy: {
-        createdAt: "desc",
+        createdAt: "asc",
       },
       select: {
         id: true,
