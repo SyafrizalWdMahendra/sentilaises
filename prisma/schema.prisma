@@ -91,6 +91,7 @@ model User {
   analyses Analysis[]
 
   preference UserPreference?
+  review Review[]
 }
 
 model UserPreference {
@@ -137,6 +138,10 @@ model Review {
 
   modelId Int?
   model   Model? @relation(fields: [modelId], references: [id])
+  
+  userId Int?
+  user   User? @relation(fields: [userId], references: [id])
+
 }
 
 model Analysis {
@@ -160,6 +165,7 @@ model Analysis {
 
   modelId Int
   model   Model @relation(fields: [modelId], references: [id])
+  
 }
 
 model Model {

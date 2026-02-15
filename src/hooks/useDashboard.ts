@@ -19,16 +19,22 @@ export const useDashboards = () => {
   useEffect(() => {
     async function fetchStats() {
       setLoading(true);
-      const res = await fetch("/api/review/sentiment-stats");
-      const data = await res.json();
 
-      const total = data.positive + data.negative + data.neutral;
+      const res = await fetch("/api/review/sentiment-stats");
+      const json = await res.json();
+
+      const statsData = json.data;
+
+      const total =
+        (statsData?.positive ?? 0) +
+        (statsData?.negative ?? 0) +
+        (statsData?.neutral ?? 0);
 
       setStats({
-        totalReviews: total ?? 0,
-        positive: data.positive ?? 0,
-        negative: data.negative ?? 0,
-        neutral: data.neutral ?? 0,
+        totalReviews: total,
+        positive: statsData?.positive ?? 0,
+        negative: statsData?.negative ?? 0,
+        neutral: statsData?.neutral ?? 0,
       });
 
       setLoading(false);
