@@ -13,7 +13,7 @@ export async function POST(_request: Request) {
         content:
           "Laptop ini sangat ringan dan performanya cepat untuk kerja harian.",
         keywords: ["ringan", "cepat", "kerja"],
-        sentiment: Sentiment.positive,
+        sentiment: Sentiment.POSITIVE,
         confidenceScore: 0.92,
       },
       {
@@ -21,7 +21,7 @@ export async function POST(_request: Request) {
         modelId: 1,
         content: "Baterainya awet, tapi harganya cukup mahal.",
         keywords: ["baterai", "awet", "mahal"],
-        sentiment: Sentiment.neutral,
+        sentiment: Sentiment.NEUTRAL,
         confidenceScore: 0.75,
       },
       {
@@ -29,7 +29,7 @@ export async function POST(_request: Request) {
         modelId: 1,
         content: "Performa kurang stabil dan sering panas.",
         keywords: ["performa", "panas", "stabil"],
-        sentiment: Sentiment.negative,
+        sentiment: Sentiment.NEGATIVE,
         confidenceScore: 0.88,
       },
     ];

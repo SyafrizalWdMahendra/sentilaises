@@ -4,15 +4,15 @@ import { cn } from "@/lib/utils";
 
 const getSentimentBadge = (sentiment: Review["sentiment"]) => {
   const styles: Record<Review["sentiment"], string> = {
-    positive: "sentiment-positive",
-    negative: "sentiment-negative",
-    neutral: "sentiment-neutral",
+    POSITIVE: "sentiment-positive",
+    NEGATIVE: "sentiment-negative",
+    NEUTRAL: "sentiment-neutral",
   };
 
   const labels: Record<Review["sentiment"], string> = {
-    positive: "Positif",
-    negative: "Negatif",
-    neutral: "Netral",
+    POSITIVE: "Positif",
+    NEGATIVE: "Negatif",
+    NEUTRAL: "Netral",
   };
 
   return (

@@ -1,5 +1,5 @@
 import { LucideIcon } from "lucide-react";
-import Brand from "@prisma/client";
+import Brand, { Sentiment } from "@prisma/client";
 
 export interface ModelDB {
   modelName: string;
@@ -27,7 +27,7 @@ interface Brand {
 }
 
 export interface BrandFilterProps {
-  brands: Brand[];
+  // brands: Brand[];
   selectedBrand: string | null;
   onSelect: (brand: string | null) => void;
 }
@@ -50,7 +50,7 @@ export interface ReviewTableProps {
 }
 
 export interface AnalysisResult {
-  sentiment: "positif" | "negatif" | "netral";
+  sentiment: Sentiment;
   confidence: number;
   keywords: string[];
 }
@@ -141,8 +141,6 @@ export interface ApiResponse {
   message: string;
   data: ReviewItem[];
 }
-
-export type Sentiment = "positive" | "negative" | "neutral";
 
 export type WordItem = {
   text: string;

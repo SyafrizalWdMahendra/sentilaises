@@ -143,7 +143,7 @@ export default function DashboardClient() {
               </p>
             </div>
             <BrandFilter
-              brands={brandData}
+              // brands={brandData}
               selectedBrand={selectedBrand}
               onSelect={setSelectedBrand}
             />

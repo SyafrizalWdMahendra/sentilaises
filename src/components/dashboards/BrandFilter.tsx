@@ -1,11 +1,23 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import { BrandFilterProps } from "@/src/types";
+import { useBrandFilter } from "@/src/hooks/useBrandFilter";
 
 export function BrandFilter({
-  brands,
   selectedBrand,
   onSelect,
-}: BrandFilterProps) {
+}: Omit<BrandFilterProps, "brands">) {
+  const { brands, isLoading, totalCount } = useBrandFilter();
+
+  if (isLoading) {
+    return (
+      <div className="text-sm text-muted-foreground animate-pulse">
+        Memuat brand...
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-wrap gap-2">
       <button
@@ -17,8 +29,9 @@ export function BrandFilter({
             : "border-border bg-card text-muted-foreground hover:border-primary/50 hover:text-foreground",
         )}
       >
-        Semua ({brands.reduce((sum, b) => sum + b.count, 0).toLocaleString()})
+        Semua ({totalCount.toLocaleString()})
       </button>
+
       {brands.map((brand) => (
         <button
           key={brand.name}

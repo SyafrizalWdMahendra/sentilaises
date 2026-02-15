@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 import { AnalysisResults } from "../types";
 
 export const useAnalyseText = () => {
+  const { data: session } = useSession();
+
   const [url1, setUrl1] = useState("");
   const [url2, setUrl2] = useState("");
   const [url3, setUrl3] = useState("");
@@ -12,6 +15,13 @@ export const useAnalyseText = () => {
   const [showField, setShowField] = useState(false);
 
   const handleAnalyze = async () => {
+    if (!session?.user?.email) {
+      alert(
+        "Anda harus login terlebih dahulu untuk menyimpan riwayat analisis.",
+      );
+      return;
+    }
+
     setLoading(true);
     setResult(null);
 
@@ -53,6 +63,7 @@ export const useAnalyseText = () => {
       }));
 
       const payload = {
+        user_email: session.user.email,
         profession: profession,
         candidates: candidates,
       };
