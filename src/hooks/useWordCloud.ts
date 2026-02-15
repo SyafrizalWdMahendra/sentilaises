@@ -1,12 +1,7 @@
 import { useEffect, useState } from "react";
-import {
-  KeywordStats,
-  Review,
-  ReviewResponse,
-  Sentiment,
-  WordItem,
-} from "@/src/types";
+import { WordItem } from "@/src/types";
 import { WORD_LIMIT } from "../utils/const";
+import { Sentiment } from "@prisma/client";
 
 export const useWordCloud = () => {
   const [words, setWords] = useState<WordItem[]>([]);
@@ -16,64 +11,29 @@ export const useWordCloud = () => {
   useEffect(() => {
     const fetchWords = async () => {
       try {
-        const res = await fetch("/api/review");
-        const result: unknown = await res.json();
+        const res = await fetch("/api/word-cloud");
+        const json = await res.json();
 
-        if (
-          typeof result !== "object" ||
-          result === null ||
-          !("data" in result)
-        ) {
-          console.error("Invalid response from /api/review");
+        if (!json?.success || !Array.isArray(json.data)) {
+          console.error("Invalid response from /api/word-cloud");
           return;
         }
 
-        const reviewsData = (result as ReviewResponse).data || [];
-        const reviews: Review[] = reviewsData;
+        const keywords: string[] = json.data;
 
-        const keywordMap: Record<string, KeywordStats> = reviews.reduce(
-          (acc, review) => {
-            const sentiment: Sentiment = [
-              "positive",
-              "negative",
-              "neutral",
-            ].includes(review.sentiment)
-              ? review.sentiment
-              : "neutral";
+        const keywordMap: Record<string, number> = {};
 
-            (review.keywords || []).forEach((keyword) => {
-              const key = keyword.toLowerCase();
-
-              if (!acc[key]) {
-                acc[key] = { count: 0, positive: 0, negative: 0, neutral: 0 };
-              }
-
-              acc[key].count += 1;
-              acc[key][sentiment] += 1;
-            });
-
-            return acc;
-          },
-          {} as Record<string, KeywordStats>,
-        );
+        keywords.forEach((keyword) => {
+          const key = keyword.toLowerCase();
+          keywordMap[key] = (keywordMap[key] || 0) + 1;
+        });
 
         const wordItems: WordItem[] = Object.entries(keywordMap)
-          .map(([text, data]) => {
-            let sentiment: Sentiment = "neutral";
-            if (
-              data.positive >= data.negative &&
-              data.positive >= data.neutral
-            ) {
-              sentiment = "positive";
-            } else if (
-              data.negative >= data.positive &&
-              data.negative >= data.neutral
-            ) {
-              sentiment = "negative";
-            }
-
-            return { text, value: data.count, sentiment };
-          })
+          .map(([text, count]) => ({
+            text,
+            value: count,
+            sentiment: "NEUTRAL" as Sentiment,
+          }))
           .sort((a, b) => b.value - a.value)
           .slice(0, WORD_LIMIT);
 

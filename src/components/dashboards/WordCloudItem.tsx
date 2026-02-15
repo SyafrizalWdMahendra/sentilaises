@@ -2,12 +2,12 @@ import { cn } from "@/lib/utils";
 import { WordCloudItemProps } from "@/src/types";
 import { setWordCloud } from "@/src/utils/datas";
 
-const WordCloudItem: React.FC<WordCloudItemProps> = ({
+const WordCloudItem = ({
   word,
   index,
   minValue,
   maxValue,
-}) => {
+}: WordCloudItemProps) => {
   const { getSize, getColor } = setWordCloud({ minValue, maxValue });
 
   return (

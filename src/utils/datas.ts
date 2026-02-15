@@ -47,9 +47,9 @@ export const setWordCloud = ({ maxValue, minValue }: WordCloudConfig) => {
 
   const getColor = (sentiment: WordItem["sentiment"]) => {
     switch (sentiment) {
-      case "positive":
+      case "POSITIVE":
         return "text-sentiment-positive hover:bg-sentiment-positive-light";
-      case "negative":
+      case "NEGATIVE":
         return "text-sentiment-negative hover:bg-sentiment-negative-light";
       default:
         return "text-sentiment-neutral hover:bg-sentiment-neutral-light";

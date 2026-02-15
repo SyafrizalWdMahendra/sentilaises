@@ -201,3 +201,7 @@ export interface AnalysisResults {
 export interface ResultProps {
   result: AnalysisResults | null;
 }
+
+export interface WordCLoud {
+  topKeywords: string;
+}
