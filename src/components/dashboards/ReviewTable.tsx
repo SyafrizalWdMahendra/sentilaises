@@ -18,9 +18,18 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { useReviewTable } from "@/src/hooks/useReviewTable";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "../ui/pagination";
 
 export function ReviewTable() {
-  const { data, isLoading } = useReviewTable();
+  const { currentData, isLoading, pagination } = useReviewTable(10);
+  const { currentPage, totalPages, nextPage, prevPage, goToPage } = pagination;
 
   if (isLoading) {
     return (
@@ -47,7 +56,7 @@ export function ReviewTable() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.length === 0 ? (
+          {currentData.length === 0 ? (
             <TableRow>
               <TableCell colSpan={5} className="h-75 text-center">
                 <div className="flex flex-col items-center justify-center gap-2 text-muted-foreground">
@@ -64,7 +73,7 @@ export function ReviewTable() {
               </TableCell>
             </TableRow>
           ) : (
-            data.map((review, index) => (
+            currentData.map((review, index) => (
               <TableRow
                 key={review.id || index}
                 className="group animate-in fade-in transition-colors hover:bg-muted/40"
@@ -156,6 +165,59 @@ export function ReviewTable() {
           )}
         </TableBody>
       </Table>
+
+      {totalPages > 1 && (
+        <div className="border-t bg-muted/20 px-6 py-4">
+          <Pagination className="justify-center sm:justify-end">
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    prevPage();
+                  }}
+                  className={
+                    currentPage === 1
+                      ? "pointer-events-none opacity-50"
+                      : "cursor-pointer"
+                  }
+                />
+              </PaginationItem>
+
+              {[...Array(totalPages)].map((_, i) => (
+                <PaginationItem key={i + 1}>
+                  <PaginationLink
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      goToPage(i + 1);
+                    }}
+                    isActive={currentPage === i + 1}
+                  >
+                    {i + 1}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+
+              <PaginationItem>
+                <PaginationNext
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    nextPage();
+                  }}
+                  className={
+                    currentPage === totalPages
+                      ? "pointer-events-none opacity-50"
+                      : "cursor-pointer"
+                  }
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
+      )}
     </div>
   );
 }
