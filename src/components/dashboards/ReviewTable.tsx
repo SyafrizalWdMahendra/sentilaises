@@ -26,9 +26,15 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "../ui/pagination";
+import { useSearchParams } from "next/navigation";
 
 export function ReviewTable() {
-  const { currentData, isLoading, pagination } = useReviewTable(10);
+  const searchParams = useSearchParams();
+  const selectedBrand = searchParams.get("brand");
+  const { currentData, isLoading, pagination } = useReviewTable(
+    10,
+    selectedBrand,
+  );
   const { currentPage, totalPages, nextPage, prevPage, goToPage } = pagination;
 
   if (isLoading) {
@@ -41,7 +47,7 @@ export function ReviewTable() {
   }
 
   return (
-    <div className="rounded-xl border bg-card shadow-sm">
+    <div className="rounded-xl border bg-card">
       <Table>
         <TableHeader>
           <TableRow className="hover:bg-transparent">

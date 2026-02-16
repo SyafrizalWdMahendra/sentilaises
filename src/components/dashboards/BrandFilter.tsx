@@ -1,14 +1,11 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { BrandFilterProps } from "@/src/types";
 import { useBrandFilter } from "@/src/hooks/useBrandFilter";
 
-export function BrandFilter({
-  selectedBrand,
-  onSelect,
-}: Omit<BrandFilterProps, "brands">) {
-  const { brands, isLoading, totalCount } = useBrandFilter();
+export function BrandFilter() {
+  const { brands, isLoading, totalCount, selectedBrand, handleSelect } =
+    useBrandFilter();
 
   if (isLoading) {
     return (
@@ -21,7 +18,7 @@ export function BrandFilter({
   return (
     <div className="flex flex-wrap gap-2">
       <button
-        onClick={() => onSelect(null)}
+        onClick={() => handleSelect(null)}
         className={cn(
           "rounded-lg border px-4 py-2 text-sm font-medium transition-all",
           selectedBrand === null
@@ -32,20 +29,25 @@ export function BrandFilter({
         Semua ({totalCount.toLocaleString()})
       </button>
 
-      {brands.map((brand) => (
-        <button
-          key={brand.name}
-          onClick={() => onSelect(brand.name)}
-          className={cn(
-            "rounded-lg border px-4 py-2 text-sm font-medium transition-all",
-            selectedBrand === brand.name
-              ? "border-primary bg-primary text-primary-foreground"
-              : "border-border bg-card text-muted-foreground hover:border-primary/50 hover:text-foreground",
-          )}
-        >
-          {brand.name} ({brand.count.toLocaleString()})
-        </button>
-      ))}
+      {brands.map((brand) => {
+        const isActive =
+          selectedBrand?.toLowerCase() === brand.name.toLowerCase();
+
+        return (
+          <button
+            key={brand.name}
+            onClick={() => handleSelect(brand.name)}
+            className={cn(
+              "rounded-lg border px-4 py-2 text-sm font-medium transition-all",
+              isActive
+                ? "border-primary bg-primary text-primary-foreground"
+                : "border-border bg-card text-muted-foreground hover:border-primary/50 hover:text-foreground",
+            )}
+          >
+            {brand.name} ({brand.count.toLocaleString()})
+          </button>
+        );
+      })}
     </div>
   );
 }

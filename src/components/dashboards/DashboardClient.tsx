@@ -3,11 +3,7 @@
 import { Header } from "./Header";
 import { Frown, Meh, MessageSquareText, Smile, TrendingUp } from "lucide-react";
 import { StatCard } from "./StatCard";
-import {
-  brandData,
-  sentimentDistribution,
-  trendData,
-} from "@/src/app/dashboard/lib/data";
+import { sentimentDistribution, trendData } from "@/src/app/dashboard/lib/data";
 import { ModelInfoSkeleton } from "../skeletons/ModelInfoSkeleton";
 import { ModelInfo } from "./ModelInfo";
 import { BrandFilter } from "./BrandFilter";
@@ -24,10 +20,8 @@ export default function DashboardClient() {
     positiveCount,
     negativeCount,
     neutralCount,
-    selectedBrand,
     loading,
     modelData,
-    setSelectedBrand,
     percentage,
   } = useDashboards();
 
@@ -142,10 +136,7 @@ export default function DashboardClient() {
                 Hasil klasifikasi sentimen ulasan produk laptop
               </p>
             </div>
-            <BrandFilter
-              selectedBrand={selectedBrand}
-              onSelect={setSelectedBrand}
-            />
+            <BrandFilter />
           </div>
           <ReviewTable />
         </div>
