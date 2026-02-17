@@ -15,11 +15,9 @@ import {
   Save,
 } from "lucide-react";
 import { ProfileClientProps } from "@/src/types";
-import { useSession } from "next-auth/react";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { brandFormat, formatRupiah } from "@/src/utils/datas";
-import { useState } from "react";
 import {
   Select,
   SelectContent,
@@ -30,6 +28,7 @@ import {
 import { brandItems, OSItems, professionItems } from "@/src/utils/const";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
+import { useProfileClient } from "@/src/hooks/useProfileClient";
 
 export default function ProfileCard({
   bio,
@@ -38,12 +37,18 @@ export default function ProfileCard({
   budgetMax,
   budgetMin,
 }: ProfileClientProps) {
-  const session = useSession();
   const { brands } = brandFormat({ preferenceBrand });
-  const [showModal, setShowModal] = useState(false);
-  const [profession, setProfession] = useState("");
-  const [brand, setBrand] = useState("");
-  const [OS, setOS] = useState("");
+  const {
+    session,
+    showModal,
+    profession,
+    brand,
+    OS,
+    setShowModal,
+    setProfession,
+    setBrand,
+    setOS,
+  } = useProfileClient();
 
   return (
     <motion.div
