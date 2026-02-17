@@ -1,70 +1,47 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { cn } from "@/lib/utils";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { Field, FieldDescription, FieldGroup, FieldLabel } from "../ui/field";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../ui/card";
+import { Field, FieldGroup } from "../ui/field";
+import { FcGoogle } from "react-icons/fc";
+import { BarChart3 } from "lucide-react";
 
-export function LoginForm({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+export function LoginForm() {
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
-        <CardHeader className="text-center">
-          <CardTitle>Login to SENTILAISES.</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form>
-            <FieldGroup>
-              <Field>
-                <FieldLabel htmlFor="email">Email</FieldLabel>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
-                  required
-                />
-              </Field>
-              <Field>
-                <div className="flex items-center">
-                  <FieldLabel htmlFor="password">Password</FieldLabel>
-                  <a
-                    href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    Forgot your password?
-                  </a>
-                </div>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="********"
-                  required
-                />
-              </Field>
-              <Field>
-                <Button type="submit">Login</Button>
-                <Button
-                  variant="outline"
-                  type="button"
-                  onClick={() =>
-                    signIn("google", { callbackUrl: "/dashboard" })
-                  }
-                >
-                  Login with Google
-                </Button>
-                <FieldDescription className="text-center">
-                  Don&apos;t have an account? <a href="#">Sign up</a>
-                </FieldDescription>
-              </Field>
-            </FieldGroup>
-          </form>
-        </CardContent>
-      </Card>
-    </div>
+    <Card>
+      <CardHeader className="text-center">
+        <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+          <BarChart3 className="h-5 w-5" />
+        </div>
+        <CardTitle>Login to SENTILAISES.</CardTitle>
+        <CardDescription className="mt-2">
+          Masuk dengan menggunakan akun Google Anda untuk mengakses beranda
+          SENTILAISES.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <form>
+          <FieldGroup>
+            <Field>
+              <Button
+                variant="outline"
+                type="button"
+                onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
+              >
+                <FcGoogle />
+                Login with Google
+              </Button>
+            </Field>
+          </FieldGroup>
+        </form>
+      </CardContent>
+    </Card>
   );
 }
