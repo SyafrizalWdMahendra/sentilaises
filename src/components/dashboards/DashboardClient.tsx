@@ -90,7 +90,7 @@ export default function DashboardClient() {
           />
         </div>
 
-        <div className="mb-8 grid gap-6 lg:grid-cols-3">
+        {/* <div className="mb-8 grid gap-6 lg:grid-cols-3">
           <div className="rounded-xl border bg-card p-6 lg:col-span-2">
             <h3 className="mb-4 text-lg font-semibold">
               Tren Sentimen Bulanan
@@ -101,7 +101,7 @@ export default function DashboardClient() {
             <h3 className="mb-4 text-lg font-semibold">Distribusi Sentimen</h3>
             <SentimentChart data={sentimentDistribution} />
           </div>
-        </div>
+        </div> */}
 
         <div className="mb-8 grid gap-6 lg:grid-cols-2">
           <div className="rounded-xl border bg-card p-6">
