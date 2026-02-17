@@ -2,12 +2,34 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Pencil, Wallet, Laptop, User, Monitor, Fan } from "lucide-react";
+import {
+  Pencil,
+  Wallet,
+  Laptop,
+  User,
+  Monitor,
+  Fan,
+  X,
+  Pickaxe,
+  Shell,
+  Save,
+} from "lucide-react";
 import { ProfileClientProps } from "@/src/types";
 import { useSession } from "next-auth/react";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { brandFormat, formatRupiah } from "@/src/utils/datas";
+import { useState } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { brandItems, OSItems, professionItems } from "@/src/utils/const";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
 
 export default function ProfileCard({
   bio,
@@ -15,10 +37,13 @@ export default function ProfileCard({
   preferenceOS,
   budgetMax,
   budgetMin,
-  profession,
 }: ProfileClientProps) {
   const session = useSession();
   const { brands } = brandFormat({ preferenceBrand });
+  const [showModal, setShowModal] = useState(false);
+  const [profession, setProfession] = useState("");
+  const [brand, setBrand] = useState("");
+  const [OS, setOS] = useState("");
 
   return (
     <motion.div
@@ -61,6 +86,7 @@ export default function ProfileCard({
           <Button
             size="sm"
             className="w-full sm:w-auto gap-2 rounded-full shadow-sm"
+            onClick={() => setShowModal(true)}
           >
             <Pencil className="h-4 w-4" />
             Edit Profile
@@ -140,12 +166,14 @@ export default function ProfileCard({
             {budgetMin || budgetMax ? (
               <div className="flex flex-col justify-center h-[calc(100%-2rem)]">
                 <p className="text-sm text-muted-foreground mb-1">Dari</p>
-                <p className="text-xl font-bold">{formatRupiah(budgetMin)}</p>
+                <p className="text-xl font-semibold">
+                  {formatRupiah(budgetMin)}
+                </p>
 
                 <div className="my-2 h-px w-full bg-border"></div>
 
                 <p className="text-sm text-muted-foreground mb-1">Hingga</p>
-                <p className="text-xl font-bold text-sentiment-positive">
+                <p className="text-xl font-semibold text-sentiment-positive">
                   {formatRupiah(budgetMax)}
                 </p>
               </div>
@@ -159,6 +187,209 @@ export default function ProfileCard({
           </div>
         </div>
       </div>
+
+      {showModal && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.2, ease: "circOut" }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+        >
+          <form
+            action=""
+            className=" flex flex-col bg-card w-1/3 p-6 rounded-2xl border relative"
+          >
+            <div className="flex flex-col gap-1 mb-4">
+              <div className="flex items-center gap-2">
+                <User className="w-4 h-4" />
+                <Label htmlFor="username" className="font-semibold">
+                  Nama Lengkap
+                </Label>
+              </div>
+              <Input
+                id="username"
+                type="text"
+                placeholder="Masukkan nama lengkap Anda"
+                className="border rounded-md focus:ring-2 focus:ring-primary"
+                required
+              />
+            </div>
+
+            <div className="flex flex-col gap-1 mb-4">
+              <div className="flex items-center gap-2">
+                <Pickaxe className="w-4 h-4" />
+                <Label htmlFor="profession" className="font-semibold">
+                  Profesi
+                </Label>
+              </div>
+              <Select
+                name="profession"
+                value={profession}
+                onValueChange={setProfession}
+                required
+              >
+                <SelectTrigger
+                  className={`w-full ${!profession ? "text-gray-500" : "text-black"}`}
+                >
+                  <SelectValue placeholder="Pilih Profesi/Kebutuhan" />
+                </SelectTrigger>
+
+                <SelectContent
+                  className="bg-card border-border shadow-lg"
+                  position="popper"
+                >
+                  {professionItems.map((item) => {
+                    const PIcon = item.icon;
+                    return (
+                      <SelectItem
+                        key={item.value}
+                        value={item.value}
+                        className="cursor-pointer hover:bg-primary hover:text-card focus:bg-primary focus:text-card"
+                      >
+                        <div className="flex gap-2 items-center">
+                          <span>
+                            <PIcon className="h-4 w-4 text-muted-foreground" />
+                          </span>
+                          <span>{item.label}</span>
+                        </div>
+                      </SelectItem>
+                    );
+                  })}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="flex flex-col gap-1 mb-4">
+              <div className="flex items-center gap-2">
+                <Laptop className="w-4 h-4" />
+                <Label htmlFor="brand" className="font-semibold">
+                  Merek Laptop
+                </Label>
+              </div>
+              <Select
+                name="brand"
+                value={brand}
+                onValueChange={setBrand}
+                required
+              >
+                <SelectTrigger
+                  className={`w-full ${!brand ? "text-gray-500" : "text-black"}`}
+                >
+                  <SelectValue placeholder="Pilih Merek Laptop" />
+                </SelectTrigger>
+
+                <SelectContent
+                  className="bg-card border-border shadow-lg"
+                  position="popper"
+                >
+                  {brandItems.map((item) => {
+                    const PIcon = item.icon;
+                    return (
+                      <SelectItem
+                        key={item.value}
+                        value={item.value}
+                        className="cursor-pointer hover:bg-primary hover:text-card focus:bg-primary focus:text-card"
+                      >
+                        <div className="flex gap-2 items-center">
+                          <span>
+                            <PIcon className="h-4 w-4 text-muted-foreground" />
+                          </span>
+                          <span>{item.label}</span>
+                        </div>
+                      </SelectItem>
+                    );
+                  })}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="flex flex-col gap-2 mb-4">
+              <div className="flex items-center gap-2">
+                <Shell className="w-4 h-4" />
+                <Label htmlFor="OS" className="font-semibold">
+                  Sistem Operasi
+                </Label>
+              </div>
+              <Select name="OS" value={OS} onValueChange={setOS} required>
+                <SelectTrigger
+                  className={`w-full -mt-1 ${!profession ? "text-gray-500" : "text-black"}`}
+                >
+                  <SelectValue placeholder="Pilih Sistem Operasi" />
+                </SelectTrigger>
+
+                <SelectContent
+                  className="bg-card border-border shadow-lg"
+                  position="popper"
+                >
+                  {OSItems.map((item) => {
+                    const PIcon = item.icon;
+                    return (
+                      <SelectItem
+                        key={item.value}
+                        value={item.value}
+                        className="cursor-pointer hover:bg-primary hover:text-card focus:bg-primary focus:text-card"
+                      >
+                        <div className="flex gap-2 items-center">
+                          <span>
+                            <PIcon className="h-4 w-4 text-muted-foreground" />
+                          </span>
+                          <span>{item.label}</span>
+                        </div>
+                      </SelectItem>
+                    );
+                  })}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="flex flex-col gap-1 mb-4">
+              <div className="flex items-center gap-2">
+                <Wallet className="w-4 h-4" />
+                <Label htmlFor="budget" className="font-semibold">
+                  Rentang Anggaran
+                </Label>
+              </div>
+              <div className="flex gap-4">
+                <div className="flex-col w-1/2">
+                  <Label htmlFor="budget" className="text-xs mt-2">
+                    Rp (Minimal)
+                  </Label>
+                  <Input
+                    id="budget"
+                    type="text"
+                    placeholder="Rp 0"
+                    className="border rounded-md focus:ring-2 focus:ring-primary mt-1"
+                    required
+                  />
+                </div>
+                <div className="flex-col w-1/2">
+                  <Label htmlFor="budget" className="text-xs mt-2">
+                    Rp (Maksimal)
+                  </Label>
+                  <Input
+                    id="budget"
+                    type="text"
+                    placeholder="Rp 0"
+                    className="border rounded-md focus:ring-2 focus:ring-primary mt-1"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-2 flex justify-start gap-4">
+              <Button onClick={() => setShowModal(false)} variant={"outline"}>
+                <X />
+                <span>Cancel</span>
+              </Button>
+              <Button type="submit">
+                <Save />
+                <span>Simpan</span>
+              </Button>
+            </div>
+          </form>
+        </motion.div>
+      )}
     </motion.div>
   );
 }

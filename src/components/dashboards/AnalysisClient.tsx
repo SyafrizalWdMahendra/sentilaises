@@ -12,7 +12,7 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import ResultSection from "./ResultSection";
-import { professions } from "@/src/utils/const";
+import { professionItems } from "@/src/utils/const";
 
 export default function AnalysisClient() {
   const {
@@ -56,7 +56,7 @@ export default function AnalysisClient() {
                 className="bg-card border-border shadow-lg"
                 position="popper"
               >
-                {professions.map((item) => {
+                {professionItems.map((item) => {
                   const PIcon = item.icon;
                   return (
                     <SelectItem
@@ -85,7 +85,7 @@ export default function AnalysisClient() {
               placeholder="Contoh: https://www.tokopedia.com/lenovo/thinkpad-x1-carbon"
               value={url1}
               onChange={(e) => setUrl1(e.target.value)}
-              className="border rounded-md focus:ring-2 focus:ring-green-500"
+              className="border rounded-md focus:ring-2 focus:ring-primary"
               required
             />
           </div>
@@ -101,7 +101,7 @@ export default function AnalysisClient() {
               placeholder="Contoh: https://www.tokopedia.com/..."
               value={url2}
               onChange={(e) => setUrl2(e.target.value)}
-              className="border rounded-md focus:ring-2 focus:ring-green-500 w-full"
+              className="border rounded-md focus:ring-2 focus:ring-primary w-full"
               required
             />
           </div>
@@ -117,7 +117,7 @@ export default function AnalysisClient() {
                   placeholder="Contoh: https://www.tokopedia.com/..."
                   value={url3}
                   onChange={(e) => setUrl3(e.target.value)}
-                  className="border p-2 rounded-md focus:ring-2 focus:ring-green-500 w-full"
+                  className="border p-2 rounded-md focus:ring-2 focus:ring-primary w-full"
                   required
                 />
                 <Button
