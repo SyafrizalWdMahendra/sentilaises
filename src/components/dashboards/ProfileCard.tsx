@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Pencil, Briefcase, Wallet, Laptop, User, Monitor, Fan } from "lucide-react";
+import { Pencil, Wallet, Laptop, User, Monitor, Fan } from "lucide-react";
 import { ProfileClientProps } from "@/src/types";
 import { useSession } from "next-auth/react";
 import { Button } from "../ui/button";
@@ -70,16 +70,16 @@ export default function ProfileCard({
 
       <Separator />
 
-      <div className="p-6 sm:p-8 space-y-8">
-        <div className="space-y-3">
-          <div className="flex items-center gap-2 text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+      <div className="p-6 sm:p-8 space-y-6">
+        <div className="space-y-2 -mt-2">
+          <div className="flex items-center gap-1 text-sm font-semibold text-muted-foreground">
             <User className="w-4 h-4" />
             Tentang Saya
           </div>
           <div className="rounded-xl bg-muted/50 p-4 border border-muted">
-            <p className="text-sm leading-relaxed text-foreground/90 italic">
+            <p className="text-sm leading-relaxed text-foreground/90">
               {bio
-                ? `"${bio}"`
+                ? `${bio}`
                 : "Belum ada deskripsi profil. Ceritakan sedikit tentang aktivitas dan kebutuhan laptop Anda."}
             </p>
           </div>
@@ -97,7 +97,7 @@ export default function ProfileCard({
                   brands.map((brand, i) => (
                     <span
                       key={i}
-                      className="rounded-md bg-secondary px-2.5 py-1 text-xs font-semibold text-secondary-foreground border"
+                      className="rounded-full bg-secondary px-2.5 py-1 text-xs font-semibold text-secondary-foreground border"
                     >
                       {brand}
                     </span>
@@ -119,7 +119,7 @@ export default function ProfileCard({
               </div>
               <div>
                 {preferenceOS ? (
-                  <span className="inline-flex items-center rounded-md bg-[#F8FBFF] px-2.5 py-1 text-xs font-bold text-primary border border-primary">
+                  <span className="rounded-full bg-secondary px-2.5 py-1 text-xs font-semibold text-secondary-foreground border">
                     {preferenceOS}
                   </span>
                 ) : (
@@ -140,9 +140,7 @@ export default function ProfileCard({
             {budgetMin || budgetMax ? (
               <div className="flex flex-col justify-center h-[calc(100%-2rem)]">
                 <p className="text-sm text-muted-foreground mb-1">Dari</p>
-                <p className="text-xl font-bold">
-                  {formatRupiah(budgetMin)}
-                </p>
+                <p className="text-xl font-bold">{formatRupiah(budgetMin)}</p>
 
                 <div className="my-2 h-px w-full bg-border"></div>
 
@@ -152,9 +150,9 @@ export default function ProfileCard({
                 </p>
               </div>
             ) : (
-              <div className="flex h-[calc(100%-2rem)] items-center">
+              <div className="flex h-[calc(100%-2rem)] justify-center items-center">
                 <p className="text-sm text-muted-foreground">
-                  Budget belum diatur.
+                  Anggaran Belum Diatur.
                 </p>
               </div>
             )}
