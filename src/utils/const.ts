@@ -29,22 +29,22 @@ export const MODEL_OPTIONS = [
 export const WORD_LIMIT = 15;
 
 export const professionItems = [
-  { value: "programmer", label: "Programmer", icon: Code },
-  { value: "designer", label: "Designer", icon: Palette },
-  { value: "student", label: "Student", icon: Book },
-  { value: "gamer", label: "Gamer", icon: GamepadDirectional },
+  { value: "PROGRAMMER", label: "Programmer", icon: Code },
+  { value: "DESIGNER", label: "Designer", icon: Palette },
+  { value: "STUDENT", label: "Student", icon: Book },
+  { value: "GAMER", label: "Gamer", icon: GamepadDirectional },
 ];
 
 export const brandItems = [
-  { value: "asus", label: "Asus", icon: SiAsus },
-  { value: "acer", label: "Acer", icon: SiAcer },
-  { value: "lenovo", label: "Lenovo", icon: SiLenovo },
-  { value: "other", label: "Other", icon: LucideCircleEllipsis },
+  { value: "ASUS", label: "Asus", icon: SiAsus },
+  { value: "ACER", label: "Acer", icon: SiAcer },
+  { value: "LENOVO", label: "Lenovo", icon: SiLenovo },
+  { value: "OTHER", label: "Other", icon: LucideCircleEllipsis },
 ];
 
 export const OSItems = [
-  { value: "windows", label: "Windows", icon: FaWindows },
-  { value: "macos", label: "Macos", icon: SiMacos },
-  { value: "linux", label: "Linux", icon: SiLinux },
-  { value: "other", label: "Other", icon: LucideCircleEllipsis },
+  { value: "WINDOWS", label: "Windows", icon: FaWindows },
+  { value: "MACOS", label: "Macos", icon: SiMacos },
+  { value: "LINUX", label: "Linux", icon: SiLinux },
+  { value: "OTHER", label: "Other", icon: LucideCircleEllipsis },
 ];

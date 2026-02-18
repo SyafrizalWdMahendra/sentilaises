@@ -13,12 +13,13 @@ export const getAnotherUserData = async () => {
         email: session.user.email,
       },
       select: {
+        name: true,
         bio: true,
         preference: {
           select: {
             id: true,
             profession: true,
-            preferedBrand: true,
+            preferredBrand: true,
             preferredOS: true,
             budgetMin: true,
             budgetMax: true,

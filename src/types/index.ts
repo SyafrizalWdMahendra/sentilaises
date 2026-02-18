@@ -1,5 +1,7 @@
 import { LucideIcon } from "lucide-react";
-import Brand, { Sentiment } from "@prisma/client";
+import { OS, Profession, Sentiment, Brand } from "@prisma/client";
+import z from "zod";
+import { profileSchema } from "../app/validation/profile.schema";
 
 export interface ModelDB {
   modelName: string;
@@ -11,20 +13,21 @@ export interface ModelDB {
 }
 
 export interface ProfileClientProps {
+  name: string;
   bio?: string;
-  preferenceBrand?: string;
-  preferenceOS: string;
+  preferenceBrand: Brand;
+  preferenceOS: OS;
   budgetMin: number;
   budgetMax: number;
-  profession: string;
+  profession: Profession;
   id?: number;
 }
 
-interface Brand {
-  name: string;
-  count: number;
-  logo?: string;
-}
+// interface Brand {
+//   name: string;
+//   count: number;
+//   logo?: string;
+// }
 
 export interface BrandFilterProps {
   // brands: Brand[];
@@ -202,6 +205,52 @@ export interface ResultProps {
   result: AnalysisResults | null;
 }
 
+export type ProfileFormData = z.input<typeof profileSchema>;
+
+export type ProfileModalProps = {
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+  professionItems: { value: string; label: string; icon: any }[];
+  brandItems: { value: string; label: string; icon: any }[];
+  OSItems: { value: string; label: string; icon: any }[];
+};
+
 export interface WordCLoud {
   topKeywords: string;
 }
+
+export interface ModalProps extends ProfileModalProps {
+  userData: {
+    name: string;
+    bio: string;
+    preference: {
+      profession: Profession;
+      preferredBrand: Brand;
+      preferredOS: OS;
+      budgetMin: number;
+      budgetMax: number;
+    };
+  };
+}
+
+export interface ExtendedModalProps extends ProfileModalProps {
+  userData: any;
+  onOptimisticUpdate: (data: ProfileFormData) => void;
+  router: any;
+}
+
+export interface ProfileState {
+  name: string;
+  bio: string;
+  preference: {
+    profession: Profession | string;
+    preferredBrand: Brand | string;
+    preferredOS: OS | string;
+    budgetMin: number;
+    budgetMax: number;
+  };
+}
+
+export type UseProfileModalProps = Pick<
+  ExtendedModalProps,
+  "userData" | "router" | "onOptimisticUpdate" | "setShowModal"
+>;

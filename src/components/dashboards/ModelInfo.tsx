@@ -36,7 +36,10 @@ export function ModelInfo({ data }: { data: ModelDB[] }) {
             <SelectValue placeholder="Pilih Model" />
           </SelectTrigger>
 
-          <SelectContent className="bg-card border-border shadow-lg" position="popper">
+          <SelectContent
+            className="bg-card border-border shadow-lg"
+            position="popper"
+          >
             {data.map((model, index) => (
               <SelectItem
                 key={model.modelName + index}
@@ -57,7 +60,7 @@ export function ModelInfo({ data }: { data: ModelDB[] }) {
         </Badge>
       </div>
 
-      <p className="mb-6 text-sm text-muted-foreground min-h-[40px]">
+      <p className="mb-6 text-sm text-muted-foreground min-h-10">
         {currentModel.description}
       </p>
 

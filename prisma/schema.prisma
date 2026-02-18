@@ -40,6 +40,14 @@ enum Brand {
   OTHER
 }
 
+enum Profession {
+  PROGRAMMER
+  DESIGNER
+  STUDENT
+  GAMER
+  OTHER
+}
+
 model Account {
   id                Int     @id @default(autoincrement())
   userId            Int
@@ -96,9 +104,9 @@ model User {
 
 model UserPreference {
   id            Int     @id @default(autoincrement())
-  profession    String?
+  profession    Profession?
   preferredOS   OS?
-  preferedBrand Brand?
+  preferredBrand Brand?
   budgetMin     Int?
   budgetMax     Int?
 

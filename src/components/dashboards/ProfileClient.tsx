@@ -1,7 +1,7 @@
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import ProfileCard from "./ProfileCard";
 import { getAnotherUserData } from "@/src/app/profile/lib/action";
+import ProfileCard from "./ProfileCard";
 
 export default async function ProfileClient() {
   const user = await getAnotherUserData();
@@ -19,12 +19,13 @@ export default async function ProfileClient() {
       </div>
 
       <ProfileCard
+        name={user?.name || ""}
+        profession={user?.preference?.profession || "OTHER"}
         bio={user?.bio || "None"}
-        preferenceBrand={user?.preference?.preferedBrand || "None"}
-        preferenceOS={user?.preference?.preferredOS || "None"}
+        preferenceBrand={user?.preference?.preferredBrand || "OTHER"}
+        preferenceOS={user?.preference?.preferredOS || "OTHER"}
         budgetMax={user?.preference?.budgetMax || 0}
         budgetMin={user?.preference?.budgetMin || 0}
-        profession={user?.preference?.profession || "None"}
       />
     </div>
   );

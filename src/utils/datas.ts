@@ -1,10 +1,6 @@
 import { Frown, Meh, Smile } from "lucide-react";
-import {
-  ProfileClientProps,
-  ScrapeResult,
-  WordCloudConfig,
-  WordItem,
-} from "../types";
+import { ScrapeResult, WordCloudConfig, WordItem } from "../types";
+import { Brand } from "@prisma/client";
 
 export const getSentimentDisplay = (sentiment: string) => {
   switch (sentiment?.toLowerCase()) {
@@ -85,13 +81,23 @@ export const formatRupiah = (value: number | string) => {
   }).format(Number(value));
 };
 
-export function brandFormat({
+export const brandFormat = ({
   preferenceBrand,
-}: Pick<ProfileClientProps, "preferenceBrand">) {
+}: {
+  preferenceBrand: Brand | string;
+}) => {
   const brands = Array.isArray(preferenceBrand)
     ? preferenceBrand
     : preferenceBrand
       ? [preferenceBrand]
       : [];
   return { brands };
+};
+
+export function toTitleCase(str: string) {
+  return str
+    .toLowerCase()
+    .split(/[\s-_]+/)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 }
