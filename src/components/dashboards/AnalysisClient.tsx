@@ -247,8 +247,8 @@ export default function AnalysisClient() {
           disabled={!isValid || loading}
           className="bg-primary text-white px-6 py-3 mt-6 rounded-md transition-colors disabled:bg-gray-400"
         >
-          <Sparkles className="h-4 w-4 mr-2" />
-          {loading ? "Menganalisis..." : "Bandingkan Sekarang"}
+          <Sparkles className="h-4 w-4" />
+          {loading ? "Menganalisis..." : "Analisis Sekarang"}
         </Button>
       </form>
 
