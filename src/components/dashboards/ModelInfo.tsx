@@ -54,9 +54,9 @@ export function ModelInfo({ data }: { data: ModelDB[] }) {
 
         <Badge
           variant="secondary"
-          className="bg-sentiment-positive-light text-sentiment-positive"
+          className={`bg-sentiment-positive-light text-sentiment-positive ${currentModel.isActive ? "bg-sentiment-positive-light text-sentiment-positive" : "bg-primary/10 text-primary"}`}
         >
-          Active
+          {currentModel.isActive === true ? "Active" : "Inactive"}
         </Badge>
       </div>
 

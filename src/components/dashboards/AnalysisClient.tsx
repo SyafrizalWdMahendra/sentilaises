@@ -21,7 +21,6 @@ export default function AnalysisClient() {
     register,
     handleSubmit,
     onSubmit,
-    setValue,
     errors,
     isValid,
     loading,
@@ -43,7 +42,6 @@ export default function AnalysisClient() {
 
         <div className="flex flex-col gap-4">
           <div className="flex w-full gap-4">
-            {/* Field Profesi */}
             <div className="w-1/2">
               <label className="block mb-1 text-sm font-medium text-gray-700">
                 Pilih Profesi
@@ -60,7 +58,11 @@ export default function AnalysisClient() {
                     </SelectTrigger>
                     <SelectContent className="bg-card" position="popper">
                       {professionItems.map((item) => (
-                        <SelectItem key={item.value} value={item.value} className="focus:bg-primary focus:text-card">
+                        <SelectItem
+                          key={item.value}
+                          value={item.value}
+                          className="focus:bg-primary focus:text-card"
+                        >
                           <div className="flex gap-2 items-center">
                             <item.icon className="h-4 w-4" />
                             <span>{item.label}</span>

@@ -14,6 +14,7 @@ export const getClassificationReport = async () => {
         macroF1: true,
         f1Negative: true,
         f1Neutral: true,
+        isActive: true,
       },
       orderBy: {
         createdAt: "asc",

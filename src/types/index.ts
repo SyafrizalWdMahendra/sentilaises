@@ -10,6 +10,7 @@ export interface ModelDB {
   macroF1: number;
   f1Negative: number;
   f1Neutral: number;
+  isActive: boolean;
 }
 
 export interface ProfileClientProps {

@@ -12,6 +12,7 @@ async function main() {
       macroF1: 0.56,
       f1Negative: 0.61,
       f1Neutral: 0.16,
+      isActive: false,
     },
     {
       modelName: "Model XGBoost (Tuned)",
@@ -21,6 +22,7 @@ async function main() {
       macroF1: 0.58,
       f1Negative: 0.65,
       f1Neutral: 0.17,
+      isActive: false,
     },
     {
       modelName: "Model XGBoost (Optimized)",
@@ -30,6 +32,7 @@ async function main() {
       macroF1: 0.61,
       f1Negative: 0.65,
       f1Neutral: 0.27,
+      isActive: true,
     },
   ];
 
