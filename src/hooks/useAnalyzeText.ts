@@ -1,24 +1,68 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { AnalysisResults } from "../types";
+import {
+  scrapeProduct,
+  getAIRecommendation,
+} from "../services/analyze.service";
+import { analyzeSchema } from "../app/validation/analyze.schema"; // Sesuaikan path-nya
+import { getAnotherUserData } from "../app/profile/lib/action";
+
+export type AnalyzeFormData = z.infer<typeof analyzeSchema>;
 
 export const useAnalyseText = () => {
   const { data: session } = useSession();
 
-  const [url1, setUrl1] = useState("");
-  const [url2, setUrl2] = useState("");
-  const [url3, setUrl3] = useState("");
-  const [profession, setProfession] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<AnalysisResults | null>(null);
-  const [disabled, setDisabled] = useState(false);
   const [showField, setShowField] = useState(false);
 
-  const handleAnalyze = async () => {
+  const {
+    control,
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors, isValid },
+  } = useForm<AnalyzeFormData>({
+    resolver: zodResolver(analyzeSchema),
+    mode: "onChange",
+    defaultValues: {
+      url1: "",
+      url2: "",
+      url3: "",
+    },
+  });
+
+  useEffect(() => {
+    const fetchProfession = async () => {
+      try {
+        const user = await getAnotherUserData();
+
+        const userProfession =
+          user?.preference?.profession || user?.preference?.profession;
+
+        if (userProfession) {
+          setValue("profession", userProfession, {
+            shouldValidate: true,
+            shouldDirty: true,
+          });
+        }
+      } catch (error) {
+        console.error("Gagal mengambil data profesi user:", error);
+      }
+    };
+
+    if (session?.user) {
+      fetchProfession();
+    }
+  }, [session, setValue]);
+
+  const onSubmit = async (data: AnalyzeFormData) => {
     if (!session?.user?.email) {
-      alert(
-        "Anda harus login terlebih dahulu untuk menyimpan riwayat analisis.",
-      );
+      alert("Anda harus login terlebih dahulu.");
       return;
     }
 
@@ -26,35 +70,12 @@ export const useAnalyseText = () => {
     setResult(null);
 
     try {
-      const urlsToScrape = [url1, url2, url3].filter(
+      const urlsToScrape = [data.url1, data.url2, data.url3].filter(
         (url) => url && url.trim() !== "",
-      );
+      ) as string[];
 
-      if (urlsToScrape.length < 2) {
-        alert("Produk Utama dan minimal 1 Produk Pembanding wajib diisi!");
-        setLoading(false);
-        return;
-      }
-
-      const scrapePromises = urlsToScrape.map((u) =>
-        fetch("/api/scrape", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ url: u }),
-        }).then((res) => {
-          if (!res.ok) throw new Error(`Gagal scraping: ${u}`);
-          return res.json();
-        }),
-      );
-
+      const scrapePromises = urlsToScrape.map((url) => scrapeProduct(url));
       const scrapeResults = await Promise.all(scrapePromises);
-
-      for (const res of scrapeResults) {
-        if (!res.success)
-          throw new Error("Gagal mengambil data dari salah satu tautan.");
-      }
 
       const candidates = scrapeResults.map((res) => ({
         name: res.data.name,
@@ -62,21 +83,12 @@ export const useAnalyseText = () => {
         reviews: res.data.reviews,
       }));
 
-      const payload = {
+      const aiResult = await getAIRecommendation({
         user_email: session.user.email,
-        profession: profession,
-        candidates: candidates,
-      };
-
-      const aiRes = await fetch("http://localhost:8000/recommend", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        profession: data.profession,
+        candidates,
       });
 
-      if (!aiRes.ok) throw new Error("Gagal melakukan analisis AI");
-
-      const aiResult = await aiRes.json();
       setResult(aiResult);
     } catch (error: any) {
       alert("Terjadi kesalahan: " + error.message);
@@ -86,20 +98,16 @@ export const useAnalyseText = () => {
   };
 
   return {
-    url1,
-    url2,
-    url3,
-    profession,
+    control,
+    register,
+    handleSubmit,
+    setValue,
+    onSubmit,
+    errors,
+    isValid,
     loading,
     result,
-    disabled,
     showField,
-    handleAnalyze,
-    setProfession,
-    setUrl1,
-    setUrl2,
-    setUrl3,
-    setDisabled,
     setShowField,
   };
 };

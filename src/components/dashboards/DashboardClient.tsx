@@ -3,12 +3,10 @@
 import { Header } from "./Header";
 import { Frown, Meh, MessageSquareText, Smile, TrendingUp } from "lucide-react";
 import { StatCard } from "./StatCard";
-import { sentimentDistribution, trendData } from "@/src/app/dashboard/lib/data";
 import { ModelInfoSkeleton } from "../skeletons/ModelInfoSkeleton";
 import { ModelInfo } from "./ModelInfo";
 import { BrandFilter } from "./BrandFilter";
 import { ReviewTable } from "./ReviewTable";
-import { SentimentChart, TrendChart } from "@/src/utils/dImports";
 import { useDashboards } from "@/src/hooks/useDashboard";
 import { WordCloud } from "./WordCloud";
 import AnalysisClient from "./AnalysisClient";
@@ -26,7 +24,7 @@ export default function DashboardClient() {
   } = useDashboards();
 
   return (
-    <div className="min-h-screen bg-[#F8FBFF]">
+    <div className="min-h-screen bg-[#F8FBFF]" suppressHydrationWarning>
       <Header />
 
       <main className="container mx-auto px-4 py-8">
