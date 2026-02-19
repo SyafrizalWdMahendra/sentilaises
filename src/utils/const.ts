@@ -33,6 +33,7 @@ export const professionItems = [
   { value: "DESIGNER", label: "Designer", icon: Palette },
   { value: "STUDENT", label: "Student", icon: Book },
   { value: "GAMER", label: "Gamer", icon: GamepadDirectional },
+  { value: "OTHER", label: "Other", icon: LucideCircleEllipsis },
 ];
 
 export const brandItems = [

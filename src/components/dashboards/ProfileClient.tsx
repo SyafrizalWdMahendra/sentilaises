@@ -20,10 +20,10 @@ export default async function ProfileClient() {
 
       <ProfileCard
         name={user?.name || ""}
-        profession={user?.preference?.profession || "OTHER"}
         bio={user?.bio || "None"}
-        preferenceBrand={user?.preference?.preferredBrand || "OTHER"}
-        preferenceOS={user?.preference?.preferredOS || "OTHER"}
+        profession={user?.preference?.profession || ""}
+        preferenceBrand={user?.preference?.preferredBrand || ""}
+        preferenceOS={user?.preference?.preferredOS || ""}
         budgetMax={user?.preference?.budgetMax || 0}
         budgetMin={user?.preference?.budgetMin || 0}
       />

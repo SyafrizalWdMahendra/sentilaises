@@ -16,11 +16,11 @@ export interface ModelDB {
 export interface ProfileClientProps {
   name: string;
   bio?: string;
-  preferenceBrand: Brand;
-  preferenceOS: OS;
+  preferenceBrand: string;
+  preferenceOS: string;
   budgetMin: number;
   budgetMax: number;
-  profession: Profession;
+  profession: string;
   id?: number;
 }
 
