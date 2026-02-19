@@ -17,7 +17,7 @@ export const getClassificationReport = async () => {
         isActive: true,
       },
       orderBy: {
-        createdAt: "asc",
+        createdAt: "desc",
       },
     });
 
