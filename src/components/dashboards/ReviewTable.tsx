@@ -58,7 +58,6 @@ export function ReviewTable() {
             <TableHead className="w-30 whitespace-nowrap">Tanggal</TableHead>
             <TableHead className="w-30">Sentimen</TableHead>
             <TableHead className="w-50">Confidence Score</TableHead>
-            <TableHead className="w-25">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -146,7 +145,7 @@ export function ReviewTable() {
                       : "-"}
                   </span>
                 </TableCell>
-                <TableCell className="align-top ">
+                {/* <TableCell className="align-top ">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild className="cursor-pointer">
                       <EllipsisVertical className="w-4 h-4" />
@@ -165,7 +164,7 @@ export function ReviewTable() {
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             ))
           )}

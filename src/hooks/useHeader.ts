@@ -32,11 +32,11 @@ export const useHeader = () => {
 
   return {
     open,
-    setOpen,
     session,
     isRefreshing,
-    handleRefresh,
     mounted,
     productCount,
+    handleRefresh,
+    setOpen,
   };
 };
