@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { WordItem } from "@/src/types";
+import { KeywordStats, WordCloudReview, WordItem } from "@/src/types";
 import { WORD_LIMIT } from "../utils/const";
-import { Sentiment } from "@prisma/client";
 
 export const useWordCloud = () => {
   const [words, setWords] = useState<WordItem[]>([]);
@@ -19,27 +18,63 @@ export const useWordCloud = () => {
           return;
         }
 
-        const keywords: string[] = json.data;
+        const reviews: WordCloudReview[] = json.data;
 
-        const keywordMap: Record<string, number> = {};
+        const keywordMap: Record<string, KeywordStats> = reviews.reduce(
+          (acc, review) => {
+            const sentiment = ["POSITIVE", "NEGATIVE", "NEUTRAL"].includes(
+              review.sentiment,
+            )
+              ? review.sentiment
+              : "NEUTRAL";
 
-        keywords.forEach((keyword) => {
-          const key = keyword.toLowerCase();
-          keywordMap[key] = (keywordMap[key] || 0) + 1;
-        });
+            if (Array.isArray(review.keywords)) {
+              review.keywords.forEach((keyword) => {
+                const key = keyword.toLowerCase();
 
-        const wordItems: WordItem[] = Object.entries(keywordMap)
-          .map(([text, count]) => ({
-            text,
-            value: count,
-            sentiment: "NEUTRAL" as Sentiment,
-          }))
+                if (!acc[key]) {
+                  acc[key] = { count: 0, POSITIVE: 0, NEGATIVE: 0, NEUTRAL: 0 };
+                }
+
+                acc[key].count += 1;
+                acc[key][sentiment] += 1;
+              });
+            }
+
+            return acc;
+          },
+          {} as Record<string, KeywordStats>,
+        );
+
+        const wordItems = Object.entries(keywordMap)
+          .map(([text, data]) => {
+            let dominantSentiment: "POSITIVE" | "NEGATIVE" | "NEUTRAL" =
+              "NEUTRAL";
+
+            if (
+              data.POSITIVE >= data.NEGATIVE &&
+              data.POSITIVE >= data.NEUTRAL
+            ) {
+              dominantSentiment = "POSITIVE";
+            } else if (
+              data.NEGATIVE >= data.POSITIVE &&
+              data.NEGATIVE >= data.NEUTRAL
+            ) {
+              dominantSentiment = "NEGATIVE";
+            }
+
+            return {
+              text,
+              value: data.count,
+              sentiment: dominantSentiment,
+            };
+          })
           .sort((a, b) => b.value - a.value)
           .slice(0, WORD_LIMIT);
 
         setWords(wordItems);
       } catch (error) {
-        console.error("Failed to fetch wordcloud data", error);
+        console.error("Gagal mengambil data word cloud:", error);
       }
     };
 

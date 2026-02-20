@@ -1,71 +1,20 @@
-import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
-import { authOptions } from "../auth/[...nextauth]/route";
-import prisma from "@/lib/prisma";
+import { userService } from "@/src/services/profile.service";
+import { withAuth } from "@/lib/withAuth";
 
-export async function POST(req: Request) {
-  const session = await getServerSession(authOptions);
-
-  if (!session?.user?.email) {
-    return NextResponse.json(
-      { success: false, message: "Unauthorized. User belum login." },
-      { status: 401 },
-    );
-  }
-
-  const body = await req.json();
-
-  const {
-    name,
-    bio,
-    profession,
-    preferredBrand,
-    preferredOS,
-    budgetMin,
-    budgetMax,
-  } = body;
-
-  const user = await prisma.user.findUnique({
-    where: { email: session.user.email },
-    select: { id: true },
-  });
-
-  if (!user) {
-    return NextResponse.json(
-      { success: false, message: "User tidak ditemukan." },
-      { status: 404 },
-    );
-  }
-
+export const POST = withAuth(async (req, _context, session) => {
   try {
-    const updatedUser = await prisma.user.update({
-      where: { id: user.id },
-      data: {
-        name,
-        bio,
-        preference: {
-          upsert: {
-            update: {
-              profession,
-              preferredBrand,
-              preferredOS,
-              budgetMin: budgetMin ? Number(budgetMin) : null,
-              budgetMax: budgetMax ? Number(budgetMax) : null,
-            },
-            create: {
-              profession,
-              preferredBrand,
-              preferredOS,
-              budgetMin: budgetMin ? Number(budgetMin) : null,
-              budgetMax: budgetMax ? Number(budgetMax) : null,
-            },
-          },
-        },
-      },
-      include: {
-        preference: true,
-      },
-    });
+    const email = session.user?.email as string;
+    const body = await req.json();
+
+    const updatedUser = await userService.updateProfileByEmail(email, body);
+
+    if (!updatedUser) {
+      return NextResponse.json(
+        { success: false, message: "User tidak ditemukan." },
+        { status: 404 },
+      );
+    }
 
     return NextResponse.json({
       success: true,
@@ -73,44 +22,36 @@ export async function POST(req: Request) {
       data: updatedUser,
     });
   } catch (error) {
+    console.error("[UPDATE_PROFILE_ERROR]", error);
     return NextResponse.json(
       { success: false, message: "Terjadi kesalahan server." },
       { status: 500 },
     );
   }
-}
+});
 
-export async function GET() {
-  const session = await getServerSession(authOptions);
+export const GET = withAuth(async (_req, _context, session) => {
+  try {
+    const email = session.user?.email as string;
 
-  if (!session?.user?.email) {
+    const user = await userService.getProfileByEmail(email);
+
+    if (!user) {
+      return NextResponse.json(
+        { success: false, message: "User not found" },
+        { status: 404 },
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      data: user,
+    });
+  } catch (error) {
+    console.error("[GET_PROFILE_ERROR]", error);
     return NextResponse.json(
-      { success: false, message: "Unauthorized" },
-      { status: 401 },
+      { success: false, message: "Terjadi kesalahan server." },
+      { status: 500 },
     );
   }
-
-  const user = await prisma.user.findUnique({
-    where: { email: session.user.email },
-    include: {
-      preference: {
-        select: {
-          preferredBrand: true,
-          preferredOS: true,
-          profession: true,
-          budgetMax: true,
-          budgetMin: true,
-        },
-      },
-    },
-  });
-
-  if (!user) {
-    return NextResponse.json(
-      { success: false, message: "User not found" },
-      { status: 404 },
-    );
-  }
-
-  return NextResponse.json(user);
-}
+});

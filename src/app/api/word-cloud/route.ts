@@ -1,42 +1,14 @@
-import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/route";
+import { withAuth } from "@/lib/withAuth";
+import { wordCloudService } from "@/src/services/wordCloud.service";
 
-export async function GET() {
+export const GET = withAuth(async (_req, _context, session) => {
   try {
-    const session = await getServerSession(authOptions);
+    const email = session.user?.email as string;
 
-    if (!session?.user?.email) {
-      return NextResponse.json(
-        { success: false, message: "Unauthorized" },
-        { status: 401 },
-      );
-    }
+    const allKeywords = await wordCloudService(email);
 
-    const user = await prisma.user.findUnique({
-      where: { email: session.user.email },
-      select: { id: true },
-    });
-
-    if (!user) {
-      return NextResponse.json(
-        { success: false, message: "User not found" },
-        { status: 404 },
-      );
-    }
-
-    const analyses = await prisma.analysis.findMany({
-      where: { userId: user.id },
-      select: { topKeywords: true },
-    });
-
-    const allKeywords: string[] = analyses.flatMap((a) => {
-      if (Array.isArray(a.topKeywords)) {
-        return a.topKeywords.filter((k): k is string => typeof k === "string");
-      }
-      return [];
-    });
+    console.log(allKeywords);
 
     return NextResponse.json(
       { success: true, data: allKeywords },
@@ -49,4 +21,4 @@ export async function GET() {
       { status: 500 },
     );
   }
-}
+});

@@ -1,38 +1,5 @@
-import { Frown, Meh, Smile } from "lucide-react";
 import { ScrapeResult, WordCloudConfig, WordItem } from "../types";
 import { Brand } from "@prisma/client";
-
-export const getSentimentDisplay = (sentiment: string) => {
-  switch (sentiment?.toLowerCase()) {
-    case "positive":
-      return {
-        label: "Positif",
-        icon: Smile,
-        bgClass:
-          "bg-green-50 border-green-200 dark:bg-green-900/20 dark:border-green-800",
-        textClass: "text-green-600 dark:text-green-400",
-        borderClass: "border-green-200",
-      };
-    case "negative":
-      return {
-        label: "Negatif",
-        icon: Frown,
-        bgClass:
-          "bg-red-50 border-red-200 dark:bg-red-900/20 dark:border-red-800",
-        textClass: "text-red-600 dark:text-red-400",
-        borderClass: "border-red-200",
-      };
-    default:
-      return {
-        label: "Netral",
-        icon: Meh,
-        bgClass:
-          "bg-gray-50 border-gray-200 dark:bg-gray-800 dark:border-gray-700",
-        textClass: "text-gray-600 dark:text-gray-400",
-        borderClass: "border-gray-200",
-      };
-  }
-};
 
 export const setWordCloud = ({ maxValue, minValue }: WordCloudConfig) => {
   const getSize = (value: number) => {
@@ -47,8 +14,10 @@ export const setWordCloud = ({ maxValue, minValue }: WordCloudConfig) => {
         return "text-sentiment-positive hover:bg-sentiment-positive-light";
       case "NEGATIVE":
         return "text-sentiment-negative hover:bg-sentiment-negative-light";
-      default:
+      case "NEUTRAL":
         return "text-sentiment-neutral hover:bg-sentiment-neutral-light";
+      default:
+        return "hover:bg-primary hover:text-card";
     }
   };
 

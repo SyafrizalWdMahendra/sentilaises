@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { SiAcer, SiAsus, SiLenovo, SiLinux, SiMacos } from "react-icons/si";
 import { FaWindows } from "react-icons/fa";
+import { Sentiment } from "@prisma/client";
 
 export const MODEL_OPTIONS = [
   {
@@ -26,7 +27,7 @@ export const MODEL_OPTIONS = [
   },
 ];
 
-export const WORD_LIMIT = 15;
+export const WORD_LIMIT = 20;
 
 export const professionItems = [
   { value: "PROGRAMMER", label: "Programmer", icon: Code },
@@ -48,4 +49,32 @@ export const OSItems = [
   { value: "MACOS", label: "Macos", icon: SiMacos },
   { value: "LINUX", label: "Linux", icon: SiLinux },
   { value: "OTHER", label: "Other", icon: LucideCircleEllipsis },
+];
+
+export const reviewDatas = [
+  {
+    productId: 2,
+    modelId: 1,
+    content:
+      "Laptop ini sangat ringan dan performanya cepat untuk kerja harian.",
+    keywords: ["ringan", "cepat", "kerja"],
+    sentiment: Sentiment.POSITIVE,
+    confidenceScore: 0.92,
+  },
+  {
+    productId: 3,
+    modelId: 1,
+    content: "Baterainya awet, tapi harganya cukup mahal.",
+    keywords: ["baterai", "awet", "mahal"],
+    sentiment: Sentiment.NEUTRAL,
+    confidenceScore: 0.75,
+  },
+  {
+    productId: 4,
+    modelId: 1,
+    content: "Performa kurang stabil dan sering panas.",
+    keywords: ["performa", "panas", "stabil"],
+    sentiment: Sentiment.NEGATIVE,
+    confidenceScore: 0.88,
+  },
 ];

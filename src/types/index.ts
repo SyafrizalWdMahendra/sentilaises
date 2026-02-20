@@ -2,6 +2,8 @@ import { LucideIcon } from "lucide-react";
 import { OS, Profession, Sentiment, Brand } from "@prisma/client";
 import z from "zod";
 import { profileSchema } from "../app/validation/profile.schema";
+import { Session } from "next-auth";
+import { NextResponse } from "next/server";
 
 export interface ModelDB {
   modelName: string;
@@ -255,3 +257,14 @@ export type UseProfileModalProps = Pick<
   ExtendedModalProps,
   "userData" | "router" | "onOptimisticUpdate" | "setShowModal"
 >;
+
+export type ApiHandler = (
+  req: Request,
+  context: any,
+  session: Session,
+) => Promise<NextResponse>;
+
+export type WordCloudReview = {
+  keywords: string[];
+  sentiment: Sentiment;
+};

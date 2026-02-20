@@ -1,52 +1,12 @@
-import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]/route";
+import { withAuth } from "@/lib/withAuth";
+import { sentimentStatsService } from "@/src/services/sentimentStats.service";
 
-export async function GET() {
+export const GET = withAuth(async (_req, _context, session) => {
   try {
-    const session = await getServerSession(authOptions);
+    const email = session.user?.email as string;
 
-    if (!session?.user?.email) {
-      return NextResponse.json(
-        { success: false, message: "Unauthorized. User belum login." },
-        { status: 401 },
-      );
-    }
-
-    const user = await prisma.user.findUnique({
-      where: { email: session.user.email },
-      select: { id: true },
-    });
-
-    if (!user) {
-      return NextResponse.json(
-        { success: false, message: "User tidak ditemukan." },
-        { status: 404 },
-      );
-    }
-
-    const grouped = await prisma.review.groupBy({
-      by: ["sentiment"],
-      where: {
-        userId: user.id,
-      },
-      _count: {
-        _all: true,
-      },
-    });
-
-    const result = {
-      positive: 0,
-      negative: 0,
-      neutral: 0,
-    };
-
-    grouped.forEach((item) => {
-      if (item.sentiment === "POSITIVE") result.positive = item._count._all;
-      if (item.sentiment === "NEGATIVE") result.negative = item._count._all;
-      if (item.sentiment === "NEUTRAL") result.neutral = item._count._all;
-    });
+    const result = await sentimentStatsService(email);
 
     return NextResponse.json({ success: true, data: result }, { status: 200 });
   } catch (error) {
@@ -56,4 +16,4 @@ export async function GET() {
       { status: 500 },
     );
   }
-}
+});

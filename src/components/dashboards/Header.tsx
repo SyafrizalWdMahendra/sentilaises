@@ -48,7 +48,7 @@ export function Header() {
             <div className="hidden items-center gap-6 text-sm md:flex">
               <div className="flex items-center gap-2 text-muted-foreground">
                 <Laptop className="h-4 w-4" />
-                <span>{productCount} Brand</span>
+                <span>{productCount} Produk</span>
               </div>
               <div className="flex items-center gap-2 text-muted-foreground">
                 <Database className="h-4 w-4" />
