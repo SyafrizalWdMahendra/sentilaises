@@ -54,7 +54,13 @@ export const getTotalBrandAnalysis = async () => {
             brand: true,
             _count: {
               select: {
-                reviews: true,
+                reviews: {
+                  where: {
+                    user: {
+                      email: session.user.email,
+                    },
+                  },
+                },
               },
             },
           },

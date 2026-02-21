@@ -30,6 +30,8 @@ export function BrandFilter() {
       </button>
 
       {brands.map((brand) => {
+        if (brand.count === 0) return null;
+
         const isActive =
           selectedBrand?.toLowerCase() === brand.name.toLowerCase();
 
