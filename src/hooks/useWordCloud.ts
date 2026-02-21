@@ -6,6 +6,7 @@ export const useWordCloud = () => {
   const [words, setWords] = useState<WordItem[]>([]);
   const [shuffledWords, setShuffledWords] = useState<WordItem[]>([]);
   const [ready, setReady] = useState(false);
+  const isEmpty = shuffledWords.length === 0;
 
   useEffect(() => {
     const fetchWords = async () => {
@@ -105,5 +106,6 @@ export const useWordCloud = () => {
     minValue,
     shuffledWords,
     ready,
+    isEmpty,
   };
 };

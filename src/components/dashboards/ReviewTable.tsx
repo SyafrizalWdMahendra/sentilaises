@@ -65,7 +65,7 @@ export function ReviewTable() {
             <TableRow>
               <TableCell colSpan={5} className="h-75 text-center">
                 <div className="flex flex-col items-center justify-center gap-2 text-muted-foreground">
-                  <div className="rounded-full bg-muted p-4">
+                  <div className="rounded-full bg-muted">
                     <Inbox className="h-8 w-8" />
                   </div>
                   <p className="text-lg font-medium text-foreground">

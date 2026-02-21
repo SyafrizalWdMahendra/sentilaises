@@ -1,7 +1,15 @@
 "use client";
 
 import { Header } from "./Header";
-import { Frown, Meh, MessageSquareText, Smile, TrendingUp } from "lucide-react";
+import {
+  ChartNoAxesGantt,
+  FileLock,
+  Frown,
+  Meh,
+  MessageSquareText,
+  Smile,
+  TrendingUp,
+} from "lucide-react";
 import { StatCard } from "./StatCard";
 import { ModelInfoSkeleton } from "../skeletons/ModelInfoSkeleton";
 import { ModelInfo } from "./ModelInfo";
@@ -103,7 +111,10 @@ export default function DashboardClient() {
 
         <div className="mb-8 grid gap-6 lg:grid-cols-2">
           <div className="rounded-xl border bg-card p-6">
-            <h3 className="mb-4 text-lg font-semibold">Kata Kunci Populer</h3>
+            <div className="flex items-center gap-2 mb-2">
+              <FileLock className="h-5 w-5 text-primary" />
+              <h3 className="text-lg font-semibold">Kata Kunci Populer</h3>
+            </div>
             <p className="mb-4 text-sm text-muted-foreground">
               Kata-kata yang sering muncul dalam ulasan berdasarkan kategori
               sentimen
@@ -129,7 +140,10 @@ export default function DashboardClient() {
         <div className="space-y-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h3 className="text-lg font-semibold">Ulasan Terbaru</h3>
+              <div className="flex items-center gap-2 mb-2">
+                <ChartNoAxesGantt className="w-5 h-5" />
+                <h3 className="text-lg font-semibold">Ulasan Terbaru</h3>
+              </div>
               <p className="text-sm text-muted-foreground">
                 Hasil klasifikasi sentimen ulasan produk laptop
               </p>
