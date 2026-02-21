@@ -1,11 +1,14 @@
-import prisma from "@/lib/prisma";
+import { withAuth } from "@/lib/withAuth";
+import { productService } from "@/src/services/product.service";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
-export async function GET() {
+export const GET = withAuth(async (_req, _context, session) => {
   try {
-    const count = await prisma.product.count();
+    const email = session.user?.email as string;
+
+    const count = await productService(email);
 
     return NextResponse.json({ count }, { status: 200 });
   } catch (error) {
@@ -16,4 +19,4 @@ export async function GET() {
       { status: 500 },
     );
   }
-}
+});
