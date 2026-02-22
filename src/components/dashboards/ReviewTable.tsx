@@ -9,24 +9,20 @@ import {
   TableRow,
 } from "../../components/ui/table";
 import { Badge } from "../../components/ui/badge";
-import { EllipsisVertical, Inbox, Loader2, Pencil, Trash } from "lucide-react";
+import { Inbox, Loader2 } from "lucide-react";
 import getSentimentBadge from "./SentimentBadge";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
 import { useReviewTable } from "@/src/hooks/useReviewTable";
 import {
   Pagination,
   PaginationContent,
+  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "../ui/pagination";
 import { useSearchParams } from "next/navigation";
+import { getVisiblePages } from "@/src/utils/datas";
 
 export function ReviewTable() {
   const searchParams = useSearchParams();
@@ -36,6 +32,7 @@ export function ReviewTable() {
     selectedBrand,
   );
   const { currentPage, totalPages, nextPage, prevPage, goToPage } = pagination;
+  const visiblePage = getVisiblePages({ totalPages, currentPage });
 
   if (isLoading) {
     return (
@@ -171,7 +168,7 @@ export function ReviewTable() {
         </TableBody>
       </Table>
 
-      {totalPages > 1 && (
+      {/* {totalPages > 1 && (
         <div className="border-t bg-muted/20 px-6 py-4">
           <Pagination className="justify-center sm:justify-end">
             <PaginationContent>
@@ -216,6 +213,63 @@ export function ReviewTable() {
                     currentPage === totalPages
                       ? "pointer-events-none opacity-50"
                       : "cursor-pointer"
+                  }
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
+      )} */}
+
+      {totalPages > 1 && (
+        <div className="border-t bg-muted/20 px-6 py-4">
+          <Pagination className="justify-center sm:justify-end">
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    prevPage();
+                  }}
+                  className={
+                    currentPage === 1
+                      ? "pointer-events-none opacity-50"
+                      : "cursor-pointer hover:bg-[#F8FBFF] hover:text-primary"
+                  }
+                />
+              </PaginationItem>
+
+              {visiblePage.map((page, index) => (
+                <PaginationItem key={index}>
+                  {page === "..." ? (
+                    <PaginationEllipsis />
+                  ) : (
+                    <PaginationLink
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        goToPage(page as number);
+                      }}
+                      isActive={currentPage === page}
+                    >
+                      {page}
+                    </PaginationLink>
+                  )}
+                </PaginationItem>
+              ))}
+
+              <PaginationItem>
+                <PaginationNext
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    nextPage();
+                  }}
+                  className={
+                    currentPage === totalPages
+                      ? "pointer-events-none opacity-50"
+                      : "cursor-pointer hover:bg-primary hover:text-card"
                   }
                 />
               </PaginationItem>

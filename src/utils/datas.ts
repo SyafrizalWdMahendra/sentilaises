@@ -1,4 +1,10 @@
-import { ScrapeResult, WordCloudConfig, WordItem } from "../types";
+import { useReviewTable } from "../hooks/useReviewTable";
+import {
+  ScrapeResult,
+  VisiblePageProps,
+  WordCloudConfig,
+  WordItem,
+} from "../types";
 import { Brand } from "@prisma/client";
 
 export const setWordCloud = ({ maxValue, minValue }: WordCloudConfig) => {
@@ -24,7 +30,7 @@ export const setWordCloud = ({ maxValue, minValue }: WordCloudConfig) => {
   return { getSize, getColor };
 };
 
-export function getFallbackData(url: string): ScrapeResult {
+export const getFallbackData = (url: string): ScrapeResult => {
   return {
     name: "Produk (Data Sampel)",
     url: url,
@@ -39,7 +45,7 @@ export function getFallbackData(url: string): ScrapeResult {
       "Pengiriman cepat dan packing kayu sangat aman.",
     ],
   };
-}
+};
 
 export const formatRupiah = (value: number | string) => {
   if (!value) return "Rp 0";
@@ -63,10 +69,42 @@ export const brandFormat = ({
   return { brands };
 };
 
-export function toTitleCase(str: string) {
+export const toTitleCase = (str: string) => {
   return str
     .toLowerCase()
     .split(/[\s-_]+/)
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
-}
+};
+
+export const getVisiblePages = (data: VisiblePageProps) => {
+  if (data.totalPages <= 6) {
+    return Array.from({ length: data.totalPages }, (_, i) => i + 1);
+  }
+
+  if (data.currentPage <= 3) {
+    return [1, 2, 3, 4, 5, "...", data.totalPages];
+  }
+
+  if (data.currentPage >= data.totalPages - 2) {
+    return [
+      1,
+      "...",
+      data.totalPages - 4,
+      data.totalPages - 3,
+      data.totalPages - 2,
+      data.totalPages - 1,
+      data.totalPages,
+    ];
+  }
+
+  return [
+    1,
+    "...",
+    data.currentPage - 1,
+    data.currentPage,
+    data.currentPage + 1,
+    "...",
+    data.totalPages,
+  ];
+};

@@ -20,7 +20,7 @@ export function BrandFilter() {
       <button
         onClick={() => handleSelect(null)}
         className={cn(
-          "rounded-lg border px-4 py-2 text-sm font-medium transition-all",
+          "rounded-lg border px-4 py-2 text-sm font-medium transition-all cursor-pointer",
           selectedBrand === null
             ? "border-primary bg-primary text-primary-foreground"
             : "border-border bg-card text-muted-foreground hover:border-primary/50 hover:text-foreground",
@@ -40,7 +40,7 @@ export function BrandFilter() {
             key={brand.name}
             onClick={() => handleSelect(brand.name)}
             className={cn(
-              "rounded-lg border px-4 py-2 text-sm font-medium transition-all",
+              "rounded-lg border px-4 py-2 text-sm font-medium transition-all cursor-pointer",
               isActive
                 ? "border-primary bg-primary text-primary-foreground"
                 : "border-border bg-card text-muted-foreground hover:border-primary/50 hover:text-foreground",

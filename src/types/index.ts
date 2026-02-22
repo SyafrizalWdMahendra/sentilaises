@@ -285,3 +285,8 @@ export type AnalysisData = {
 };
 
 export type BodyData = (req: Request, body: any) => Promise<NextResponse>;
+
+export interface VisiblePageProps {
+  totalPages: number;
+  currentPage: number;
+}
