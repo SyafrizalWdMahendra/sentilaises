@@ -6,8 +6,6 @@ export const POST = withBody(async (_req, body) => {
   try {
     const result = await scrapeTokopediaProduct(body.url);
 
-    console.log(result);
-
     return NextResponse.json({
       success: true,
       data: result,

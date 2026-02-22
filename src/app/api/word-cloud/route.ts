@@ -8,8 +8,6 @@ export const GET = withAuth(async (_req, _context, session) => {
 
     const allKeywords = await wordCloudService(email);
 
-    console.log(allKeywords);
-
     return NextResponse.json(
       { success: true, data: allKeywords },
       { status: 200 },

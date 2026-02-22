@@ -42,7 +42,7 @@ export const ProfileModal = ({
     >
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col bg-card w-1/3 p-6 rounded-2xl border relative gap-4"
+        className="flex flex-col bg-card w-xs sm:w-sm lg:w-lg md:w-md p-6 rounded-2xl border relative gap-4 "
       >
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-2">
@@ -260,7 +260,7 @@ export const ProfileModal = ({
           </div>
         </div>
 
-        <div className="mt-2 flex justify-start gap-4">
+        <div className="mt-2 flex flex-col-reverse sm:flex-row justify-start gap-4">
           <Button
             type="button"
             onClick={() => setShowModal(false)}

@@ -2,6 +2,7 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { getAnotherUserData } from "@/src/app/profile/lib/action";
 import ProfileCard from "./ProfileCard";
+import Footer from "./Footer";
 
 export default async function ProfileClient() {
   const user = await getAnotherUserData();
@@ -27,6 +28,7 @@ export default async function ProfileClient() {
         budgetMax={user?.preference?.budgetMax || 0}
         budgetMin={user?.preference?.budgetMin || 0}
       />
+      <Footer />
     </div>
   );
 }

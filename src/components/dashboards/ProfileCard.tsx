@@ -71,7 +71,7 @@ export default function ProfileCard(props: ProfileClientProps) {
 
           <Button
             size="sm"
-            className="w-full sm:w-auto gap-2 rounded-full shadow-sm"
+            className="w-full sm:w-auto gap-2 shadow-sm"
             onClick={() => setShowModal(true)}
           >
             <Pencil className="h-4 w-4" />

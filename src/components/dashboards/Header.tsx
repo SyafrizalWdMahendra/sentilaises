@@ -21,8 +21,7 @@ import { useHeader } from "@/src/hooks/useHeader";
 import { useDashboards } from "@/src/hooks/useDashboard";
 
 export function Header() {
-  const { open, setOpen, session, mounted, productCount } =
-    useHeader();
+  const { open, setOpen, session, mounted, productCount } = useHeader();
   const { totalReviews } = useDashboards();
 
   if (!mounted) return null;
@@ -56,7 +55,7 @@ export function Header() {
               </div>
             </div>
             <div onClick={() => setOpen(true)}>
-              <DropdownMenu open={open} onOpenChange={setOpen}>
+              <DropdownMenu open={open} onOpenChange={setOpen} modal={false}>
                 <DropdownMenuTrigger asChild>
                   <div className="flex items-center gap-2 text-muted-foreground cursor-pointer">
                     <span>{`Hi, ${session.data?.user?.name || "Guest"}`}</span>
