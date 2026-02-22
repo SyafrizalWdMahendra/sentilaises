@@ -268,3 +268,20 @@ export type WordCloudReview = {
   keywords: string[];
   sentiment: Sentiment;
 };
+
+export type ServerActionHandler<T, Args extends any[] = any[]> = (
+  session: Session,
+  ...args: Args
+) => Promise<T>;
+
+export type AnalysisData = {
+  product?: {
+    id: number;
+    brand: string | null;
+    _count?: {
+      reviews: number;
+    };
+  };
+};
+
+export type BodyData = (req: Request, body: any) => Promise<NextResponse>;

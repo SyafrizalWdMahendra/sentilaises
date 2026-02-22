@@ -1,16 +1,12 @@
+import { withBody } from "@/lib/withBody";
 import { scrapeTokopediaProduct } from "@/src/services/scrape.service";
 import { NextResponse } from "next/server";
 
-export async function POST(request: Request) {
+export const POST = withBody(async (_req, body) => {
   try {
-    const body = await request.json();
-    const { url } = body;
+    const result = await scrapeTokopediaProduct(body.url);
 
-    if (!url || !url.includes("tokopedia.com")) {
-      return NextResponse.json({ error: "URL tidak valid" }, { status: 400 });
-    }
-
-    const result = await scrapeTokopediaProduct(url);
+    console.log(result);
 
     return NextResponse.json({
       success: true,
@@ -19,4 +15,4 @@ export async function POST(request: Request) {
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
-}
+});

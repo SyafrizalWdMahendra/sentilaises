@@ -1,29 +1,13 @@
 "use server";
-import prisma from "@/lib/prisma";
-import { getServerSession } from "next-auth";
-import { notFound } from "next/navigation";
-import { authOptions } from "../../api/auth/[...nextauth]/route";
+
+import { withActionAuth } from "@/lib/withAuth";
+import { getAnalysisData } from "@/src/services/analyze.service";
+import { formatBrandStats } from "@/src/services/brand.service";
+import { reportService } from "@/src/services/report.service";
 
 export const getClassificationReport = async () => {
   try {
-    const response = await prisma.model.findMany({
-      select: {
-        modelName: true,
-        description: true,
-        accuracy: true,
-        macroF1: true,
-        f1Negative: true,
-        f1Neutral: true,
-        isActive: true,
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
-
-    if (!response || response.length === 0) {
-      return notFound();
-    }
+    const response = await reportService();
 
     return response;
   } catch (error) {
@@ -32,85 +16,17 @@ export const getClassificationReport = async () => {
   }
 };
 
-export const getTotalBrandAnalysis = async () => {
+export const getTotalBrandAnalysis = withActionAuth(async (session) => {
   try {
-    const session = await getServerSession(authOptions);
+    const email = session.user?.email as string;
 
-    if (!session?.user?.email) {
-      console.log("User belum login");
-      return null;
-    }
+    const userAnalysis = await getAnalysisData(email);
 
-    const userAnalyses = await prisma.analysis.findMany({
-      where: {
-        user: {
-          email: session.user.email,
-        },
-      },
-      include: {
-        product: {
-          select: {
-            id: true,
-            brand: true,
-            _count: {
-              select: {
-                reviews: {
-                  where: {
-                    user: {
-                      email: session.user.email,
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    });
+    const formattedBrands = formatBrandStats(userAnalysis);
 
-    const countedProductIds = new Set<number>();
-
-    const brandCounts = userAnalyses.reduce(
-      (acc: Record<string, number>, analysis) => {
-        const productId = analysis.product?.id;
-        const rawBrand = analysis.product?.brand || "Unknown";
-        const reviewCount = analysis.product?._count?.reviews || 0;
-
-        if (productId && countedProductIds.has(productId)) {
-          return acc;
-        }
-        if (productId) {
-          countedProductIds.add(productId);
-        }
-
-        const formattedBrand = rawBrand
-          .trim()
-          .toLowerCase()
-          .replace(/\b\w/g, (char) => char.toUpperCase());
-
-        if (!acc[formattedBrand]) {
-          acc[formattedBrand] = 0;
-        }
-
-        acc[formattedBrand] += reviewCount;
-
-        return acc;
-      },
-      {},
-    );
-
-    const formattedBrands = Object.entries(brandCounts).map(
-      ([name, count]) => ({
-        name,
-        count,
-      }),
-    );
-
-    formattedBrands.sort((a, b) => b.count - a.count);
-
-    return formattedBrands;
+    return { formattedBrands, userAnalysis };
   } catch (error) {
     console.error("Gagal mengambil data review:", error);
     return [];
   }
-};
+});

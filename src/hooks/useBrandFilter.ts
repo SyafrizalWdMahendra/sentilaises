@@ -11,8 +11,10 @@ export const useBrandFilter = () => {
     const fetchBrands = async () => {
       try {
         const data = await getTotalBrandAnalysis();
-        if (data) {
-          setBrands(data);
+        if (data && "formattedBrands" in data) {
+          setBrands(data.formattedBrands);
+        } else {
+          setBrands([]);
         }
       } catch (error) {
         console.error("Gagal memuat filter brand", error);

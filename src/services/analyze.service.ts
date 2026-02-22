@@ -1,3 +1,5 @@
+import prisma from "@/lib/prisma";
+
 export const scrapeProduct = async (url: string) => {
   const res = await fetch("/api/scrape", {
     method: "POST",
@@ -30,4 +32,35 @@ export const getAIRecommendation = async (payload: {
   if (!aiRes.ok) throw new Error("Gagal melakukan analisis AI");
 
   return await aiRes.json();
+};
+
+export const getAnalysisData = async (email: string) => {
+  
+  const userAnalyses = await prisma.analysis.findMany({
+    where: {
+      user: {
+        email: email,
+      },
+    },
+    include: {
+      product: {
+        select: {
+          id: true,
+          brand: true,
+          _count: {
+            select: {
+              reviews: {
+                where: {
+                  user: {
+                    email: email,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+  return userAnalyses;
 };
