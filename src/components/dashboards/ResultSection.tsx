@@ -1,15 +1,10 @@
 import { ResultProps } from "@/src/types";
+import { getGridClass } from "@/src/utils/datas";
 import { motion } from "framer-motion";
 import { Trophy, ExternalLink, CheckCircle2, TrendingUp } from "lucide-react";
 
 export default function ResultSection({ result }: ResultProps) {
   if (!result) return null;
-
-  const getGridClass = (count: number) => {
-    if (count === 1) return "max-w-md mx-auto";
-    if (count === 2) return "grid-cols-1 md:grid-cols-2";
-    return "grid-cols-1 md:grid-cols-2 lg:grid-cols-3";
-  };
 
   return (
     <motion.div
@@ -39,7 +34,7 @@ export default function ResultSection({ result }: ResultProps) {
         <div className="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 left-0 -mb-10 -ml-10 w-40 h-40 bg-primary/20 rounded-full blur-3xl"></div>
 
-        <div className="relative z-10">
+        <div className="relative">
           <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/20 mb-6 shadow-sm">
             <Trophy className="w-4 h-4 text-yellow-300" />
             <span className="text-sm font-semibold tracking-wide uppercase text-white">
@@ -82,7 +77,7 @@ export default function ResultSection({ result }: ResultProps) {
               }`}
             >
               {isWinner && (
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-sentiment-positive text-white px-6 py-1.5 rounded-full shadow-lg flex items-center gap-2 z-20">
+                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-sentiment-positive text-white px-6 py-1.5 rounded-full shadow-lg flex items-center gap-2">
                   <Trophy className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                   <span className="text-xs font-bold uppercase tracking-wider">
                     Pemenang

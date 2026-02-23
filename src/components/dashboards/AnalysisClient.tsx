@@ -26,6 +26,7 @@ export default function AnalysisClient() {
     loading,
     result,
     showField,
+    resultRef,
     setShowField,
   } = useAnalyseText();
 
@@ -151,50 +152,6 @@ export default function AnalysisClient() {
               )}
             </div>
 
-            {/* {showField ? (
-              <div className="w-1/2 mr-auto animate-in fade-in">
-                <label className="block mb-1 text-sm font-medium text-gray-700">
-                  Tautan Produk 3
-                </label>
-                <div className="flex gap-2">
-                  <div className="w-full flex flex-col">
-                    <Input
-                      type="text"
-                        placeholder="Contoh: https://www.tokopedia.com/lenovo/thinkpad-x1-carbon"
-                      className={`w-full ${errors.url3 ? "border-red-500 focus:ring-red-500" : "focus:ring-primary"}`}
-                      {...register("url3")}
-                    />
-                    {errors.url3 && (
-                      <p className="text-red-500 text-xs mt-1">
-                        {errors.url3.message}
-                      </p>
-                    )}
-                  </div>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    onClick={() => {
-                      setShowField(false);
-                      setValue("url3", "");
-                    }}
-                    className="text-red-500"
-                  >
-                    ✕
-                  </Button>
-                </div>
-              </div>
-            ) : (
-              <div className="w-max mt-4">
-                <Button
-                  type="button"
-                  onClick={() => setShowField(true)}
-                  variant="outline"
-                >
-                  + Tambah Tautan Produk Lainnya
-                </Button>
-              </div>
-            )} */}
-
             {showField ? (
               <div className="w-1/2 animate-in fade-in slide-in-from-bottom-2 duration-300">
                 <label className="block mb-1 text-sm font-medium text-gray-700">
@@ -236,10 +193,6 @@ export default function AnalysisClient() {
               </div>
             )}
           </div>
-
-          {/* <div className="flex w-full gap-4 justify-center">
-           
-          </div> */}
         </div>
 
         <Button
@@ -252,7 +205,9 @@ export default function AnalysisClient() {
         </Button>
       </form>
 
-      <ResultSection result={result} />
+      <div ref={resultRef} id="result-section" className="scroll-mt-20">
+        {result && <ResultSection result={result} />}
+      </div>
     </div>
   );
 }

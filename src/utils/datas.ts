@@ -108,3 +108,9 @@ export const getVisiblePages = (data: VisiblePageProps) => {
     data.totalPages,
   ];
 };
+
+export const getGridClass = (count: number) => {
+  if (count === 1) return "max-w-md mx-auto";
+  if (count === 2) return "grid-cols-1 md:grid-cols-2";
+  return "grid-cols-1 md:grid-cols-2 lg:grid-cols-3";
+};

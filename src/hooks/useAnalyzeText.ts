@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,10 +15,10 @@ export type AnalyzeFormData = z.infer<typeof analyzeSchema>;
 
 export const useAnalyseText = () => {
   const { data: session } = useSession();
-
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<AnalysisResults | null>(null);
   const [showField, setShowField] = useState(false);
+  const resultRef = useRef<HTMLDivElement>(null);
 
   const {
     control,
@@ -97,6 +97,19 @@ export const useAnalyseText = () => {
     }
   };
 
+  useEffect(() => {
+    if (!loading && result) {
+      const timeoutId = setTimeout(() => {
+        resultRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }, 100);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [loading, result]);
+
   return {
     control,
     register,
@@ -108,6 +121,7 @@ export const useAnalyseText = () => {
     loading,
     result,
     showField,
+    resultRef,
     setShowField,
   };
 };
