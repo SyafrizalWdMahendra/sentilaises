@@ -6,6 +6,7 @@ export const useBrandFilter = () => {
   const [brands, setBrands] = useState<{ name: string; count: number }[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { selectedBrand, handleSelect } = useSelectSearch();
+  const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
     const fetchBrands = async () => {
@@ -28,5 +29,19 @@ export const useBrandFilter = () => {
 
   const totalCount = brands.reduce((sum, b) => sum + (b?.count || 0), 0);
 
-  return { brands, isLoading, totalCount, selectedBrand, handleSelect };
+  const validBrands = brands.filter((brand) => brand.count > 0);
+
+  const visibleBrands = isExpanded ? validBrands : validBrands.slice(0, 3);
+
+  return {
+    brands,
+    isLoading,
+    totalCount,
+    selectedBrand,
+    visibleBrands,
+    validBrands,
+    isExpanded,
+    handleSelect,
+    setIsExpanded,
+  };
 };

@@ -50,10 +50,10 @@ export default function DashboardClient() {
           <div className="mt-6 flex items-center justify-center gap-4 text-sm text-white/70">
             <span className="flex items-center gap-1">
               <TrendingUp className="h-4 w-4" />
-              Akurasi 92.4%
+              Akurasi 82.0%
             </span>
             <span>•</span>
-            <span>XGBoost + TF-IDF</span>
+            <span>XGBoost + SMOTE + Chi-Square</span>
             <span>•</span>
             <span>Real-time Analysis</span>
           </div>
