@@ -25,7 +25,7 @@ export function BrandFilter() {
   }
 
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-2 animate-in fade-in slide-in-from-bottom-2">
       <button
         onClick={() => handleSelect(null)}
         className={cn(
@@ -64,7 +64,7 @@ export function BrandFilter() {
             onClick={() => setIsExpanded(true)}
             className={cn(
               "rounded-lg border border-dashed px-4 py-2 text-sm font-medium hover:bg-accent transition-all cursor-pointer",
-              "flex-1 min-w-25 sm:flex-none",
+              "flex-1 min-w-25 sm:flex-none animate-in fade-in slide-in-from-bottom-2",
             )}
           >
             {validBrands.length - 3} Lainnya
@@ -78,7 +78,7 @@ export function BrandFilter() {
             onClick={() => {
               setIsExpanded(false);
             }}
-            className="text-red-500 hover:text-red-700 hover:bg-red-50 shrink-0"
+            className="text-sentiment-negative hover:text-sentiment-negative hover:bg-sentiment-negative-light shrink-0"
           >
             ✕
           </Button>
