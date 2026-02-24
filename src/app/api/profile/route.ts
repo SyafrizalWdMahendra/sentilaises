@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { userService } from "@/src/services/profile.service";
 import { withAuth } from "@/lib/withAuth";
 
-export const POST = withAuth(async (req, _context, session) => {
+export const PATCH = withAuth(async (req, _context, session) => {
   try {
     const email = session.user?.email as string;
     const body = await req.json();

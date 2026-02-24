@@ -3,7 +3,7 @@ import { ProfileFormData } from "../types";
 
 export const updateProfileService = async (formData: ProfileFormData) => {
   const response = await fetch("/api/profile", {
-    method: "POST",
+    method: "PATCH",
     body: JSON.stringify(formData),
   });
 
