@@ -8,6 +8,7 @@ import {
   Meh,
   MessageSquareText,
   Smile,
+  Sparkles,
   TrendingUp,
 } from "lucide-react";
 import { StatCard } from "./StatCard";
@@ -19,6 +20,7 @@ import { useDashboards } from "@/src/hooks/useDashboard";
 import { WordCloud } from "./WordCloud";
 import AnalysisClient from "./AnalysisClient";
 import Footer from "./Footer";
+import { Button } from "../ui/button";
 
 export default function DashboardClient() {
   const {
@@ -29,6 +31,7 @@ export default function DashboardClient() {
     loading,
     modelData,
     percentage,
+    scrollToResult,
   } = useDashboards();
 
   return (
@@ -47,15 +50,14 @@ export default function DashboardClient() {
             Sistem klasifikasi sentimen menggunakan algoritma XGBoost untuk
             menganalisis ulasan produk laptop pada platform Tokopedia
           </p>
-          <div className="mt-6 flex items-center justify-center gap-4 text-sm text-white/70">
-            <span className="flex items-center gap-1">
-              <TrendingUp className="h-4 w-4" />
-              Akurasi 82.0%
-            </span>
-            <span>•</span>
-            <span>XGBoost + SMOTE + Chi-Square</span>
-            <span>•</span>
-            <span>Real-time Analysis</span>
+          <div className="flex items-center justify-center gap-4 text-sm text-white/70">
+            <Button
+              onClick={scrollToResult}
+              className="bg-[#F8FBFF] cursor-pointer hover:bg-card hover:text-primary text-black mt-4"
+            >
+              <Sparkles className="h-5 w-5" />
+              <span>Coba Analisis Sentimen</span>
+            </Button>
           </div>
         </div>
 
@@ -133,9 +135,11 @@ export default function DashboardClient() {
           )}
         </div>
 
-        <div className="mb-8">
-          <AnalysisClient />
-        </div>
+        <section id="analysis-form" className="mt-10 scroll-mt-50">
+          <div className="mb-8 ">
+            <AnalysisClient />
+          </div>
+        </section>
 
         <div className="space-y-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">

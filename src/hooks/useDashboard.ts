@@ -67,6 +67,13 @@ export const useDashboards = () => {
   const percentage = (value: number, total: number) =>
     total > 0 ? ((value / total) * 100).toFixed(1) : "0.0";
 
+  const scrollToResult = () => {
+    const element = document.getElementById("analysis-form");
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return {
     totalReviews: stats.totalReviews,
     positiveCount: stats.positive,
@@ -78,5 +85,6 @@ export const useDashboards = () => {
     modelData,
     setSelectedBrand,
     percentage,
+    scrollToResult,
   };
 };
