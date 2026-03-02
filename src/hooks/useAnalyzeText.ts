@@ -36,29 +36,66 @@ export const useAnalyseText = () => {
     },
   });
 
-  useEffect(() => {
-    const fetchProfession = async () => {
-      try {
-        const user = await getAnotherUserData();
+  // useEffect(() => {
+  //   const fetchProfession = async () => {
+  //     try {
+  //       const user = await getAnotherUserData();
 
-        const userProfession =
-          user?.preference?.profession || user?.preference?.profession;
+  //       const userProfession =
+  //         user?.preference?.profession || user?.preference?.profession;
 
-        if (userProfession) {
-          setValue("profession", userProfession, {
-            shouldValidate: true,
-            shouldDirty: true,
-          });
-        }
-      } catch (error) {
-        console.error("Gagal mengambil data profesi user:", error);
-      }
-    };
+  //       if (userProfession) {
+  //         setValue("profession", userProfession, {
+  //           shouldValidate: true,
+  //           shouldDirty: true,
+  //         });
+  //       }
+  //     } catch (error) {
+  //       console.error("Gagal mengambil data profesi user:", error);
+  //     }
+  //   };
 
-    if (session?.user) {
-      fetchProfession();
-    }
-  }, [session, setValue]);
+  //   if (session?.user) {
+  //     fetchProfession();
+  //   }
+  // }, [session, setValue]);
+
+  // const onSubmit = async (data: AnalyzeFormData) => {
+  //   if (!session?.user?.email) {
+  //     alert("Anda harus login terlebih dahulu.");
+  //     return;
+  //   }
+
+  //   setLoading(true);
+  //   setResult(null);
+
+  //   try {
+  //     const urlsToScrape = [data.url1, data.url2, data.url3].filter(
+  //       (url) => url && url.trim() !== "",
+  //     ) as string[];
+
+  //     const scrapePromises = urlsToScrape.map((url) => scrapeProduct(url));
+  //     const scrapeResults = await Promise.all(scrapePromises);
+
+  //     const candidates = scrapeResults.map((res) => ({
+  //       name: res.data.name,
+  //       url: res.data.url,
+  //       reviews: res.data.reviews,
+  //     }));
+
+  //     const aiResult = await getAIRecommendation({
+  //       user_email: session.user.email,
+  //       // profession: data.profession,
+  //       candidates,
+  //     });
+
+  //     setResult(aiResult);
+  //   } catch (error: any) {
+  //     alert("Terjadi kesalahan: " + error.message);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const onSubmit = async (data: AnalyzeFormData) => {
     if (!session?.user?.email) {
@@ -67,7 +104,7 @@ export const useAnalyseText = () => {
     }
 
     setLoading(true);
-    setResult(null);
+    setResult(null); 
 
     try {
       const urlsToScrape = [data.url1, data.url2, data.url3].filter(
@@ -85,13 +122,21 @@ export const useAnalyseText = () => {
 
       const aiResult = await getAIRecommendation({
         user_email: session.user.email,
-        profession: data.profession,
-        candidates,
+        candidates: candidates,
       });
 
       setResult(aiResult);
+
+      setTimeout(() => {
+        document
+          .getElementById("analysis-result")
+          ?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
     } catch (error: any) {
-      alert("Terjadi kesalahan: " + error.message);
+      console.error("Analysis Error:", error);
+      alert(
+        "Terjadi kesalahan: " + (error.message || "Gagal menganalisis ulasan."),
+      );
     } finally {
       setLoading(false);
     }

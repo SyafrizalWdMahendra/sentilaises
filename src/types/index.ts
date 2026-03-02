@@ -198,10 +198,43 @@ export interface ProductDetail {
   top_keywords: string[];
 }
 
-export interface AnalysisResults {
-  profession_target: string;
+// export interface AnalysisResults {
+//   // profession_target: string;
+//   winning_product: string;
+//   details: ProductDetail[];
+// }
+
+export interface AspectScores {
+  performa: number;
+  layar: number;
+  baterai: number;
+  harga: number;
+}
+
+export interface ProductAnalysisResult {
+  name: string;
+  url: string;
+  general_score: number;
+  aspect_scores: AspectScores;
+  verdict: string;
+  description: string;
+  total_reviews: number;
+  positive_count: number;
+  negative_count: number;
+}
+
+export interface AIRecommendationResponse {
+  user_email: string;
+  analysis_type: string;
   winning_product: string;
-  details: ProductDetail[];
+  details: ProductAnalysisResult[];
+}
+
+export interface AnalysisResults {
+  user_email: string;
+  analysis_type: string;
+  winning_product: string;
+  details: ProductAnalysisResult[];
 }
 
 export interface ResultProps {
