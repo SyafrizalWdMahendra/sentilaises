@@ -1,5 +1,6 @@
 import { useReviewTable } from "../hooks/useReviewTable";
 import {
+  RadarProps,
   ScrapeResult,
   VisiblePageProps,
   WordCloudConfig,
@@ -113,4 +114,31 @@ export const getGridClass = (count: number) => {
   if (count === 1) return "max-w-md mx-auto";
   if (count === 2) return "grid-cols-1 md:grid-cols-2";
   return "grid-cols-1 md:grid-cols-2 lg:grid-cols-3";
+};
+
+export const getHighlights = (aspectScores: Record<string, number>) => {
+  const entries = Object.entries(aspectScores);
+  if (entries.length === 0)
+    return { strongest: ["N/A", 0], weakest: ["N/A", 0] };
+
+  const strongest = entries.reduce((a, b) => (a[1] > b[1] ? a : b));
+  const weakest = entries.reduce((a, b) => (a[1] < b[1] ? a : b));
+
+  return { strongest, weakest };
+};
+
+export const radarFormat = ({ data }: RadarProps) => {
+  const subjects = ["performa", "layar", "baterai", "harga"];
+
+  const chartData = subjects.map((subject) => {
+    const entry: any = { subject: subject.toUpperCase() };
+    data.forEach((product) => {
+      entry[product.name] = product.aspect_scores[subject];
+    });
+    return entry;
+  });
+
+  const colors = ["#8884d8", "#82ca9d", "#ffc658", "#ff7300"];
+
+  return { chartData, colors };
 };

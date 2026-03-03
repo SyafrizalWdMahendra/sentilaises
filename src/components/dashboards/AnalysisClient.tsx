@@ -2,22 +2,12 @@
 
 import { useAnalyseText } from "@/src/hooks/useAnalyzeText";
 import { Sparkles } from "lucide-react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import ResultSection from "./ResultSection";
-import { professionItems } from "@/src/utils/const";
-import { Controller } from "react-hook-form";
 
 export default function AnalysisClient() {
   const {
-    control,
     register,
     handleSubmit,
     onSubmit,
@@ -43,7 +33,7 @@ export default function AnalysisClient() {
 
         <div className="flex flex-col gap-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="w-full">
+            {/* <div className="w-full">
               <label className="block mb-1 text-sm font-medium text-gray-700">
                 Pilih Profesi
               </label>
@@ -79,7 +69,7 @@ export default function AnalysisClient() {
                   {errors.profession.message}
                 </p>
               )}
-            </div>
+            </div> */}
 
             <div className="w-full">
               <label className="block mb-1 text-sm font-medium text-gray-700">

@@ -323,3 +323,7 @@ export interface VisiblePageProps {
   totalPages: number;
   currentPage: number;
 }
+
+export interface RadarProps {
+  data: any[];
+}
