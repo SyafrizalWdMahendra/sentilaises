@@ -27,7 +27,7 @@ export const MODEL_OPTIONS = [
   },
 ];
 
-export const WORD_LIMIT = 20;
+export const WORD_LIMIT = 30;
 
 export const professionItems = [
   { value: "PROGRAMMER", label: "Programmer", icon: Code },
