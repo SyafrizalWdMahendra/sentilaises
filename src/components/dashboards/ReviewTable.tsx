@@ -243,7 +243,7 @@ export function ReviewTable() {
               {visiblePage.map((page, index) => (
                 <PaginationItem key={index}>
                   {page === "..." ? (
-                    <PaginationEllipsis />
+                    <PaginationEllipsis className="hover:cursor-not-allowed" />
                   ) : (
                     <PaginationLink
                       href="#"
