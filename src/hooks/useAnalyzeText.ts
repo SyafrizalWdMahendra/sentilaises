@@ -33,6 +33,7 @@ export const useAnalyseText = () => {
       url1: "",
       url2: "",
       url3: "",
+      url4: "",
     },
   });
 
@@ -104,10 +105,10 @@ export const useAnalyseText = () => {
     }
 
     setLoading(true);
-    setResult(null); 
+    setResult(null);
 
     try {
-      const urlsToScrape = [data.url1, data.url2, data.url3].filter(
+      const urlsToScrape = [data.url1, data.url2, data.url3, data.url4].filter(
         (url) => url && url.trim() !== "",
       ) as string[];
 
@@ -157,16 +158,16 @@ export const useAnalyseText = () => {
 
   return {
     control,
-    register,
-    handleSubmit,
-    setValue,
-    onSubmit,
     errors,
     isValid,
     loading,
     result,
     showField,
     resultRef,
+    register,
+    handleSubmit,
+    setValue,
+    onSubmit,
     setShowField,
   };
 };

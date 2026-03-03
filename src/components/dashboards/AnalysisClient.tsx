@@ -8,15 +8,15 @@ import ResultSection from "./ResultSection";
 
 export default function AnalysisClient() {
   const {
-    register,
-    handleSubmit,
-    onSubmit,
     errors,
     isValid,
     loading,
     result,
     showField,
     resultRef,
+    register,
+    handleSubmit,
+    onSubmit,
     setShowField,
   } = useAnalyseText();
 
@@ -87,9 +87,6 @@ export default function AnalysisClient() {
                 </p>
               )}
             </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="w-full">
               <label className="block mb-1 text-sm font-medium text-gray-700">
                 Tautan Produk 2
@@ -106,20 +103,39 @@ export default function AnalysisClient() {
                 </p>
               )}
             </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="w-full">
+              <label className="block mb-1 text-sm font-medium text-gray-700">
+                Tautan Produk 3
+              </label>
+              <Input
+                type="text"
+                placeholder="Contoh: https://tokopedia.com/..."
+                className={`w-full ${errors.url3 ? "border-sentiment-negative" : "focus:ring-primary"}`}
+                {...register("url3")}
+              />
+              {errors.url3 && (
+                <p className="text-sentiment-negative text-xs mt-1">
+                  {errors.url3.message}
+                </p>
+              )}
+            </div>
 
             <div className="w-full flex flex-col justify-end">
               {showField ? (
                 <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
                   <label className="block mb-1 text-sm font-medium text-gray-700">
-                    Tautan Produk 3
+                    Tautan Produk 4
                   </label>
                   <div className="flex gap-2">
                     <div className="flex-1">
                       <Input
                         type="text"
                         placeholder="Contoh: https://tokopedia.com/..."
-                        className={`${errors.url3 ? "border-sentiment-negative" : "focus:ring-primary"}`}
-                        {...register("url3")}
+                        className={`${errors.url4 ? "border-sentiment-negative" : "focus:ring-primary"}`}
+                        {...register("url4")}
                       />
                     </div>
                     <Button
@@ -131,9 +147,9 @@ export default function AnalysisClient() {
                       ✕
                     </Button>
                   </div>
-                  {errors.url3 && (
+                  {errors.url4 && (
                     <p className="text-sentiment-negative text-xs mt-1">
-                      {errors.url3.message}
+                      {errors.url4.message}
                     </p>
                   )}
                 </div>
@@ -141,7 +157,7 @@ export default function AnalysisClient() {
                 <Button
                   type="button"
                   onClick={() => setShowField(true)}
-                  className="w-full h-10 bg-card text-primary hover:bg-[#F8FBFF] border-dashed border border-primary/20 transition-all shadow-xs"
+                  className="w-full h-max bg-card text-primary hover:bg-[#F8FBFF] border-dashed border border-primary/20 transition-all shadow-xs"
                 >
                   + Tambah Tautan Produk Lainnya
                 </Button>

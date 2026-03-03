@@ -1,25 +1,8 @@
 import z from "zod";
 
-// const brandEnum = z.enum([
-//   "APPLE",
-//   "ASUS",
-//   "ACER",
-//   "LENOVO",
-//   "HP",
-//   "DELL",
-//   "MSI",
-//   "AXIOO",
-//   "ADVAN",
-//   "ZYREX",
-//   "OTHER",
-// ]);
-
-// cony
-
 export const analyzeSchema = z.object({
-  // profession: professionEnum,
-  //   brands: brandEnum,
   url1: z.string().min(10, "Tautan 1 minimal 10 karakter"),
   url2: z.string().min(10, "Tautan 2 minimal 10 karakter"),
-  url3: z.string().optional().or(z.literal("")),
+  url3: z.string().min(10, "Tautan 3 minimal 10 karakter"),
+  url4: z.string().optional().or(z.literal("")),
 });
