@@ -176,7 +176,7 @@ export default function AnalysisClient() {
         </Button>
       </form>
 
-      <div ref={resultRef} id="result-section" className="scroll-mt-20">
+      <div ref={resultRef} id="result-section" className="scroll-mt-28">
         {result && <ResultSection result={result} />}
       </div>
     </div>
