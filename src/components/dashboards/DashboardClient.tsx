@@ -135,7 +135,7 @@ export default function DashboardClient() {
           )}
         </div>
 
-        <section id="analysis-form" className="mt-10 scroll-mt-50">
+        <section id="analysis-form" className="scroll-mt-60">
           <div className="mb-8 ">
             <AnalysisClient />
           </div>
