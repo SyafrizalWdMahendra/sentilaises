@@ -76,7 +76,7 @@ export default function AnalysisClient() {
                 Tautan Produk 1
               </label>
               <Input
-                type="text"
+                type="url"
                 placeholder="Contoh: https://tokopedia.com/..."
                 className={`${errors.url1 ? "border-sentiment-negative" : "focus:ring-primary"}`}
                 {...register("url1")}
@@ -92,7 +92,7 @@ export default function AnalysisClient() {
                 Tautan Produk 2
               </label>
               <Input
-                type="text"
+                type="url"
                 placeholder="Contoh: https://tokopedia.com/..."
                 className={`w-full ${errors.url2 ? "border-sentiment-negative" : "focus:ring-primary"}`}
                 {...register("url2")}
@@ -111,7 +111,7 @@ export default function AnalysisClient() {
                 Tautan Produk 3
               </label>
               <Input
-                type="text"
+                type="url"
                 placeholder="Contoh: https://tokopedia.com/..."
                 className={`w-full ${errors.url3 ? "border-sentiment-negative" : "focus:ring-primary"}`}
                 {...register("url3")}
@@ -132,7 +132,7 @@ export default function AnalysisClient() {
                   <div className="flex gap-2">
                     <div className="flex-1">
                       <Input
-                        type="text"
+                        type="url"
                         placeholder="Contoh: https://tokopedia.com/..."
                         className={`${errors.url4 ? "border-sentiment-negative" : "focus:ring-primary"}`}
                         {...register("url4")}

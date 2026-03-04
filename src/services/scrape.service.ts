@@ -58,6 +58,8 @@ export async function scrapeTokopediaProduct(
     const maxPages = 5;
 
     for (let i = 1; i <= maxPages; i++) {
+      console.log(`📄 Scraping Halaman ${i}...`);
+
       await page
         .waitForSelector('[data-testid="lblItemUlasan"]', { timeout: 8000 })
         .catch(() => null);
