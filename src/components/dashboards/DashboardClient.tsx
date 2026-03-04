@@ -111,7 +111,7 @@ export default function DashboardClient() {
           </div>
         </div> */}
 
-        <div className="mb-8 grid gap-6 lg:grid-cols-2">
+        <div className="mb-8 grid gap-4 lg:grid-cols-2">
           <div className="rounded-xl border bg-card p-6">
             <div className="flex items-center gap-2 mb-2">
               <FileLock className="h-5 w-5 text-primary" />
