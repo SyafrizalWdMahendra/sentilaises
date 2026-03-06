@@ -23,7 +23,7 @@ export const getReviewService = async (email: string) => {
       createdAt: "asc",
     },
     select: {
-      id: true,
+      reviewId: true,
       createdAt: true,
       confidenceScore: true,
       sentiment: true,

@@ -10,8 +10,17 @@ import {
 } from "../services/analyze.service";
 import { analyzeSchema } from "../app/validation/analyze.schema"; // Sesuaikan path-nya
 import { getAnotherUserData } from "../app/profile/lib/action";
+import prisma from "@/lib/prisma";
+import { getMetricId } from "../services/metric.service";
 
 export type AnalyzeFormData = z.infer<typeof analyzeSchema>;
+
+export interface AnalysisWithMetric {
+  metric: {
+    metricId: number;
+    name: string;
+  } | null;
+}
 
 export const useAnalyseText = () => {
   const { data: session } = useSession();
@@ -121,9 +130,19 @@ export const useAnalyseText = () => {
         reviews: res.data.reviews,
       }));
 
-      const aiResult = await getAIRecommendation({
+      const metricIdValue = await getMetricId();
+      
+      console.log("Payload to AI:", {
         user_email: session.user.email,
+        metric_id: metricIdValue,
+        candidateCount: candidates.length,
+        totalReviews: candidates.reduce((acc, c) => acc + c.reviews.length, 0),
+      });
+
+      const aiResult = await getAIRecommendation({
+        user_email: session.user.email as string,
         candidates: candidates,
+        metric_id: metricIdValue,
       });
 
       setResult(aiResult);

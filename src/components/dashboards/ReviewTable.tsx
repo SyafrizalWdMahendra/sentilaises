@@ -88,7 +88,8 @@ export function ReviewTable() {
                   <div className="flex flex-col gap-1.5">
                     <div className="flex items-center gap-2">
                       <span className="inline-flex items-center rounded-md bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary ring-1 ring-inset ring-primary/20">
-                        {review.product?.brand || "Generic"}
+                        {/* Tambahkan .name di sini */}
+                        {review.product?.brand?.name || "Generic"}
                       </span>
                     </div>
                     <span className="text-sm font-medium leading-tight text-foreground line-clamp-2">

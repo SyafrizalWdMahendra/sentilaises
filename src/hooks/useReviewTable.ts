@@ -38,7 +38,7 @@ export const useReviewTable = (
     const filteredData = selectedBrand
       ? data.filter(
           (review) =>
-            review.product?.brand?.toLowerCase() ===
+            review.product?.brand?.name.toLowerCase() ===
             selectedBrand.toLowerCase(),
         )
       : data;

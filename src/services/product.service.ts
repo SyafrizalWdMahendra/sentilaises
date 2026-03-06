@@ -8,9 +8,11 @@ export const productService = async (email: string) => {
 
   if (!user) return null;
 
-  const totalProducts = await prisma.analysis.count({
+  const totalProducts = await prisma.metric.count({
     where: {
-      userId: user.id,
+      analysis: {
+        userId: user.id,
+      },
     },
   });
 

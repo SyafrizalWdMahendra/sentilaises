@@ -1,5 +1,5 @@
 import { LucideIcon } from "lucide-react";
-import { OS, Profession, Sentiment, Brand } from "@prisma/client";
+import { OS, Profession, Sentiment } from "@prisma/client";
 import z from "zod";
 import { profileSchema } from "../app/validation/profile.schema";
 import { Session } from "next-auth";
@@ -18,7 +18,7 @@ export interface ModelDB {
 export interface ProfileClientProps {
   name: string;
   bio?: string;
-  preferenceBrand: string;
+  preferenceBrand: string
   preferenceOS: string;
   budgetMin: number;
   budgetMax: number;
@@ -130,6 +130,33 @@ export interface UseStatCardProps {
   delay?: number;
 }
 
+// export interface ReviewItem {
+//   reviewId: number;
+//   content: string;
+//   sentiment: Sentiment;
+//   confidenceScore: number;
+//   createdAt: string;
+//   keywords: string[];
+//   product: {
+//     name: string;
+//     brand?: Brand;
+//   } | null;
+// }
+
+export interface Brand {
+  brandId: number;
+  name: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface Product {
+  productId: number; // Pastikan sesuai dengan schema.prisma (productId bukan id)
+  name: string;
+  url: string;
+  brand: Brand | null; // <--- Ubah dari string ke Brand object
+}
+
 export interface ReviewItem {
   id: number;
   content: string;
@@ -137,10 +164,7 @@ export interface ReviewItem {
   confidenceScore: number;
   createdAt: string;
   keywords: string[];
-  product: {
-    name: string;
-    brand?: string;
-  } | null;
+  product: Product | null;
 }
 
 export interface ApiResponse {
@@ -307,14 +331,25 @@ export type ServerActionHandler<T, Args extends any[] = any[]> = (
   ...args: Args
 ) => Promise<T>;
 
+// export type AnalysisData = {
+//   product?: {
+//     id: number;
+//     brand: string | null;
+//     _count?: {
+//       reviews: number;
+//     };
+//   };
+// };
+
 export type AnalysisData = {
-  product?: {
-    id: number;
-    brand: string | null;
-    _count?: {
-      reviews: number;
-    };
-  };
+  analysisId: number;
+  createdAt: string | Date;
+  product: {
+    productId: number;
+    brandName: string | null;
+    name: string;
+    reviewCount: number;
+  } | null;
 };
 
 export type BodyData = (req: Request, body: any) => Promise<NextResponse>;

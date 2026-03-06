@@ -5,7 +5,12 @@ import { getAnotherUserDataService } from "@/src/services/users.service";
 
 export const getAnotherUserData = withActionAuth(async (session) => {
   try {
-    const email = (await session.user?.email) as string;
+    const email = session.user?.email;
+
+    if (!email) {
+      console.warn("No email found in session");
+      return null;
+    }
 
     const userData = await getAnotherUserDataService(email);
 

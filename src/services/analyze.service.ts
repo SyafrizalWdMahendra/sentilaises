@@ -19,22 +19,6 @@ export const scrapeProduct = async (url: string) => {
   return data;
 };
 
-// export const getAIRecommendation = async (payload: {
-//   user_email: string;
-//   // profession: string;
-//   candidates: { name: string; url: string; reviews: any[] }[];
-// }) => {
-//   const aiRes = await fetch("http://localhost:8000/recommend", {
-//     method: "POST",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify(payload),
-//   });
-
-//   if (!aiRes.ok) throw new Error("Gagal melakukan analisis AI");
-
-//   return await aiRes.json();
-// };
-
 export const getAnalysisData = async (email: string) => {
   const userAnalyses = await prisma.analysis.findMany({
     where: {
@@ -43,16 +27,24 @@ export const getAnalysisData = async (email: string) => {
       },
     },
     include: {
-      product: {
+      metric: {
         select: {
-          id: true,
-          brand: true,
-          _count: {
+          product: {
             select: {
-              reviews: {
-                where: {
-                  user: {
-                    email: email,
+              productId: true,
+              brand: {
+                select:{
+                  name: true
+                }
+              },
+              _count: {
+                select: {
+                  reviews: {
+                    where: {
+                      user: {
+                        email: email,
+                      },
+                    },
                   },
                 },
               },
@@ -67,17 +59,28 @@ export const getAnalysisData = async (email: string) => {
 
 export const getAIRecommendation = async (payload: {
   user_email: string;
+  metric_id: number | 1;
   candidates: { name: string; url: string; reviews: string[] }[];
 }): Promise<AIRecommendationResponse> => {
+  console.log("Fetching to FastAPI...");
   const aiRes = await fetch("http://localhost:8000/recommend", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload), 
+    body: JSON.stringify(payload),
   });
 
   if (!aiRes.ok) {
     const errorData = await aiRes.json();
-    throw new Error(errorData.detail || "Gagal melakukan analisis AI");
+    // DEBUG: Munculkan di console agar bisa dibaca strukturnya
+    console.error(
+      "DETAILED VALIDATION ERROR:",
+      JSON.stringify(errorData, null, 2),
+    );
+
+    // Ambil pesan error pertama dari list validation FastAPI
+    const errorMessage =
+      errorData.detail?.[0]?.msg || "Gagal melakukan analisis AI";
+    throw new Error(errorMessage);
   }
 
   return await aiRes.json();

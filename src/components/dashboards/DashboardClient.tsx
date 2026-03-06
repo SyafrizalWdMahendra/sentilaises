@@ -9,7 +9,6 @@ import {
   MessageSquareText,
   Smile,
   Sparkles,
-  TrendingUp,
 } from "lucide-react";
 import { StatCard } from "./StatCard";
 import { ModelInfoSkeleton } from "../skeletons/ModelInfoSkeleton";

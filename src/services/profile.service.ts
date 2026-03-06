@@ -23,7 +23,11 @@ export const userService = {
       include: {
         preference: {
           select: {
-            preferredBrand: true,
+            brand: {
+              select: {
+                name: true,
+              },
+            },
             preferredOS: true,
             profession: true,
             budgetMax: true,
@@ -54,25 +58,38 @@ export const userService = {
         bio: data.bio,
         preference: {
           upsert: {
+            where: { userId: user.id },
             update: {
               profession: data.profession,
-              preferredBrand: data.preferredBrand,
               preferredOS: data.preferredOS,
               budgetMin,
               budgetMax,
+              brand: {
+                connectOrCreate: {
+                  where: { name: data.preferredBrand },
+                  create: { name: data.preferredBrand },
+                },
+              },
             },
             create: {
               profession: data.profession,
-              preferredBrand: data.preferredBrand,
               preferredOS: data.preferredOS,
               budgetMin,
               budgetMax,
+              brand: {
+                connectOrCreate: {
+                  where: { name: data.preferredBrand },
+                  create: { name: data.preferredBrand },
+                },
+              },
             },
           },
         },
       },
       include: {
-        preference: true,
+        preference: {
+          include: { brand: true },
+        },
       },
     });
 

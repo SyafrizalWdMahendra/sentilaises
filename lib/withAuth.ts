@@ -3,6 +3,9 @@ import { ApiHandler, ServerActionHandler } from "@/src/types";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export function withAuth(handler: ApiHandler) {
   return async (req: Request, context: any) => {
     const session = await getServerSession(authOptions);

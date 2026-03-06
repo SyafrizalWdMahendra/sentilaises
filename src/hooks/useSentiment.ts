@@ -72,13 +72,13 @@ export const useSentiment = () => {
     let confidence: number;
 
     if (positiveScore > negativeScore) {
-      sentiment = "positif";
+      sentiment = "POSITIVE";
       confidence = 0.75 + Math.random() * 0.2;
     } else if (negativeScore > positiveScore) {
-      sentiment = "negatif";
+      sentiment = "NEGATIVE";
       confidence = 0.75 + Math.random() * 0.2;
     } else {
-      sentiment = "netral";
+      sentiment = "NEUTRAL";
       confidence = 0.6 + Math.random() * 0.2;
     }
 
@@ -92,21 +92,21 @@ export const useSentiment = () => {
 
   const getSentimentDisplay = (sentiment: AnalysisResult["sentiment"]) => {
     const config = {
-      positif: {
+      POSITIVE: {
         icon: ThumbsUp,
         label: "Positif",
         bgClass: "bg-sentiment-positive-light",
         textClass: "text-sentiment-positive",
         borderClass: "border-sentiment-positive/30",
       },
-      negatif: {
+      NEGATIVE: {
         icon: ThumbsDown,
         label: "Negatif",
         bgClass: "bg-sentiment-negative-light",
         textClass: "text-sentiment-negative",
         borderClass: "border-sentiment-negative/30",
       },
-      netral: {
+      NEUTRAL: {
         icon: Minus,
         label: "Netral",
         bgClass: "bg-sentiment-neutral-light",

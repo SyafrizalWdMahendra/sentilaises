@@ -47,7 +47,7 @@ export const useProfileClient = (props: ProfileClientProps) => {
           (newData.profession as Profession) || prev.preference.profession,
 
         preferredBrand:
-          (newData.preferredBrand as Brand) || prev.preference.preferredBrand,
+          (newData.preferredBrand ) || prev.preference.preferredBrand,
 
         preferredOS: (newData.preferredOS as OS) || prev.preference.preferredOS,
 
@@ -74,7 +74,9 @@ export const useProfileClient = (props: ProfileClientProps) => {
     profession,
   } = preference;
 
-  const { brands } = brandFormat({ preferenceBrand });
+  const { brands } = brandFormat({
+    preferenceBrand: preferenceBrand as any,
+  });
 
   return {
     session,

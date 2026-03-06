@@ -8,8 +8,8 @@ import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { formatRupiah, toTitleCase } from "@/src/utils/datas";
 import { brandItems, OSItems, professionItems } from "@/src/utils/const";
-import { useProfileClient } from "@/src/hooks/useProfileClient";
 import { ProfileModal } from "./ProfileModal";
+import { useProfileClient } from "@/src/hooks/useProfileClient";
 
 export default function ProfileCard(props: ProfileClientProps) {
   const {

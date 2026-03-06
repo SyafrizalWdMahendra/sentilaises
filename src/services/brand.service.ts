@@ -5,9 +5,9 @@ export const formatBrandStats = (userAnalysis: AnalysisData[]) => {
 
   const brandCounts = userAnalysis.reduce(
     (acc: Record<string, number>, analysis) => {
-      const productId = analysis.product?.id;
-      const rawBrand = analysis.product?.brand || "Unknown";
-      const reviewCount = analysis.product?._count?.reviews || 0;
+      const productId = analysis.product?.productId;
+      const rawBrand = analysis.product?.brandName || "Unknown";
+      const reviewCount = analysis.product?.reviewCount || 0;
 
       if (productId && countedProductIds.has(productId)) {
         return acc;
@@ -20,7 +20,7 @@ export const formatBrandStats = (userAnalysis: AnalysisData[]) => {
       const formattedBrand = rawBrand
         .trim()
         .toLowerCase()
-        .replace(/\b\w/g, (char) => char.toUpperCase());
+        .replace(/\b\w/g, (char: any) => char.toUpperCase());
 
       if (!acc[formattedBrand]) {
         acc[formattedBrand] = 0;

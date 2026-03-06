@@ -10,9 +10,13 @@ export const getAnotherUserDataService = async (email: string) => {
       bio: true,
       preference: {
         select: {
-          id: true,
+          userPreferenceId: true,
           profession: true,
-          preferredBrand: true,
+          brand:{
+            select:{
+              name: true
+            }
+          },
           preferredOS: true,
           budgetMin: true,
           budgetMax: true,
@@ -20,6 +24,5 @@ export const getAnotherUserDataService = async (email: string) => {
       },
     },
   });
-  
   return userData;
 };

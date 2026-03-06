@@ -28,7 +28,7 @@ export const profileSchema = z.object({
   name: z.string().min(2, "Nama minimal 2 karakter"),
   bio: z.string().min(10, "Bio minimal 10 karakter"),
   profession: professionEnum,
-  preferredBrand: brandEnum,
+  preferredBrand: z.string().min(2, "Merek laptop minimal 2 karakter"),
   preferredOS: osEnum,
   budgetMin: z.coerce.number().min(0),
   budgetMax: z.coerce.number().min(0),
