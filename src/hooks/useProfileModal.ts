@@ -21,7 +21,7 @@ export const useProfileModal = ({
     resolver: zodResolver(profileSchema),
     defaultValues: {
       name: userData?.name,
-      bio: userData?.bio,
+      bio: userData?.bio === "None" || !userData?.bio ? "" : userData.bio,
       profession: pref.profession ?? "OTHER",
       preferredBrand: pref.preferredBrand ?? "OTHER",
       preferredOS: pref.preferredOS ?? "OTHER",
