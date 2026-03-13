@@ -89,8 +89,8 @@ export default function ProfileCard(props: ProfileClientProps) {
             Tentang Saya
           </div>
           <div className="rounded-xl bg-muted/50 p-4 border border-muted">
-            <p className="text-sm leading-relaxed text-foreground/90">
-              {bio ||
+            <p className="text-sm text-gray-400">
+              {bio &&
                 "Belum ada deskripsi profil. Ceritakan sedikit tentang aktivitas dan kebutuhan laptop Anda."}
             </p>
           </div>
@@ -114,8 +114,8 @@ export default function ProfileCard(props: ProfileClientProps) {
                     </span>
                   ))
                 ) : (
-                  <span className="text-sm text-muted-foreground">
-                    Tidak ada preferensi
+                  <span className="bg-card rounded-full text-sm text-gray-400 border px-3 py-1">
+                    None
                   </span>
                 )}
               </div>
@@ -134,8 +134,8 @@ export default function ProfileCard(props: ProfileClientProps) {
                     {preferenceOS}
                   </span>
                 ) : (
-                  <span className="text-sm text-muted-foreground">
-                    Bebas / Semua OS
+                  <span className="bg-card rounded-full text-sm text-gray-400 border px-3 py-1">
+                    None
                   </span>
                 )}
               </div>
@@ -162,7 +162,7 @@ export default function ProfileCard(props: ProfileClientProps) {
               </div>
             ) : (
               <div className="flex h-[calc(100%-2rem)] justify-center items-center">
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-gray-400">
                   Anggaran Belum Diatur.
                 </p>
               </div>
