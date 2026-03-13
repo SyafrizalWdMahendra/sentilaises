@@ -236,6 +236,8 @@ export const ProfileModal = ({
                 {...register("budgetMin", { valueAsNumber: true })}
                 placeholder="Rp 0"
                 className="border rounded-md focus:ring-2 focus:ring-primary mt-1"
+                min={0}
+                max={100000000000}
               />
               {errors.budgetMin && (
                 <p className="text-red-500 text-xs">
@@ -250,6 +252,8 @@ export const ProfileModal = ({
                 {...register("budgetMax", { valueAsNumber: true })}
                 placeholder="Rp 0"
                 className="border rounded-md focus:ring-2 focus:ring-primary mt-1"
+                min={0}
+                max={100000000000}
               />
               {errors.budgetMax && (
                 <p className="text-red-500 text-xs">

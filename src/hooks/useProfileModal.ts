@@ -25,8 +25,8 @@ export const useProfileModal = ({
       profession: pref.profession ?? "OTHER",
       preferredBrand: pref.preferredBrand ?? "OTHER",
       preferredOS: pref.preferredOS ?? "OTHER",
-      budgetMin: pref.budgetMin ?? 0,
-      budgetMax: pref.budgetMax ?? 0,
+      budgetMin: pref.budgetMin === 0 || !pref.budgetMin ? "" : pref.budgetMin,
+      budgetMax: pref.budgetMax === 0 || !pref.budgetMax ? "" : pref.budgetMax,
     },
   });
 
