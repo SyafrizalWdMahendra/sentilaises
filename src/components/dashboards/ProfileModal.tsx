@@ -38,7 +38,7 @@ export const ProfileModal = ({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.2, ease: "circOut" }}
-      className="fixed inset-0 flex items-center justify-center bg-black/50 z-1"
+      className="fixed inset-0 flex items-center justify-center bg-primary/30 z-1"
     >
       <form
         onSubmit={handleSubmit(onSubmit)}
