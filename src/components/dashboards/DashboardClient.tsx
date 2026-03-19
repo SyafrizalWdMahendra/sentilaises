@@ -20,6 +20,7 @@ import { WordCloud } from "./WordCloud";
 import AnalysisClient from "./AnalysisClient";
 import Footer from "./Footer";
 import { Button } from "../ui/button";
+import ExportExcel from "./ExportExcel";
 
 export default function DashboardClient() {
   const {
@@ -151,7 +152,10 @@ export default function DashboardClient() {
                 Hasil klasifikasi sentimen ulasan produk laptop
               </p>
             </div>
-            <BrandFilter />
+            <div className="flex gap-2 items-center">
+              <BrandFilter />
+              <ExportExcel />
+            </div>
           </div>
           <ReviewTable />
         </div>

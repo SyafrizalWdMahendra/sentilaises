@@ -37,6 +37,22 @@ export const getReviewService = async (email: string) => {
       },
     },
   });
-  
+
   return review;
+};
+
+export const PaginationService = {
+  getNextPage: (currentPage: number, totalPages: number): number => {
+    return currentPage < totalPages ? currentPage + 1 : currentPage;
+  },
+
+  getPrevPage: (currentPage: number): number => {
+    return currentPage > 1 ? currentPage - 1 : currentPage;
+  },
+
+  getValidPage: (pageNumber: number, totalPages: number): number => {
+    if (pageNumber < 1) return 1;
+    if (pageNumber > totalPages) return totalPages;
+    return pageNumber;
+  },
 };

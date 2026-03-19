@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo } from "react";
 import { ApiResponse, ReviewItem } from "../types";
+import { PaginationService } from "../services/review.service";
 
 export const useReviewTable = (
   itemsPerPage: number = 10,
@@ -57,16 +58,19 @@ export const useReviewTable = (
   }, [data, currentPage, itemsPerPage, selectedBrand]);
 
   const nextPage = () => {
-    if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
+    setCurrentPage((prev) => PaginationService.getNextPage(prev, totalPages));
   };
+
   const prevPage = () => {
-    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
+    setCurrentPage((prev) => PaginationService.getPrevPage(prev));
   };
+
   const goToPage = (pageNumber: number) => {
-    if (pageNumber >= 1 && pageNumber <= totalPages) setCurrentPage(pageNumber);
+    setCurrentPage(PaginationService.getValidPage(pageNumber, totalPages));
   };
 
   return {
+    data,
     currentData,
     isLoading,
     pagination: {
