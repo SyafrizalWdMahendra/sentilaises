@@ -19,7 +19,7 @@ export default function AnalysisClient() {
     handleSubmit,
     onSubmit,
     setShowField,
-    handleCancel
+    handleCancel,
   } = useAnalyseText();
 
   return (
@@ -169,14 +169,14 @@ export default function AnalysisClient() {
         </div>
 
         {loading && (
-          <div className="mt-8 p-4 border rounded-lg bg-transparent">
+          <div className="mt-4 bg-transparent">
             <div className="flex justify-between mb-2">
               <span className="text-sm font-medium">{progress.status}</span>
               <span className="text-sm font-medium">{progress.percent}%</span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2.5">
               <div
-                className="bg-blue-600 h-2.5 rounded-full transition-all duration-500"
+                className="bg-primary h-2.5 rounded-full transition-all duration-500"
                 style={{ width: `${progress.percent}%` }}
               ></div>
             </div>
@@ -197,7 +197,7 @@ export default function AnalysisClient() {
           )}
           <Button
             type="submit"
-            disabled={!isValid || loading}
+            hidden={loading}
             className="w-full md:w-max bg-primary text-white px-6 py-3 mt-6 rounded-md transition-colors disabled:bg-gray-400"
           >
             <Sparkles className="h-4 w-4" />
