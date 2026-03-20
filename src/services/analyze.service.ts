@@ -1,13 +1,17 @@
 import prisma from "@/lib/prisma";
 import { AIRecommendationResponse } from "../types";
 
-export const scrapeProduct = async (url: string) => {
+export const scrapeProduct = async (
+  url: string,
+  options?: { signal?: AbortSignal },
+) => {
   const res = await fetch("/api/scrape", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ url }),
+    signal: options?.signal,
   });
 
   if (!res.ok) throw new Error(`Gagal scraping: ${url}`);
@@ -33,9 +37,9 @@ export const getAnalysisData = async (email: string) => {
             select: {
               productId: true,
               brand: {
-                select:{
-                  name: true
-                }
+                select: {
+                  name: true,
+                },
               },
               _count: {
                 select: {
@@ -57,16 +61,20 @@ export const getAnalysisData = async (email: string) => {
   return userAnalyses;
 };
 
-export const getAIRecommendation = async (payload: {
-  user_email: string;
-  metric_id: number | 1;
-  candidates: { name: string; url: string; reviews: string[] }[];
-}): Promise<AIRecommendationResponse> => {
+export const getAIRecommendation = async (
+  payload: {
+    user_email: string;
+    metric_id: number | 1;
+    candidates: { name: string; url: string; reviews: string[] }[];
+  },
+  options?: { signal?: AbortSignal },
+): Promise<AIRecommendationResponse> => {
   console.log("Fetching to FastAPI...");
   const aiRes = await fetch("http://localhost:8000/recommend", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
+    signal: options?.signal,
   });
 
   if (!aiRes.ok) {

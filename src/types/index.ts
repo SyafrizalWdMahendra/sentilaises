@@ -4,6 +4,7 @@ import z from "zod";
 import { profileSchema } from "../app/validation/profile.schema";
 import { Session } from "next-auth";
 import { NextResponse } from "next/server";
+import { analyzeSchema } from "../app/validation/analyze.schema";
 
 export interface ModelDB {
   modelName: string;
@@ -361,4 +362,13 @@ export interface VisiblePageProps {
 
 export interface RadarProps {
   data: any[];
+}
+
+export type AnalyzeFormData = z.infer<typeof analyzeSchema>;
+
+export interface AnalysisWithMetric {
+  metric: {
+    metricId: number;
+    name: string;
+  } | null;
 }

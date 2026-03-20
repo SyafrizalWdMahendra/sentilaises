@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { AnalysisResults } from "../types";
+import { AnalysisResults, AnalyzeFormData } from "../types";
 import {
   scrapeProduct,
   getAIRecommendation,
@@ -13,21 +13,14 @@ import { getAnotherUserData } from "../app/profile/lib/action";
 import prisma from "@/lib/prisma";
 import { getMetricId } from "../services/metric.service";
 
-export type AnalyzeFormData = z.infer<typeof analyzeSchema>;
-
-export interface AnalysisWithMetric {
-  metric: {
-    metricId: number;
-    name: string;
-  } | null;
-}
-
 export const useAnalyseText = () => {
   const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<AnalysisResults | null>(null);
   const [showField, setShowField] = useState(false);
   const resultRef = useRef<HTMLDivElement>(null);
+  const [progress, setProgress] = useState({ status: "", percent: 0 });
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   const {
     control,
@@ -107,6 +100,15 @@ export const useAnalyseText = () => {
   //   }
   // };
 
+  const handleCancel = useCallback(() => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort("User cancelled the analysis");
+      abortControllerRef.current = null;
+    }
+    setLoading(false);
+    setProgress({ status: "Analisis Dibatalkan", percent: 0 });
+  }, []);
+
   const onSubmit = async (data: AnalyzeFormData) => {
     if (!session?.user?.email) {
       alert("Anda harus login terlebih dahulu.");
@@ -114,24 +116,39 @@ export const useAnalyseText = () => {
     }
 
     setLoading(true);
+    setProgress({ status: "Memulai scraping...", percent: 10 });
     setResult(null);
+
+    abortControllerRef.current = new AbortController();
+    const signal = abortControllerRef.current.signal;
 
     try {
       const urlsToScrape = [data.url1, data.url2, data.url3, data.url4].filter(
         (url) => url && url.trim() !== "",
       ) as string[];
 
-      const scrapePromises = urlsToScrape.map((url) => scrapeProduct(url));
-      const scrapeResults = await Promise.all(scrapePromises);
+      const scrapeResults = await Promise.all(
+        urlsToScrape.map(async (url) => {
+          return await scrapeProduct(url, {
+            signal: signal,
+          });
+        }),
+      );
 
-      const candidates = scrapeResults.map((res) => ({
-        name: res.data.name,
-        url: res.data.url,
-        reviews: res.data.reviews,
-      }));
+      const candidates = scrapeResults
+        .filter((res) => res && res.success)
+        .map((res) => ({
+          name: res.data.name,
+          url: res.data.url,
+          reviews: res.data.reviews,
+        }));
+
+      if (candidates.length === 0) {
+        throw new Error("Tidak ada data produk yang berhasil diambil.");
+      }
 
       const metricIdValue = await getMetricId();
-      
+
       console.log("Payload to AI:", {
         user_email: session.user.email,
         metric_id: metricIdValue,
@@ -139,13 +156,23 @@ export const useAnalyseText = () => {
         totalReviews: candidates.reduce((acc, c) => acc + c.reviews.length, 0),
       });
 
-      const aiResult = await getAIRecommendation({
-        user_email: session.user.email as string,
-        candidates: candidates,
-        metric_id: metricIdValue,
-      });
+      setProgress({ status: "AI sedang menganalisis ulasan...", percent: 70 });
+      const aiResult = await getAIRecommendation(
+        {
+          user_email: session.user.email as string,
+          candidates: candidates,
+          metric_id: metricIdValue,
+        },
+        { signal: abortControllerRef.current?.signal },
+      );
+
+      if (!aiResult) {
+        console.log("Server menghentikan proses karena pembatalan.");
+        return;
+      }
 
       setResult(aiResult);
+      setProgress({ status: "Selesai", percent: 100 });
 
       setTimeout(() => {
         document
@@ -153,12 +180,18 @@ export const useAnalyseText = () => {
           ?.scrollIntoView({ behavior: "smooth" });
       }, 100);
     } catch (error: any) {
+      if (error.name === "AbortError" || signal.aborted) {
+        console.log("🛠️ Request dibatalkan secara aman.");
+        return; // Keluar dari fungsi tanpa memunculkan alert error
+      }
+
       console.error("Analysis Error:", error);
       alert(
         "Terjadi kesalahan: " + (error.message || "Gagal menganalisis ulasan."),
       );
     } finally {
       setLoading(false);
+      abortControllerRef.current = null;
     }
   };
 
@@ -183,10 +216,12 @@ export const useAnalyseText = () => {
     result,
     showField,
     resultRef,
+    progress,
     register,
     handleSubmit,
     setValue,
     onSubmit,
     setShowField,
+    handleCancel,
   };
 };

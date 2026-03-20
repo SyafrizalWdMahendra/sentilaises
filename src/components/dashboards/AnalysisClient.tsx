@@ -1,7 +1,7 @@
 "use client";
 
 import { useAnalyseText } from "@/src/hooks/useAnalyzeText";
-import { Sparkles } from "lucide-react";
+import { Sparkles, X } from "lucide-react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import ResultSection from "./ResultSection";
@@ -14,10 +14,12 @@ export default function AnalysisClient() {
     result,
     showField,
     resultRef,
+    progress,
     register,
     handleSubmit,
     onSubmit,
     setShowField,
+    handleCancel
   } = useAnalyseText();
 
   return (
@@ -166,14 +168,42 @@ export default function AnalysisClient() {
           </div>
         </div>
 
-        <Button
-          type="submit"
-          disabled={!isValid || loading}
-          className="w-full md:w-max bg-primary text-white px-6 py-3 mt-6 rounded-md transition-colors disabled:bg-gray-400"
-        >
-          <Sparkles className="h-4 w-4" />
-          {loading ? "Menganalisis..." : "Analisis Sekarang"}
-        </Button>
+        {loading && (
+          <div className="mt-8 p-4 border rounded-lg bg-transparent">
+            <div className="flex justify-between mb-2">
+              <span className="text-sm font-medium">{progress.status}</span>
+              <span className="text-sm font-medium">{progress.percent}%</span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-2.5">
+              <div
+                className="bg-blue-600 h-2.5 rounded-full transition-all duration-500"
+                style={{ width: `${progress.percent}%` }}
+              ></div>
+            </div>
+          </div>
+        )}
+
+        <div className="flex gap-2">
+          {loading && (
+            <Button
+              type="button"
+              variant="destructive"
+              onClick={handleCancel}
+              className="w-full bg-sentiment-negative text-white md:w-max px-6 py-3 mt-6 rounded-md transition-colors disabled:bg-gray-400"
+            >
+              <X className="h-4 w-4" />
+              <span>Cancel</span>
+            </Button>
+          )}
+          <Button
+            type="submit"
+            disabled={!isValid || loading}
+            className="w-full md:w-max bg-primary text-white px-6 py-3 mt-6 rounded-md transition-colors disabled:bg-gray-400"
+          >
+            <Sparkles className="h-4 w-4" />
+            {loading ? "Menganalisis..." : "Analisis Sekarang"}
+          </Button>
+        </div>
       </form>
 
       <div ref={resultRef} id="result-section" className="scroll-mt-28">
