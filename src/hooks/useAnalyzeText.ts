@@ -213,13 +213,11 @@ export const useAnalyseText = () => {
       labels: "Tautan Produk 3",
       errors: errors.url3,
       title: { ...register("url3") },
-      type: "url3",
     },
     {
       labels: "Tautan Produk 4",
       errors: errors.url4,
       title: { ...register("url4") },
-      type: "url4",
     },
   ];
 

@@ -8,6 +8,7 @@ import ResultSection from "./ResultSection";
 
 export default function AnalysisClient() {
   const {
+    isValid,
     errors,
     loading,
     result,
@@ -101,18 +102,31 @@ export default function AnalysisClient() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end transition-all duration-500">
             {urlInput()}
+
             {visibleFields < 2 && (
-              <Button
-                type="button"
-                onClick={() => setVisibleFields((prev) => prev + 1)}
-                className="h-max bg-card text-primary hover:bg-[#F8FBFF] border-dashed border border-primary/20 transition-all shadow-xs"
+              <div
+                className={`
+                  transition-all duration-500 ease-in-out
+                  ${visibleFields === 0 ? "col-span-1 md:col-span-2 flex justify-center" : "col-span-1"}
+                `}
               >
-                {visibleFields === 0
-                  ? "+ Tambah Tautan Produk"
-                  : "+ Tambah Tautan Produk Lainnya"}
-              </Button>
+                <Button
+                  type="button"
+                  onClick={() => setVisibleFields((prev) => prev + 1)}
+                  className={`
+                    h-max bg-card text-primary hover:bg-[#F8FBFF] 
+                    border-dashed border border-primary/20 shadow-xs
+                    transition-all duration-500 animate-in fade-in zoom-in-95
+                    ${visibleFields === 0 ? "w-full md:w-1/2" : "w-full"}
+                  `}
+                >
+                  {visibleFields === 0
+                    ? "+ Tambah Tautan Produk"
+                    : "+ Tambah Tautan Produk Lainnya"}
+                </Button>
+              </div>
             )}
           </div>
         </div>
@@ -147,6 +161,7 @@ export default function AnalysisClient() {
           <Button
             type="submit"
             hidden={loading}
+            disabled={!isValid}
             className="w-full md:w-max bg-primary text-white px-6 py-3 mt-6 rounded-md transition-colors disabled:bg-gray-400"
           >
             <Sparkles className="h-4 w-4" />
