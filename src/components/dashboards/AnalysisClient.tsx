@@ -9,18 +9,49 @@ import ResultSection from "./ResultSection";
 export default function AnalysisClient() {
   const {
     errors,
-    isValid,
     loading,
     result,
-    showField,
     resultRef,
     progress,
+    visibleFields,
+    urlDatas,
     register,
     handleSubmit,
     onSubmit,
-    setShowField,
     handleCancel,
+    setVisibleFields,
   } = useAnalyseText();
+
+  const urlInput = () => {
+    return urlDatas.slice(0, visibleFields).map((item, index) => (
+      <div
+        key={index}
+        className="animate-in fade-in slide-in-from-bottom-2 duration-300"
+      >
+        <label className="block mb-1 text-sm font-medium text-gray-700">
+          {item.labels}
+        </label>
+        <div className="flex gap-2">
+          <div className="flex-1">
+            <Input
+              type="url"
+              placeholder="Contoh: https://tokopedia.com/..."
+              className={`${item.errors ? "border-sentiment-negative" : "focus:ring-primary"}`}
+              {...item.title}
+            />
+          </div>
+          <Button
+            type="button"
+            variant="ghost"
+            onClick={() => setVisibleFields((prev) => prev - 1)}
+            className="text-sentiment-negative hover:text-sentiment-negative hover:bg-sentiment-negative-light shrink-0"
+          >
+            ✕
+          </Button>
+        </div>
+      </div>
+    ));
+  };
 
   return (
     <div className="w-full mx-auto">
@@ -35,44 +66,6 @@ export default function AnalysisClient() {
 
         <div className="flex flex-col gap-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* <div className="w-full">
-              <label className="block mb-1 text-sm font-medium text-gray-700">
-                Pilih Profesi
-              </label>
-              <Controller
-                name="profession"
-                control={control}
-                render={({ field }) => (
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <SelectTrigger
-                      className={`w-full ${errors.profession ? "border-sentiment-negative" : ""}`}
-                    >
-                      <SelectValue placeholder="Pilih Profesi" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-card" position="popper">
-                      {professionItems.map((item) => (
-                        <SelectItem
-                          key={item.value}
-                          value={item.value}
-                          className="focus:bg-primary focus:text-card"
-                        >
-                          <div className="flex gap-2 items-center">
-                            <item.icon className="h-4 w-4" />
-                            <span>{item.label}</span>
-                          </div>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                )}
-              />
-              {errors.profession && (
-                <p className="text-sentiment-negative text-xs mt-1">
-                  {errors.profession.message}
-                </p>
-              )}
-            </div> */}
-
             <div className="w-full">
               <label className="block mb-1 text-sm font-medium text-gray-700">
                 Tautan Produk 1
@@ -89,6 +82,7 @@ export default function AnalysisClient() {
                 </p>
               )}
             </div>
+
             <div className="w-full">
               <label className="block mb-1 text-sm font-medium text-gray-700">
                 Tautan Produk 2
@@ -107,64 +101,19 @@ export default function AnalysisClient() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="w-full">
-              <label className="block mb-1 text-sm font-medium text-gray-700">
-                Tautan Produk 3
-              </label>
-              <Input
-                type="url"
-                placeholder="Contoh: https://tokopedia.com/..."
-                className={`w-full ${errors.url3 ? "border-sentiment-negative" : "focus:ring-primary"}`}
-                {...register("url3")}
-              />
-              {errors.url3 && (
-                <p className="text-sentiment-negative text-xs mt-1">
-                  {errors.url3.message}
-                </p>
-              )}
-            </div>
-
-            <div className="w-full flex flex-col justify-end">
-              {showField ? (
-                <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
-                  <label className="block mb-1 text-sm font-medium text-gray-700">
-                    Tautan Produk 4
-                  </label>
-                  <div className="flex gap-2">
-                    <div className="flex-1">
-                      <Input
-                        type="url"
-                        placeholder="Contoh: https://tokopedia.com/..."
-                        className={`${errors.url4 ? "border-sentiment-negative" : "focus:ring-primary"}`}
-                        {...register("url4")}
-                      />
-                    </div>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      onClick={() => setShowField(false)}
-                      className="text-sentiment-negative hover:text-sentiment-negative hover:bg-sentiment-negative-light shrink-0"
-                    >
-                      ✕
-                    </Button>
-                  </div>
-                  {errors.url4 && (
-                    <p className="text-sentiment-negative text-xs mt-1">
-                      {errors.url4.message}
-                    </p>
-                  )}
-                </div>
-              ) : (
-                <Button
-                  type="button"
-                  onClick={() => setShowField(true)}
-                  className="w-full h-max bg-card text-primary hover:bg-[#F8FBFF] border-dashed border border-primary/20 transition-all shadow-xs"
-                >
-                  + Tambah Tautan Produk Lainnya
-                </Button>
-              )}
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
+            {urlInput()}
+            {visibleFields < 2 && (
+              <Button
+                type="button"
+                onClick={() => setVisibleFields((prev) => prev + 1)}
+                className="h-max bg-card text-primary hover:bg-[#F8FBFF] border-dashed border border-primary/20 transition-all shadow-xs"
+              >
+                {visibleFields === 0
+                  ? "+ Tambah Tautan Produk"
+                  : "+ Tambah Tautan Produk Lainnya"}
+              </Button>
+            )}
           </div>
         </div>
 

@@ -17,10 +17,10 @@ export const useAnalyseText = () => {
   const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<AnalysisResults | null>(null);
-  const [showField, setShowField] = useState(false);
   const resultRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState({ status: "", percent: 0 });
   const abortControllerRef = useRef<AbortController | null>(null);
+  const [visibleFields, setVisibleFields] = useState(0);
 
   const {
     control,
@@ -208,20 +208,36 @@ export const useAnalyseText = () => {
     }
   }, [loading, result]);
 
+  const urlDatas = [
+    {
+      labels: "Tautan Produk 3",
+      errors: errors.url3,
+      title: { ...register("url3") },
+      type: "url3",
+    },
+    {
+      labels: "Tautan Produk 4",
+      errors: errors.url4,
+      title: { ...register("url4") },
+      type: "url4",
+    },
+  ];
+
   return {
     control,
     errors,
     isValid,
     loading,
     result,
-    showField,
+    visibleFields,
     resultRef,
     progress,
+    urlDatas,
     register,
     handleSubmit,
     setValue,
     onSubmit,
-    setShowField,
+    setVisibleFields,
     handleCancel,
   };
 };

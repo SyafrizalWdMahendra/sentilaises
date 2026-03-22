@@ -8,6 +8,7 @@ import {
 import { SiAcer, SiAsus, SiLenovo, SiLinux, SiMacos } from "react-icons/si";
 import { FaWindows } from "react-icons/fa";
 import { Sentiment } from "@prisma/client";
+import { useAnalyseText } from "../hooks/useAnalyzeText";
 
 export const MODEL_OPTIONS = [
   {
