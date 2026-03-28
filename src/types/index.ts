@@ -5,6 +5,7 @@ import { profileSchema } from "../app/validation/profile.schema";
 import { Session } from "next-auth";
 import { NextResponse } from "next/server";
 import { analyzeSchema } from "../app/validation/analyze.schema";
+import { FieldError, UseFormRegisterReturn } from "react-hook-form";
 
 export interface ModelDB {
   modelName: string;
@@ -19,7 +20,7 @@ export interface ModelDB {
 export interface ProfileClientProps {
   name: string;
   bio?: string;
-  preferenceBrand: string
+  preferenceBrand: string;
   preferenceOS: string;
   budgetMin: number;
   budgetMax: number;
@@ -372,3 +373,22 @@ export interface AnalysisWithMetric {
     name: string;
   } | null;
 }
+
+type UrlData = {
+  labels: string;
+  errors: FieldError | undefined;
+  title: UseFormRegisterReturn;
+};
+
+export type UrlInputItemProps = {
+  item: UrlData;
+  index: number;
+  visibleFields: number;
+  onRemove: () => void;
+};
+
+export type UrlInputListProps = {
+  urlDatas: UrlData[];
+  visibleFields: number;
+  setVisibleFields: React.Dispatch<React.SetStateAction<number>>;
+};

@@ -5,6 +5,7 @@ import { Sparkles, X } from "lucide-react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import ResultSection from "./ResultSection";
+import UrlInputList from "./UrlInputList";
 
 export default function AnalysisClient() {
   const {
@@ -22,39 +23,6 @@ export default function AnalysisClient() {
     handleCancel,
     setVisibleFields,
   } = useAnalyseText();
-
-  const urlInput = () => {
-    return urlDatas.slice(0, visibleFields).map((item, index) => (
-      <div
-        key={index}
-        className="animate-in fade-in slide-in-from-bottom-2 duration-300"
-      >
-        <label className="block mb-1 text-sm font-medium text-gray-700">
-          {item.labels}
-        </label>
-        <div className="flex gap-2">
-          <div className="flex-1">
-            <Input
-              type="url"
-              placeholder="Contoh: https://tokopedia.com/..."
-              className={`${item.errors ? "border-sentiment-negative" : "focus:ring-primary"}`}
-              {...item.title}
-            />
-          </div>
-          {index === visibleFields - 1 && (
-            <Button
-              type="button"
-              variant="ghost"
-              onClick={() => setVisibleFields((prev) => prev - 1)}
-              className="text-sentiment-negative hover:text-sentiment-negative hover:bg-sentiment-negative-light shrink-0"
-            >
-              ✕
-            </Button>
-          )}
-        </div>
-      </div>
-    ));
-  };
 
   return (
     <div className="w-full mx-auto">
@@ -105,7 +73,11 @@ export default function AnalysisClient() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end transition-all duration-500">
-            {urlInput()}
+            <UrlInputList
+              urlDatas={urlDatas}
+              visibleFields={visibleFields}
+              setVisibleFields={setVisibleFields}
+            />
 
             {visibleFields < 2 && (
               <div
