@@ -41,14 +41,16 @@ export default function AnalysisClient() {
               {...item.title}
             />
           </div>
-          <Button
-            type="button"
-            variant="ghost"
-            onClick={() => setVisibleFields((prev) => prev - 1)}
-            className="text-sentiment-negative hover:text-sentiment-negative hover:bg-sentiment-negative-light shrink-0"
-          >
-            ✕
-          </Button>
+          {index === visibleFields - 1 && (
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={() => setVisibleFields((prev) => prev - 1)}
+              className="text-sentiment-negative hover:text-sentiment-negative hover:bg-sentiment-negative-light shrink-0"
+            >
+              ✕
+            </Button>
+          )}
         </div>
       </div>
     ));
