@@ -13,7 +13,7 @@ export default function ExportExcel() {
     <Button
       onClick={() => downloadAllData(data)}
       variant="outline"
-      className="flex items-center gap-2 border-primary/20 text-primary hover:bg-primary/5"
+      className="flex items-center gap-2 border-primary/20 text-primary hover:bg-primary hover:text-card"
       disabled={isLoading}
     >
       <Download className="h-4 w-4" />

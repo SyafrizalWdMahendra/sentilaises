@@ -66,7 +66,6 @@ export default function DashboardClient() {
             title="Total Ulasan"
             value={totalReviews}
             icon={MessageSquareText}
-            trend={{ value: 12.5, isPositive: true }}
             delay={0}
           />
 
