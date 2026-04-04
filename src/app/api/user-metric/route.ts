@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import prisma from "@/lib/prisma";
 import { authOptions } from "../auth/[...nextauth]/route";
-import { AnalysisWithMetric } from "@/src/hooks/useAnalyzeText";
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -25,7 +24,7 @@ export async function GET() {
     orderBy: {
       createdAt: "desc",
     },
-  })) as AnalysisWithMetric | null;
+  })) as { metric: { metricId: number } } | null;
 
   return NextResponse.json({ metricId: userAnalysis?.metric?.metricId });
 }
