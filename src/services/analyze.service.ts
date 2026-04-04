@@ -5,7 +5,7 @@ export const scrapeProduct = async (
   url: string,
   options?: { signal?: AbortSignal },
 ) => {
-  const res = await fetch("/api/scrape", {
+  const res = await fetch("https://citot123-tokped-scraper.hf.space/scrape", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
