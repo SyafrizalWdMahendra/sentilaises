@@ -70,7 +70,7 @@ export const getAIRecommendation = async (
   options?: { signal?: AbortSignal },
 ): Promise<AIRecommendationResponse> => {
   console.log("Fetching to FastAPI...");
-  const aiRes = await fetch("http://localhost:8000/recommend", {
+  const aiRes = await fetch("https://citot123-tokped-scraper.hf.space/recommend", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
