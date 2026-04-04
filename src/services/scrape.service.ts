@@ -1,4 +1,5 @@
-import puppeteer from "puppeteer";
+import puppeteer from "puppeteer-core";
+import chromium from "@sparticuz/chromium-min";
 import { ScrapeResult } from "../types";
 import { getFallbackData } from "../utils/datas";
 
@@ -27,11 +28,20 @@ export async function scrapeTokopediaProduct(
 ): Promise<ScrapeResult> {
   const targetUrl = normalizeToReviewUrl(url);
   let browser;
+  const CHROMIUM_URL =
+    "https://github.com/Sparticuz/chromium/releases/download/v131.0.1/chromium-v131.0.1-pack.tar";
 
   try {
     browser = await puppeteer.launch({
+      args: [
+        ...chromium.args,
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        "--disable-blink-features=AutomationControlled",
+      ],
+      executablePath: await chromium.executablePath(CHROMIUM_URL),
       headless: true,
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      defaultViewport: { width: 1280, height: 800 },
     });
 
     const page = await browser.newPage();
