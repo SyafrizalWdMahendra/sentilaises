@@ -2,15 +2,12 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { AnalysisResults, AnalyzeFormData } from "../types";
 import {
   scrapeProduct,
   getAIRecommendation,
 } from "../services/analyze.service";
-import { analyzeSchema } from "../app/validation/analyze.schema"; // Sesuaikan path-nya
-import { getAnotherUserData } from "../app/profile/lib/action";
-import prisma from "@/lib/prisma";
+import { analyzeSchema } from "../app/validation/analyze.schema"; 
 import { getMetricId } from "../services/metric.service";
 
 export const useAnalyseText = () => {
@@ -182,7 +179,7 @@ export const useAnalyseText = () => {
     } catch (error: any) {
       if (error.name === "AbortError" || signal.aborted) {
         console.log("🛠️ Request dibatalkan secara aman.");
-        return; // Keluar dari fungsi tanpa memunculkan alert error
+        return; 
       }
 
       console.error("Analysis Error:", error);

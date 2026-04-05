@@ -1,11 +1,12 @@
 import prisma from "@/lib/prisma";
 import { AIRecommendationResponse } from "../types";
+import { aiRecommendPath, scrapePath } from "../utils/const";
 
 export const scrapeProduct = async (
   url: string,
   options?: { signal?: AbortSignal },
 ) => {
-  const res = await fetch("/api/scrape", {
+  const res = await fetch(scrapePath, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -70,7 +71,7 @@ export const getAIRecommendation = async (
   options?: { signal?: AbortSignal },
 ): Promise<AIRecommendationResponse> => {
   console.log("Fetching to FastAPI...");
-  const aiRes = await fetch("https://citot123-tokped-scraper.hf.space/recommend", {
+  const aiRes = await fetch(aiRecommendPath, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
@@ -79,13 +80,7 @@ export const getAIRecommendation = async (
 
   if (!aiRes.ok) {
     const errorData = await aiRes.json();
-    // DEBUG: Munculkan di console agar bisa dibaca strukturnya
-    console.error(
-      "DETAILED VALIDATION ERROR:",
-      JSON.stringify(errorData, null, 2),
-    );
 
-    // Ambil pesan error pertama dari list validation FastAPI
     const errorMessage =
       errorData.detail?.[0]?.msg || "Gagal melakukan analisis AI";
     throw new Error(errorMessage);

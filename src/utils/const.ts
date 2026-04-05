@@ -8,9 +8,8 @@ import {
 import { SiAcer, SiAsus, SiLenovo, SiLinux, SiMacos } from "react-icons/si";
 import { FaWindows } from "react-icons/fa";
 import { Sentiment } from "@prisma/client";
-import { useAnalyseText } from "../hooks/useAnalyzeText";
 
-export const MODEL_OPTIONS = [
+const MODEL_OPTIONS = [
   {
     label: "Model XGBoost (Baseline)",
     code: "baseline",
@@ -28,9 +27,9 @@ export const MODEL_OPTIONS = [
   },
 ];
 
-export const WORD_LIMIT = 30;
+const WORD_LIMIT = 30;
 
-export const professionItems = [
+const professionItems = [
   { value: "PROGRAMMER", label: "Programmer", icon: Code },
   { value: "DESIGNER", label: "Designer", icon: Palette },
   { value: "STUDENT", label: "Student", icon: Book },
@@ -38,21 +37,21 @@ export const professionItems = [
   { value: "OTHER", label: "Other", icon: LucideCircleEllipsis },
 ];
 
-export const brandItems = [
+const brandItems = [
   { value: "ASUS", label: "Asus", icon: SiAsus },
   { value: "ACER", label: "Acer", icon: SiAcer },
   { value: "LENOVO", label: "Lenovo", icon: SiLenovo },
   { value: "OTHER", label: "Other", icon: LucideCircleEllipsis },
 ];
 
-export const OSItems = [
+const OSItems = [
   { value: "WINDOWS", label: "Windows", icon: FaWindows },
   { value: "MACOS", label: "Macos", icon: SiMacos },
   { value: "LINUX", label: "Linux", icon: SiLinux },
   { value: "OTHER", label: "Other", icon: LucideCircleEllipsis },
 ];
 
-export const reviewDatas = [
+const reviewDatas = [
   {
     productId: 2,
     modelId: 1,
@@ -79,3 +78,87 @@ export const reviewDatas = [
     confidenceScore: 0.88,
   },
 ];
+
+const scrapePath = "/api/scrape";
+const backendUrl = process.env.BACKEND_URL || "http://localhost:8000";
+const aiRecommendPath = `${backendUrl}/recommend`;
+const userMetricPath = "/api/user-metric";
+const profilePath = "/api/profile";
+const chromiumUrl =
+  "https://github.com/Sparticuz/chromium/releases/download/v131.0.1/chromium-v131.0.1-pack.tar";
+const sentimentStatsPath = "/api/review/sentiment-stats";
+const productPath = "/api/product";
+const reviewPath = "/api/review";
+const positiveWords = [
+  "bagus",
+  "cepat",
+  "aman",
+  "baik",
+  "mulus",
+  "moga",
+  "awet",
+  "mantap",
+  "sangat",
+  "fungsi",
+];
+
+const negativeWords = [
+  "lebih",
+  "jual",
+  "baru",
+  "lalu",
+  "tahun",
+  "masalah",
+  "rusak",
+  "garansi",
+  "layar",
+  "kecewa",
+];
+
+const models = [
+  {
+    code: "none",
+    value: "xgboost",
+    label: "XGBoost (Baseline)",
+    desc: "Model 1",
+  },
+  {
+    code: "Grid Search",
+    value: "xgboost",
+    label: "XGBoost (Tuned)",
+    desc: "Model 2",
+  },
+  {
+    code: "recommended",
+    value: "xgboost",
+    label: "XGBoost (Fully Optimized)",
+    desc: "Model 3",
+  },
+];
+
+const predictPath = `${backendUrl}/predict`;
+const socketPath = "/api/socket";
+const wordCloudPath = "/api/word-cloud";
+
+export {
+  scrapePath,
+  aiRecommendPath,
+  userMetricPath,
+  profilePath,
+  chromiumUrl,
+  sentimentStatsPath,
+  productPath,
+  reviewPath,
+  positiveWords,
+  negativeWords,
+  models,
+  predictPath,
+  MODEL_OPTIONS,
+  WORD_LIMIT,
+  professionItems,
+  brandItems,
+  OSItems,
+  reviewDatas,
+  socketPath,
+  wordCloudPath,
+};

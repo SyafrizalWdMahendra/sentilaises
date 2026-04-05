@@ -2,6 +2,7 @@ import puppeteer from "puppeteer-core";
 import chromium from "@sparticuz/chromium-min";
 import { ScrapeResult } from "../types";
 import { getFallbackData } from "../utils/datas";
+import { chromiumUrl } from "../utils/const";
 
 function normalizeToReviewUrl(rawUrl: string): string {
   try {
@@ -28,8 +29,6 @@ export async function scrapeTokopediaProduct(
 ): Promise<ScrapeResult> {
   const targetUrl = normalizeToReviewUrl(url);
   let browser;
-  const CHROMIUM_URL =
-    "https://github.com/Sparticuz/chromium/releases/download/v131.0.1/chromium-v131.0.1-pack.tar";
 
   try {
     browser = await puppeteer.launch({
@@ -39,7 +38,7 @@ export async function scrapeTokopediaProduct(
         "--disable-setuid-sandbox",
         "--disable-blink-features=AutomationControlled",
       ],
-      executablePath: await chromium.executablePath(CHROMIUM_URL),
+      executablePath: await chromium.executablePath(chromiumUrl),
       headless: true,
       defaultViewport: { width: 1280, height: 800 },
     });

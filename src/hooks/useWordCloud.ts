@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { KeywordStats, WordCloudReview, WordItem } from "@/src/types";
-import { WORD_LIMIT } from "../utils/const";
+import { WORD_LIMIT, wordCloudPath } from "../utils/const";
 
 export const useWordCloud = () => {
   const [words, setWords] = useState<WordItem[]>([]);
@@ -11,11 +11,11 @@ export const useWordCloud = () => {
   useEffect(() => {
     const fetchWords = async () => {
       try {
-        const res = await fetch("/api/word-cloud");
+        const res = await fetch(wordCloudPath);
         const json = await res.json();
 
         if (!json?.success || !Array.isArray(json.data)) {
-          console.error("Invalid response from /api/word-cloud");
+          console.error(`Invalid response from ${wordCloudPath}`);
           return;
         }
 

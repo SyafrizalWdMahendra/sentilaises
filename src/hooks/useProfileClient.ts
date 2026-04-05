@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { ProfileClientProps, ProfileFormData, ProfileState } from "@/src/types";
-import { Brand, OS, Profession } from "@prisma/client";
+import { OS, Profession } from "@prisma/client";
 import { brandFormat } from "../utils/datas";
 
 export const useProfileClient = (props: ProfileClientProps) => {
@@ -47,7 +47,7 @@ export const useProfileClient = (props: ProfileClientProps) => {
           (newData.profession as Profession) || prev.preference.profession,
 
         preferredBrand:
-          (newData.preferredBrand ) || prev.preference.preferredBrand,
+          newData.preferredBrand || prev.preference.preferredBrand,
 
         preferredOS: (newData.preferredOS as OS) || prev.preference.preferredOS,
 

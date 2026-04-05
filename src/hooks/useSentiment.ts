@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { AnalysisResult } from "../types";
-import { Minus, ThumbsDown, ThumbsUp } from "lucide-react";
+import { configDisplay } from "../utils/datas";
+import { models, negativeWords, positiveWords } from "../utils/const";
 
 export const useSentiment = () => {
   const [text, setText] = useState("");
@@ -22,32 +23,6 @@ export const useSentiment = () => {
     setResult(null);
 
     await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    const positiveWords = [
-      "bagus",
-      "cepat",
-      "aman",
-      "baik",
-      "mulus",
-      "moga",
-      "awet",
-      "mantap",
-      "sangat",
-      "fungsi",
-    ];
-
-    const negativeWords = [
-      "lebih",
-      "jual",
-      "baru",
-      "lalu",
-      "tahun",
-      "masalah",
-      "rusak",
-      "garansi",
-      "layar",
-      "kecewa",
-    ];
 
     const lowerText = text.toLowerCase();
     let positiveScore = 0;
@@ -91,52 +66,9 @@ export const useSentiment = () => {
   };
 
   const getSentimentDisplay = (sentiment: AnalysisResult["sentiment"]) => {
-    const config = {
-      POSITIVE: {
-        icon: ThumbsUp,
-        label: "Positif",
-        bgClass: "bg-sentiment-positive-light",
-        textClass: "text-sentiment-positive",
-        borderClass: "border-sentiment-positive/30",
-      },
-      NEGATIVE: {
-        icon: ThumbsDown,
-        label: "Negatif",
-        bgClass: "bg-sentiment-negative-light",
-        textClass: "text-sentiment-negative",
-        borderClass: "border-sentiment-negative/30",
-      },
-      NEUTRAL: {
-        icon: Minus,
-        label: "Netral",
-        bgClass: "bg-sentiment-neutral-light",
-        textClass: "text-sentiment-neutral",
-        borderClass: "border-sentiment-neutral/30",
-      },
-    };
-    return config[sentiment];
+    const config = configDisplay(sentiment);
+    return config;
   };
-
-  const models = [
-    {
-      code: "none",
-      value: "xgboost",
-      label: "XGBoost (Baseline)",
-      desc: "Model 1",
-    },
-    {
-      code: "Grid Search",
-      value: "xgboost",
-      label: "XGBoost (Tuned)",
-      desc: "Model 2",
-    },
-    {
-      code: "recommended",
-      value: "xgboost",
-      label: "XGBoost (Fully Optimized)",
-      desc: "Model 3",
-    },
-  ];
 
   const filteredItems = useMemo(() => {
     if (!searchQuery) return models;
@@ -149,18 +81,18 @@ export const useSentiment = () => {
 
   return {
     selectedModel,
-    setSelectedModel,
     text,
-    setText,
     laptopName,
-    setLaptopName,
     isAnalyzing,
-    analyzeText,
     result,
-    getSentimentDisplay,
     searchQuery,
-    setSearchQuery,
     filteredItems,
     isFormValid,
+    setSelectedModel,
+    setText,
+    setLaptopName,
+    analyzeText,
+    getSentimentDisplay,
+    setSearchQuery,
   };
 };

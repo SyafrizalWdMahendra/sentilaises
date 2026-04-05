@@ -1,5 +1,6 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { productPath } from "../utils/const";
 
 export const useHeader = () => {
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -17,7 +18,7 @@ export const useHeader = () => {
     setMounted(true);
     const getProductCount = async () => {
       try {
-        const res = await fetch("/api/product");
+        const res = await fetch(productPath);
         if (!res.ok) throw new Error("Failed to fetch product count");
 
         const data = await res.json();

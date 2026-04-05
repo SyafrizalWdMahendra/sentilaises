@@ -1,8 +1,9 @@
 import prisma from "@/lib/prisma";
 import { ProfileFormData } from "../types";
+import { profilePath } from "../utils/const";
 
 export const updateProfileService = async (formData: ProfileFormData) => {
-  const response = await fetch("/api/profile", {
+  const response = await fetch(profilePath, {
     method: "PATCH",
     body: JSON.stringify(formData),
   });

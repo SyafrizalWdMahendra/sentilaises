@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { ModelDB, Review, StatCounts } from "@/src/types";
 import { getClassificationReport } from "../app/dashboard/lib/actions";
+import { sentimentStatsPath } from "../utils/const";
 
 export const useDashboards = () => {
   const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
@@ -20,7 +21,7 @@ export const useDashboards = () => {
     async function fetchStats() {
       setLoading(true);
 
-      const res = await fetch("/api/review/sentiment-stats");
+      const res = await fetch(sentimentStatsPath);
       const json = await res.json();
 
       const statsData = json.data;

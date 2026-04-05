@@ -1,5 +1,6 @@
-import { useReviewTable } from "../hooks/useReviewTable";
+import { Minus, ThumbsDown, ThumbsUp } from "lucide-react";
 import {
+  AnalysisResult,
   RadarProps,
   ScrapeResult,
   VisiblePageProps,
@@ -141,4 +142,31 @@ export const radarFormat = ({ data }: RadarProps) => {
   const colors = ["#8884d8", "#82ca9d", "#ffc658", "#ff7300"];
 
   return { chartData, colors };
+};
+
+export const configDisplay = (sentiment: AnalysisResult["sentiment"]) => {
+  const config = {
+    POSITIVE: {
+      icon: ThumbsUp,
+      label: "Positif",
+      bgClass: "bg-sentiment-positive-light",
+      textClass: "text-sentiment-positive",
+      borderClass: "border-sentiment-positive/30",
+    },
+    NEGATIVE: {
+      icon: ThumbsDown,
+      label: "Negatif",
+      bgClass: "bg-sentiment-negative-light",
+      textClass: "text-sentiment-negative",
+      borderClass: "border-sentiment-negative/30",
+    },
+    NEUTRAL: {
+      icon: Minus,
+      label: "Netral",
+      bgClass: "bg-sentiment-neutral-light",
+      textClass: "text-sentiment-neutral",
+      borderClass: "border-sentiment-neutral/30",
+    },
+  };
+  return config[sentiment];
 };

@@ -1,6 +1,6 @@
-// src/hooks/useSocket.ts
 import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
+import { socketPath } from "../utils/const";
 
 export const useSocket = () => {
   const [socket, setSocket] = useState<Socket | null>(null);
@@ -8,7 +8,7 @@ export const useSocket = () => {
 
   useEffect(() => {
     const socketInitializer = async () => {
-      await fetch("/api/socket"); // Panggil API untuk menyalakan server socket
+      await fetch(socketPath);
       const newSocket = io();
 
       newSocket.on("progress", (data) => {

@@ -28,10 +28,10 @@ async function main() {
       modelName: "Model XGBoost (Optimized)",
       description:
         "Model final menggunakan teknik SMOTE untuk menyeimbangkan kelas, seleksi fitur Chi-Square, dan optimasi Grid Search.",
-      accuracy: 0.72,
-      macroF1: 0.66,
+      accuracy: 0.73,
+      macroF1: 0.67,
       f1Negative: 0.68,
-      f1Neutral: 0.43,
+      f1Neutral: 0.45,
       isActive: true,
     },
   ];

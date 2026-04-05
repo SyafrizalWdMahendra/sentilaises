@@ -12,5 +12,4 @@ const iconStyles = {
   neutral: "bg-sentiment-neutral/10 text-sentiment-neutral",
 };
 
-
 export { variantStyles, iconStyles };

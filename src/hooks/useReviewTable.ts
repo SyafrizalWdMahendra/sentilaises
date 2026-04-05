@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { ApiResponse, ReviewItem } from "../types";
 import { PaginationService } from "../services/review.service";
+import { reviewPath } from "../utils/const";
 
 export const useReviewTable = (
   itemsPerPage: number = 10,
@@ -14,7 +15,7 @@ export const useReviewTable = (
     const getReviewData = async () => {
       try {
         setIsLoading(true);
-        const req = await fetch("/api/review");
+        const req = await fetch(reviewPath);
         const res: ApiResponse = await req.json();
 
         if (res.data && Array.isArray(res.data)) {

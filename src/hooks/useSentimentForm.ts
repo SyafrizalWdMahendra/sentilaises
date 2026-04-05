@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { MODEL_OPTIONS } from "../utils/const";
+import { MODEL_OPTIONS, predictPath } from "../utils/const";
 
 export const useSentimentForm = () => {
   const [selectedModel, setSelectedModel] = useState(MODEL_OPTIONS[2]);
@@ -31,7 +31,7 @@ export const useSentimentForm = () => {
     setResult(null);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/predict", {
+      const response = await fetch(predictPath, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
