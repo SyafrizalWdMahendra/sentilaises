@@ -31,6 +31,7 @@ export async function scrapeTokopediaProduct(
   let browser;
 
   try {
+    const isLocal = process.env.NODE_ENV === "development";
     browser = await puppeteer.launch({
       args: [
         ...chromium.args,
@@ -38,7 +39,9 @@ export async function scrapeTokopediaProduct(
         "--disable-setuid-sandbox",
         "--disable-blink-features=AutomationControlled",
       ],
-      executablePath: await chromium.executablePath(chromiumUrl),
+      executablePath: isLocal
+        ? "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+        : await chromium.executablePath(chromiumUrl),
       headless: true,
       defaultViewport: { width: 1280, height: 800 },
     });

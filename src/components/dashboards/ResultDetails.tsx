@@ -20,7 +20,7 @@ export default function ResultDetails({ result }: ResultProps) {
   if (!result || !result.details || result.details.length === 0) return null;
 
   return (
-    <div className="space-y-6 w-1/2">
+    <div className="space-y-6">
       <div className="relative group border p-8 rounded-xl bg-card h-100 overflow-hidden">
         {activeProductIndex > 0 && (
           <button

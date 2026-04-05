@@ -15,7 +15,7 @@ const RadarComparisonChart = ({ data }: RadarProps) => {
   const { chartData, colors } = radarFormat({ data });
 
   return (
-    <div className="w-1/2 h-100 bg-card p-5 rounded-xl border items-center flex flex-col">
+    <div className="h-100 bg-card p-5 rounded-xl border items-center flex flex-col">
       <h3 className="text-lg font-semibold text-center">
         Perbandingan Aspek Produk
       </h3>
