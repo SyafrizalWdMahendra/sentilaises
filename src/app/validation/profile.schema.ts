@@ -30,6 +30,10 @@ export const profileSchema = z.object({
   profession: professionEnum,
   preferredBrand: z.string().min(2, "Merek laptop minimal 2 karakter"),
   preferredOS: osEnum,
-  budgetMin: z.coerce.number().min(0),
-  budgetMax: z.coerce.number().min(0),
+  budgetMin: z.coerce
+    .number()
+    .min(0, "Anggaran minimal harus lebih besar dari 0"),
+  budgetMax: z.coerce
+    .number()
+    .min(0, "Anggaran maksimal harus lebih besar dari anggaran minimal"),
 });
