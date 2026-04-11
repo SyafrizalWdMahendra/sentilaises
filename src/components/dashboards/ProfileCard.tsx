@@ -89,8 +89,10 @@ export default function ProfileCard(props: ProfileClientProps) {
             Tentang Saya
           </div>
           <div className="rounded-xl bg-muted/50 p-4 border border-muted">
-            <p className="text-sm text-gray-400">
-              {bio &&
+            <p
+              className={`text-sm  ${!bio ? "text-gray-400" : "text-card-foreground"}`}
+            >
+              {bio ||
                 "Belum ada deskripsi profil. Ceritakan sedikit tentang aktivitas dan kebutuhan laptop Anda."}
             </p>
           </div>
@@ -162,9 +164,7 @@ export default function ProfileCard(props: ProfileClientProps) {
               </div>
             ) : (
               <div className="flex h-[calc(100%-2rem)] justify-center items-center">
-                <p className="text-sm text-gray-400">
-                  Anggaran Belum Diatur.
-                </p>
+                <p className="text-sm text-gray-400">Anggaran Belum Diatur.</p>
               </div>
             )}
           </div>
