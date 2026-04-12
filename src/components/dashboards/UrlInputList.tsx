@@ -5,6 +5,7 @@ const UrlInputList = ({
   urlDatas,
   visibleFields,
   setVisibleFields,
+  isDark,
 }: UrlInputListProps) => {
   return (
     <>
@@ -15,6 +16,7 @@ const UrlInputList = ({
           index={index}
           visibleFields={visibleFields}
           onRemove={() => setVisibleFields((prev) => prev - 1)}
+          isDark={isDark}
         />
       ))}
     </>

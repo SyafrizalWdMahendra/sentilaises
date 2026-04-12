@@ -11,6 +11,7 @@ export function StatCard({
   trend,
   variant = "default",
   delay = 0,
+  isDark,
 }: StatCardProps) {
   const { isVisible, displayValue } = useStatCard({ value, delay });
 
@@ -20,18 +21,28 @@ export function StatCard({
         "relative overflow-hidden rounded-xl border p-6 card-elevated transition-all duration-500",
         variantStyles[variant],
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4",
+        isDark ? "bg-gray-800" : "bg-white",
+        isDark ? "border-transparent" : "border-gray-200",
       )}
     >
       <div className="flex items-start justify-between">
         <div className="space-y-2">
-          <p className="text-sm font-medium text-muted-foreground">{title}</p>
+          <p
+            className={`text-sm font-medium text-muted-foreground ${isDark ? "text-white" : "text-neutral"}`}
+          >
+            {title}
+          </p>
 
           <div className="flex items-baseline gap-1">
-            <span className="text-3xl font-bold tracking-tight">
+            <span
+              className={`text-3xl font-bold tracking-tight ${isDark ? "text-white" : "text-neutral"}`}
+            >
               {displayValue.toLocaleString()}
             </span>
             {suffix && (
-              <span className="text-lg font-medium text-muted-foreground">
+              <span
+                className={`text-lg font-medium ${isDark ? "text-white" : "text-neutral"}`}
+              >
                 {suffix}
               </span>
             )}
@@ -55,7 +66,7 @@ export function StatCard({
           )}
         </div>
 
-        <div className={cn("rounded-xl p-3", iconStyles[variant])}>
+        <div className={cn("rounded-xl p-3 transition-all duration-500", iconStyles(isDark)[variant])}>
           <Icon className="h-6 w-6" />
         </div>
       </div>

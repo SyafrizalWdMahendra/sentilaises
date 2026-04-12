@@ -45,7 +45,7 @@ export function ReviewTable() {
 
   return (
     <div className="space-y-4">
-      <div className="rounded-xl border bg-card">
+      <div className="rounded-xl border border-gray-200 bg-card">
         <Table>
           <TableHeader>
             <TableRow className="hover:bg-transparent">
@@ -155,7 +155,7 @@ export function ReviewTable() {
         </Table>
 
         {totalPages > 1 && (
-          <div className="border-t bg-muted/20 px-6 py-4">
+          <div className="border-t border-t-gray-200 bg-muted/20 px-6 py-4">
             <Pagination className="justify-center sm:justify-end">
               <PaginationContent>
                 <PaginationItem>

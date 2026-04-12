@@ -36,7 +36,7 @@ export function BrandFilter() {
           <SelectValue placeholder="Pilih Brand" />
         </SelectTrigger>
         <SelectContent
-          className="bg-card border-border shadow-lg"
+          className="bg-card shadow-lg"
           position="popper"
         >
           <SelectItem

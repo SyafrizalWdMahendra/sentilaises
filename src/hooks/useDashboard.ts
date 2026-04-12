@@ -16,6 +16,7 @@ export const useDashboards = () => {
     negative: 0,
     neutral: 0,
   });
+  const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
     async function fetchStats() {
@@ -84,6 +85,8 @@ export const useDashboards = () => {
     selectedBrand,
     loading,
     modelData,
+    darkMode,
+    setDarkMode,
     setSelectedBrand,
     percentage,
     scrollToResult,

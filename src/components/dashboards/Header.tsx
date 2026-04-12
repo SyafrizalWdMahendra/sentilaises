@@ -4,6 +4,7 @@ import {
   Database,
   Laptop,
   LogOut,
+  Moon,
   User,
   UserCircle,
 } from "lucide-react";
@@ -19,14 +20,23 @@ import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { useHeader } from "@/src/hooks/useHeader";
 import { useDashboards } from "@/src/hooks/useDashboard";
+import { useState } from "react";
 
-export function Header() {
+export function Header({
+  onToggle,
+  isDark,
+}: {
+  onToggle: () => void;
+  isDark: boolean;
+}) {
   const { open, setOpen, session, mounted, productCount } = useHeader();
   const { totalReviews } = useDashboards();
 
   if (!mounted) return null;
   return (
-    <header className="border-b bg-[#F8FBFF]/50 backdrop-blur-sm sticky top-0 z-1">
+    <header
+      className={`border-b ${isDark ? "bg-gray-900 text-white" : "bg-[#F8FBFF]/50"} backdrop-blur-sm sticky top-0 z-10  transition-all duration-500`}
+    >
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 cursor-pointer">
@@ -86,6 +96,7 @@ export function Header() {
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
+            <Moon onClick={onToggle} className="h-4 w-4 cursor-pointer" />
           </div>
         </div>
       </div>

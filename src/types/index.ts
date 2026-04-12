@@ -90,6 +90,7 @@ export interface StatCardProps {
   };
   variant?: "default" | "positive" | "negative" | "neutral";
   delay?: number;
+  isDark: boolean;
 }
 
 interface TrendData {
@@ -385,10 +386,12 @@ export type UrlInputItemProps = {
   index: number;
   visibleFields: number;
   onRemove: () => void;
+  isDark: boolean;
 };
 
 export type UrlInputListProps = {
   urlDatas: UrlData[];
   visibleFields: number;
   setVisibleFields: React.Dispatch<React.SetStateAction<number>>;
+  isDark: boolean;
 };

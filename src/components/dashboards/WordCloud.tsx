@@ -4,7 +4,7 @@ import { useWordCloud } from "@/src/hooks/useWordCloud";
 import WordCloudItem from "./WordCloudItem";
 import { Inbox } from "lucide-react";
 
-export function WordCloud() {
+export function WordCloud({ isDark }: { isDark: boolean }) {
   const { maxValue, minValue, shuffledWords, isEmpty } = useWordCloud();
 
   return (

@@ -7,6 +7,7 @@ import {
   Frown,
   Meh,
   MessageSquareText,
+  Moon,
   Smile,
   Sparkles,
 } from "lucide-react";
@@ -30,13 +31,21 @@ export default function DashboardClient() {
     neutralCount,
     loading,
     modelData,
+    darkMode,
+    setDarkMode,
     percentage,
     scrollToResult,
   } = useDashboards();
 
+  const toggleDarkMode = () => {
+    setDarkMode((prevMode) => !prevMode);
+  };
+
   return (
-    <div className="min-h-screen bg-[#F8FBFF]" suppressHydrationWarning>
-      <Header />
+    <div
+      className={`min-h-screen ${darkMode ? "bg-gray-900 text-white" : "bg-[#F8FBFF]"}  suppressHydrationWarning} transition-all duration-500`}
+    >
+      <Header onToggle={toggleDarkMode} isDark={darkMode} />
 
       <main className="container mx-auto px-4 py-8">
         <div
@@ -67,6 +76,7 @@ export default function DashboardClient() {
             value={totalReviews}
             icon={MessageSquareText}
             delay={0}
+            isDark={darkMode}
           />
 
           <StatCard
@@ -76,6 +86,7 @@ export default function DashboardClient() {
             icon={Smile}
             variant="positive"
             delay={100}
+            isDark={darkMode}
           />
 
           <StatCard
@@ -85,6 +96,7 @@ export default function DashboardClient() {
             icon={Frown}
             variant="negative"
             delay={200}
+            isDark={darkMode}
           />
 
           <StatCard
@@ -94,6 +106,7 @@ export default function DashboardClient() {
             icon={Meh}
             variant="neutral"
             delay={300}
+            isDark={darkMode}
           />
         </div>
 
@@ -111,24 +124,34 @@ export default function DashboardClient() {
         </div> */}
 
         <div className="mb-8 grid gap-4 lg:grid-cols-2">
-          <div className="rounded-xl border bg-card p-6">
+          <div
+            className={`rounded-xl border ${darkMode ? "border-transparent" : "border-gray-200"} bg-card p-6 ${darkMode ? "bg-gray-800" : "bg-white"}  transition-all duration-500`}
+          >
             <div className="flex items-center gap-2 mb-2">
-              <FileLock className="h-5 w-5 text-primary" />
-              <h3 className="text-lg font-semibold">Kata Kunci Populer</h3>
+              <FileLock
+                className={`h-5 w-5 text-primary ${darkMode ? "text-white" : "text-black"} transition-all duration-500`}
+              />
+              <h3
+                className={`text-lg font-semibold ${darkMode ? "text-white" : "text-neutral"} transition-all duration-500`}
+              >
+                Kata Kunci Populer
+              </h3>
             </div>
-            <p className="mb-4 text-sm text-muted-foreground">
+            <p
+              className={`mb-4 text-sm ${darkMode ? "text-white" : "text-neutral"} transition-all duration-500`}
+            >
               Kata-kata yang sering muncul dalam ulasan berdasarkan kategori
               sentimen
             </p>
-            <WordCloud />
+            <WordCloud isDark={darkMode} />
           </div>
 
           {loading ? (
             <ModelInfoSkeleton />
           ) : modelData.length > 0 ? (
-            <ModelInfo data={modelData} />
+            <ModelInfo data={modelData} isDark={darkMode} />
           ) : (
-            <div className="rounded-xl border bg-card p-6 text-center text-muted-foreground">
+            <div className="rounded-xl border border-gray-200 bg-card p-6 text-center text-muted-foreground">
               Data model tidak tersedia.
             </div>
           )}
@@ -136,7 +159,7 @@ export default function DashboardClient() {
 
         <section id="analysis-form" className="scroll-mt-60">
           <div className="mb-8 ">
-            <AnalysisClient />
+            <AnalysisClient isDark={darkMode} />
           </div>
         </section>
 

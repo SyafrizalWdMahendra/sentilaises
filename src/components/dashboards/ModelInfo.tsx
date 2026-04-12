@@ -11,7 +11,13 @@ import {
 import { ModelDB } from "@/src/types";
 import { useModelInfo } from "@/src/hooks/useModelInfo";
 
-export function ModelInfo({ data }: { data: ModelDB[] }) {
+export function ModelInfo({
+  data,
+  isDark,
+}: {
+  data: ModelDB[];
+  isDark: boolean;
+}) {
   const { selectedIndex, metrics, setSelectedIndex, currentModel } =
     useModelInfo({ data });
 
@@ -26,25 +32,29 @@ export function ModelInfo({ data }: { data: ModelDB[] }) {
   }
 
   return (
-    <div className="rounded-xl border bg-card p-6">
+    <div
+      className={`rounded-xl border ${isDark ? "border-transparent" : "border-gray-200"} bg-card p-6 ${isDark ? "bg-gray-800" : "bg-white"} transition-all duration-500`}
+    >
       <div className="mb-4 flex items-center justify-between gap-4">
         <Select
           value={selectedIndex.toString()}
           onValueChange={(val) => setSelectedIndex(parseInt(val))}
         >
-          <SelectTrigger className="w-fit justify-start gap-3 text-md font-semibold border-border bg-card shadow-sm">
+          <SelectTrigger
+            className={`w-fit justify-start gap-3 text-md font-semibold border border-gray-200 bg-card ${isDark ? "bg-gray-900" : "bg-white"} transition-all duration-500`}
+          >
             <SelectValue placeholder="Pilih Model" />
           </SelectTrigger>
 
           <SelectContent
-            className="bg-card border-border shadow-lg"
+            className={`bg-card shadow-lg ${isDark ? "bg-gray-900 text-white" : "bg-white"}`}
             position="popper"
           >
             {data.map((model, index) => (
               <SelectItem
                 key={model.modelName + index}
                 value={index.toString()}
-                className="cursor-pointer hover:bg-primary hover:text-card focus:bg-primary focus:text-card"
+                className={`cursor-pointer hover:bg-primary hover:text-card focus:bg-primary focus:text-card ${isDark ? "bg-gray-900 text-white" : "bg-white"} transition-all duration-500`}
               >
                 {model.modelName}
               </SelectItem>
@@ -54,7 +64,7 @@ export function ModelInfo({ data }: { data: ModelDB[] }) {
 
         <Badge
           variant="secondary"
-          className={`bg-sentiment-positive-light text-sentiment-positive ${currentModel.isActive ? "bg-sentiment-positive-light text-sentiment-positive" : "bg-primary/10 text-primary"}`}
+          className={`${currentModel.isActive ? `${isDark ? "bg-sentiment-positive/10 text-sentiment-positive" : "bg-sentiment-positive-light text-sentiment-positive"}` : `${isDark ? "bg-gray-900 text-white" : "bg-primary/10 text-primary"}`} transition-all duration-500`}
         >
           {currentModel.isActive === true ? "Active" : "Inactive"}
         </Badge>
@@ -70,8 +80,12 @@ export function ModelInfo({ data }: { data: ModelDB[] }) {
             key={metric.label}
             className="flex items-center gap-3 rounded-lg p-3 bg-secondary/50 border border-border/40"
           >
-            <div className="rounded-lg bg-primary/10 p-2">
-              <metric.icon className="h-4 w-4 text-primary" />
+            <div
+              className={`rounded-lg p-2 ${isDark ? "bg-gray-600" : "bg-primary/10 "} transition-all duration-500`}
+            >
+              <metric.icon
+                className={`h-4 w-4 text-primary ${isDark ? "text-white" : "text-black"} transition-all duration-500`}
+              />
             </div>
             <div>
               <p className="text-xs text-muted-foreground">{metric.label}</p>
@@ -85,7 +99,9 @@ export function ModelInfo({ data }: { data: ModelDB[] }) {
         ))}
       </div>
 
-      <div className="mt-6 space-y-2 text-sm text-muted-foreground border-t pt-4">
+      <div
+        className={`mt-6 space-y-2 text-sm text-muted-foreground border-t border-gray-200 pt-4`}
+      >
         <div className="flex justify-between">
           <span>Preprocessing</span>
           <span className="text-foreground">

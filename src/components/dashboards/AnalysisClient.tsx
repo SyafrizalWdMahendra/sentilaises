@@ -7,7 +7,7 @@ import { Button } from "../ui/button";
 import ResultSection from "./ResultSection";
 import UrlInputList from "./UrlInputList";
 
-export default function AnalysisClient() {
+export default function AnalysisClient({ isDark }: { isDark: boolean }) {
   const {
     isValid,
     errors,
@@ -28,23 +28,31 @@ export default function AnalysisClient() {
     <div className="w-full mx-auto">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="bg-white p-6 rounded-lg border mb-8"
+        className={`p-6 rounded-lg mb-8 ${isDark ? "bg-gray-800" : "bg-white border border-gray-200"} transition-all duration-500`}
       >
         <div className="mb-4 flex items-center gap-2">
-          <Sparkles className="h-5 w-5 text-primary" />
-          <h3 className="text-lg font-semibold">Analisis Sentimen Real-time</h3>
+          <Sparkles
+            className={`h-5 w-5 text-primary ${isDark ? "text-white" : "text-black"} transition-all duration-500`}
+          />
+          <h3
+            className={`text-lg font-semibold ${isDark ? "text-white" : "text-black"} transition-all duration-500`}
+          >
+            Analisis Sentimen Real-time
+          </h3>
         </div>
 
         <div className="flex flex-col gap-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="w-full">
-              <label className="block mb-1 text-sm font-medium text-gray-700">
+              <label
+                className={`block mb-1 text-sm font-medium ${isDark ? "text-white" : "text-gray-700"} transition-all duration-500`}
+              >
                 Tautan Produk 1
               </label>
               <Input
                 type="url"
                 placeholder="Contoh: https://tokopedia.com/..."
-                className={`${errors.url1 ? "border-sentiment-negative" : "focus:ring-primary"}`}
+                className={`${errors.url1 ? "border-sentiment-negative" : "focus:ring-primary"} ${isDark ? "bg-gray-800 text-white" : "bg-white"} transition-all duration-500 w-full`}
                 {...register("url1")}
               />
               {errors.url1 && (
@@ -55,13 +63,15 @@ export default function AnalysisClient() {
             </div>
 
             <div className="w-full">
-              <label className="block mb-1 text-sm font-medium text-gray-700">
+              <label
+                className={`block mb-1 text-sm font-medium ${isDark ? "text-white" : "text-gray-700"} transition-all duration-500`}
+              >
                 Tautan Produk 2
               </label>
               <Input
                 type="url"
                 placeholder="Contoh: https://tokopedia.com/..."
-                className={`w-full ${errors.url2 ? "border-sentiment-negative" : "focus:ring-primary"}`}
+                className={`${errors.url2 ? "border-sentiment-negative" : "focus:ring-primary"} ${isDark ? "bg-gray-800 text-white" : "bg-white"} transition-all duration-500 w-full`}
                 {...register("url2")}
               />
               {errors.url2 && (
@@ -77,6 +87,7 @@ export default function AnalysisClient() {
               urlDatas={urlDatas}
               visibleFields={visibleFields}
               setVisibleFields={setVisibleFields}
+              isDark={isDark}
             />
 
             {visibleFields < 2 && (
@@ -90,10 +101,11 @@ export default function AnalysisClient() {
                   type="button"
                   onClick={() => setVisibleFields((prev) => prev + 1)}
                   className={`
-                    h-max bg-card text-primary hover:bg-[#F8FBFF] 
+                    h-max bg-card text-primary
                     border-dashed border border-primary/20 shadow-xs
                     transition-all duration-500 animate-in fade-in zoom-in-95
                     ${visibleFields === 0 ? "w-full md:w-1/2" : "w-full"}
+                    ${isDark ? "bg-gray-800 text-white hover:bg-gray-900 border-dashed border border-white" : "text-black hover:bg-[#F8FBFF] "}
                   `}
                 >
                   {visibleFields === 0
@@ -136,7 +148,7 @@ export default function AnalysisClient() {
             type="submit"
             hidden={loading}
             disabled={!isValid}
-            className="w-full md:w-max bg-primary text-white px-6 py-3 mt-6 rounded-md transition-colors disabled:bg-gray-400"
+            className={`w-full md:w-max bg-primary text-white px-6 py-3 mt-6 rounded-md transition-colors disabled:bg-gray-400`}
           >
             <Sparkles className="h-4 w-4" />
             {loading ? "Menganalisis..." : "Analisis Sekarang"}
