@@ -67,7 +67,7 @@ export const getAIRecommendation = async (
     user_email: string;
     candidates: { name: string; url: string; reviews: string[] }[];
     metric_id: number | 1;
-    brand_id: number | 1;
+    // brand_id: number | 1;
   },
   options?: { signal?: AbortSignal },
 ): Promise<AIRecommendationResponse> => {

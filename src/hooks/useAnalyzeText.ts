@@ -146,14 +146,14 @@ export const useAnalyseText = () => {
       }
 
       const metricIdValue = await getMetricId();
-      const brandId = await getBrandId(candidates[0].name);
+      // const brandId = await getBrandId(candidates[0].name);
 
       console.log("Payload to AI:", {
         user_email: session.user.email,
         candidateCount: candidates.length,
         totalReviews: candidates.reduce((acc, c) => acc + c.reviews.length, 0),
         metric_id: metricIdValue,
-        brand_id: brandId,
+        // brand_id: brandId,
       });
 
       setProgress({ status: "AI sedang menganalisis ulasan...", percent: 70 });
@@ -162,7 +162,7 @@ export const useAnalyseText = () => {
           user_email: session.user.email as string,
           candidates: candidates,
           metric_id: metricIdValue,
-          brand_id: brandId as number,
+          // brand_id: brandId as number,
         },
         { signal: abortControllerRef.current?.signal },
       );
