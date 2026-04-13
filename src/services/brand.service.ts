@@ -45,14 +45,11 @@ export const formatBrandStats = (userAnalysis: AnalysisData[]) => {
 };
 
 export const getBrandId = async (brandName: string) => {
-  const brand = await prisma.brand.findFirst({
-    where: {
-      name: brandName,
-    },
-    select: {
-      brandId: true,
-    },
-  });
+  const response = await fetch(
+    `/api/brand?brandName=${encodeURIComponent(brandName)}`,
+  );
+  if (!response.ok) return null;
 
-  return brand?.brandId ?? null;
+  const data = await response.json();
+  return data.brandId;
 };
