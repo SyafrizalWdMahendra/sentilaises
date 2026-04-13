@@ -31,7 +31,8 @@ export async function scrapeTokopediaProduct(
   let browser;
 
   try {
-    const isLocal = process.env.NODE_ENV === "development";
+    const isLocal =
+      process.env.NODE_ENV === "development" || !process.env.NODE_ENV;
     browser = await puppeteer.launch({
       args: [
         ...chromium.args,
