@@ -7,8 +7,9 @@ import {
   scrapeProduct,
   getAIRecommendation,
 } from "../services/analyze.service";
-import { analyzeSchema } from "../app/validation/analyze.schema"; 
+import { analyzeSchema } from "../app/validation/analyze.schema";
 import { getMetricId } from "../services/metric.service";
+import { getBrandId } from "../services/brand.service";
 
 export const useAnalyseText = () => {
   const { data: session } = useSession();
@@ -145,12 +146,14 @@ export const useAnalyseText = () => {
       }
 
       const metricIdValue = await getMetricId();
+      const brandId = await getBrandId(candidates[0].name);
 
       console.log("Payload to AI:", {
         user_email: session.user.email,
-        metric_id: metricIdValue,
         candidateCount: candidates.length,
         totalReviews: candidates.reduce((acc, c) => acc + c.reviews.length, 0),
+        metric_id: metricIdValue,
+        brand_id: brandId,
       });
 
       setProgress({ status: "AI sedang menganalisis ulasan...", percent: 70 });
@@ -159,6 +162,7 @@ export const useAnalyseText = () => {
           user_email: session.user.email as string,
           candidates: candidates,
           metric_id: metricIdValue,
+          brand_id: brandId as number,
         },
         { signal: abortControllerRef.current?.signal },
       );
@@ -179,7 +183,7 @@ export const useAnalyseText = () => {
     } catch (error: any) {
       if (error.name === "AbortError" || signal.aborted) {
         console.log("🛠️ Request dibatalkan secara aman.");
-        return; 
+        return;
       }
 
       console.error("Analysis Error:", error);

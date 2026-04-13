@@ -65,8 +65,9 @@ export const getAnalysisData = async (email: string) => {
 export const getAIRecommendation = async (
   payload: {
     user_email: string;
-    metric_id: number | 1;
     candidates: { name: string; url: string; reviews: string[] }[];
+    metric_id: number | 1;
+    brand_id: number | 1;
   },
   options?: { signal?: AbortSignal },
 ): Promise<AIRecommendationResponse> => {

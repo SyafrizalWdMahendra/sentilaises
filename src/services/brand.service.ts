@@ -1,3 +1,4 @@
+import prisma from "@/lib/prisma";
 import { AnalysisData } from "../types";
 
 export const formatBrandStats = (userAnalysis: AnalysisData[]) => {
@@ -41,4 +42,17 @@ export const formatBrandStats = (userAnalysis: AnalysisData[]) => {
   formattedBrands.sort((a, b) => b.count - a.count);
 
   return formattedBrands;
+};
+
+export const getBrandId = async (brandName: string) => {
+  const brand = await prisma.brand.findFirst({
+    where: {
+      name: brandName,
+    },
+    select: {
+      brandId: true,
+    },
+  });
+
+  return brand?.brandId ?? null;
 };
