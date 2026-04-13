@@ -80,7 +80,8 @@ const reviewDatas = [
 ];
 
 const scrapePath = "/api/scrape";
-const backendUrl = process.env.BACKEND_URL || "http://localhost:8000";
+// const backendUrl = process.env.BACKEND_URL || "http://localhost:8000";
+const backendUrl = process.env.BACKEND_URL;
 const aiRecommendPath = `${backendUrl}/recommend`;
 const userMetricPath = "/api/user-metric";
 const profilePath = "/api/profile";
