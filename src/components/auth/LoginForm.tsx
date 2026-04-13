@@ -13,21 +13,6 @@ export function LoginForm() {
       className={`${darkMode ? "min-h-screen bg-gray-900" : "min-h-screen bg-[#F8FBFF]"} flex items-center justify-center p-4 w-full mx-auto transition-all duration-500`}
     >
       <div className="w-full max-w-md">
-        {/* <div className="flex justify-center gap-3 mb-6">
-          {[
-            { icon: TrendingUp, label: "Real-time Analysis" },
-            { icon: Star, label: "Sentiment AI" },
-          ].map(({ icon: Icon, label }) => (
-            <div
-              key={label}
-              className="flex items-center gap-1.5 bg-white border border-border rounded-full px-3 py-1.5 text-xs text-muted-foreground shadow-sm"
-            >
-              <Icon className="w-3 h-3 text-primary" />
-              {label}
-            </div>
-          ))}
-        </div> */}
-
         <div
           className={`rounded-3xl border border-border overflow-hidden ${darkMode ? "bg-gray-800 text-white border-transparent shadow-lg" : "bg-card shadow-sm"} transition-all duration-500`}
         >
@@ -111,7 +96,5 @@ export function LoginForm() {
         </p>
       </div>
     </div>
-    //   </div>
-    // </div>
   );
 }
