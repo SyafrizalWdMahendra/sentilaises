@@ -72,11 +72,6 @@ export const getAIRecommendation = async (
   options?: { signal?: AbortSignal },
 ): Promise<AIRecommendationResponse> => {
   const base_url = process.env.BACKEND_URL || "http://localhost:8000";
-  console.log("Fetching to FastAPI...");
-  console.log("=== AI RECOMMENDATION DEBUG ===");
-  console.log("Base URL:", base_url);
-  console.log("Full URL:", `${base_url}/recommend`);
-  console.log("Payload:", JSON.stringify(payload, null, 2));
 
   const aiRes = await fetch(`${base_url}/recommend`, {
     method: "POST",
@@ -85,11 +80,7 @@ export const getAIRecommendation = async (
     signal: options?.signal,
   });
 
-  console.log("Response status:", aiRes.status);
-  console.log("aiRes headers:", Object.fromEntries(aiRes.headers.entries()));
-
   const text = await aiRes.text();
-  console.log("Raw aiRes body:", text);
 
   if (!aiRes.ok) {
     throw new Error(`HTTP ${aiRes.status}: ${text}`);
