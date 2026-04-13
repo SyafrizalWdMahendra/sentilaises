@@ -71,7 +71,7 @@ export const getAIRecommendation = async (
   options?: { signal?: AbortSignal },
 ): Promise<AIRecommendationResponse> => {
   console.log("Fetching to FastAPI...");
-  const aiRes = await fetch(aiRecommendPath, {
+  const aiRes = await fetch(`${process.env.BACKEND_URL}/recommend`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
