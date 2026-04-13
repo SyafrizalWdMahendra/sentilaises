@@ -153,7 +153,7 @@ export default function DashboardClient() {
 
         <section id="analysis-form" className="scroll-mt-60">
           <div className="mb-8 ">
-            <AnalysisClient isDark={darkMode} />
+            <AnalysisClient />
           </div>
         </section>
 
