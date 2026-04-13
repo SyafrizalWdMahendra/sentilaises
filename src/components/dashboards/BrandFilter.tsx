@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from "../ui/select";
 
-export function BrandFilter() {
+export function BrandFilter({ isDark }: { isDark: boolean }) {
   const { isLoading, totalCount, selectedBrand, validBrands, handleSelect } =
     useBrandFilter();
 
@@ -36,12 +36,12 @@ export function BrandFilter() {
           <SelectValue placeholder="Pilih Brand" />
         </SelectTrigger>
         <SelectContent
-          className="bg-card shadow-lg"
+          className={`bg-card shadow-lg ${isDark ? "bg-gray-900 text-white" : "bg-white"}`}
           position="popper"
         >
           <SelectItem
             value="__all__"
-            className="cursor-pointer hover:bg-primary hover:text-card focus:bg-primary focus:text-card"
+            className={`cursor-pointer hover:bg-primary hover:text-card focus:text-card ${isDark ? "text-white focus:bg-gray-800" : "text-black focus:bg-primary"}`}
           >
             Semua ({totalCount.toLocaleString()})
           </SelectItem>
@@ -49,7 +49,7 @@ export function BrandFilter() {
             <SelectItem
               key={brand.name}
               value={brand.name}
-              className="cursor-pointer hover:bg-primary hover:text-card focus:bg-primary focus:text-card"
+              className={`cursor-pointer hover:bg-primary hover:text-card focus:text-card ${isDark ? "text-white focus:bg-gray-800" : "text-black  focus:bg-primary"}`}
             >
               {brand.name} ({brand.count.toLocaleString()})
             </SelectItem>

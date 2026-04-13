@@ -7,7 +7,6 @@ import {
   Frown,
   Meh,
   MessageSquareText,
-  Moon,
   Smile,
   Sparkles,
 } from "lucide-react";
@@ -22,6 +21,7 @@ import AnalysisClient from "./AnalysisClient";
 import Footer from "./Footer";
 import { Button } from "../ui/button";
 import ExportExcel from "./ExportExcel";
+import { useTheme } from "@/src/context/ThemeContext";
 
 export default function DashboardClient() {
   const {
@@ -31,15 +31,10 @@ export default function DashboardClient() {
     neutralCount,
     loading,
     modelData,
-    darkMode,
-    setDarkMode,
     percentage,
     scrollToResult,
   } = useDashboards();
-
-  const toggleDarkMode = () => {
-    setDarkMode((prevMode) => !prevMode);
-  };
+  const { darkMode, toggleDarkMode } = useTheme();
 
   return (
     <div
@@ -49,8 +44,7 @@ export default function DashboardClient() {
 
       <main className="container mx-auto px-4 py-8">
         <div
-          className="mb-8 rounded-2xl p-8 text-center"
-          style={{ background: "hsl(var(--primary))" }}
+          className={`mb-8 rounded-2xl p-8 text-center  ${darkMode ? "bg-gray-800 text-white" : "bg-primary"} transition-all duration-500`}
         >
           <h2 className="mb-2 text-3xl font-bold text-white md:text-4xl">
             Analisis Sentimen Ulasan Laptop
@@ -62,7 +56,7 @@ export default function DashboardClient() {
           <div className="flex items-center justify-center gap-4 text-sm text-white/70">
             <Button
               onClick={scrollToResult}
-              className="bg-[#F8FBFF] cursor-pointer hover:bg-card hover:text-primary text-black mt-4"
+              className={`bg-[#F8FBFF] cursor-pointer hover:bg-card hover:text-primary text-black mt-4 ${darkMode ? "bg-gray-900 text-white" : "bg-white text-black"} transition-all duration-500`}
             >
               <Sparkles className="h-5 w-5" />
               <span>Coba Analisis Sentimen</span>
@@ -147,7 +141,7 @@ export default function DashboardClient() {
           </div>
 
           {loading ? (
-            <ModelInfoSkeleton />
+            <ModelInfoSkeleton isDark={darkMode} />
           ) : modelData.length > 0 ? (
             <ModelInfo data={modelData} isDark={darkMode} />
           ) : (
@@ -168,18 +162,18 @@ export default function DashboardClient() {
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <ChartNoAxesGantt className="w-5 h-5" />
-                <h3 className="text-lg font-semibold">Ulasan Terbaru</h3>
+                <h3 className="text-lg font-semibold">Riwayat Ulasan</h3>
               </div>
               <p className="text-sm text-muted-foreground">
                 Hasil klasifikasi sentimen ulasan produk laptop
               </p>
             </div>
             <div className="flex gap-2 items-center">
-              <BrandFilter />
-              <ExportExcel />
+              <BrandFilter isDark={darkMode} />
+              <ExportExcel isDark={darkMode} />
             </div>
           </div>
-          <ReviewTable />
+          <ReviewTable isDark={darkMode} />
         </div>
 
         <Footer />

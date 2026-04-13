@@ -15,6 +15,7 @@ import {
 } from "../ui/select";
 import { Button } from "../ui/button";
 import { useProfileModal } from "@/src/hooks/useProfileModal";
+import { useEffect } from "react";
 
 export const ProfileModal = ({
   setShowModal,
@@ -24,6 +25,7 @@ export const ProfileModal = ({
   userData,
   onOptimisticUpdate,
   router,
+  darkMode,
 }: ExtendedModalProps) => {
   const { control, errors, isSubmitting, onSubmit, register, handleSubmit } =
     useProfileModal({
@@ -33,16 +35,36 @@ export const ProfileModal = ({
       setShowModal,
     });
 
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      if (document.body.style.marginRight) {
+        document.body.style.marginRight = "0px";
+      }
+      if (document.body.style.paddingRight) {
+        document.body.style.paddingRight = "0px";
+      }
+    });
+
+    observer.observe(document.body, {
+      attributes: true,
+      attributeFilter: ["style"],
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.2, ease: "circOut" }}
-      className="fixed inset-0 flex items-center justify-center bg-primary/30 z-1"
+      className={`${darkMode ? "bg-gray-500/20" : "bg-primary/30"} fixed inset-0 flex items-center justify-center z-10 backdrop-blur-xs`}
+      onMouseDown={(e) => e.stopPropagation()}
+      style={{ isolation: "isolate" }}
     >
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col bg-card w-xs sm:w-sm lg:w-lg md:w-md p-6 rounded-2xl border relative gap-4 "
+        className={`flex flex-col w-xs sm:w-sm lg:w-lg md:w-md p-6 rounded-2xl border relative gap-4 max-h-[90vh] overflow-y-auto ${darkMode ? "bg-gray-800 border-gray-600" : "bg-card border-border"}`}
       >
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-2">
@@ -93,12 +115,12 @@ export const ProfileModal = ({
                 onValueChange={field.onChange}
               >
                 <SelectTrigger
-                  className={`w-full ${!field.value ? "text-gray-500" : "text-black"}`}
+                  className={`w-full ${!field.value ? "text-gray-500" : "text-black"} ${darkMode ? "text-card" : "bg-white"} border border-gray-200 transition-all duration-500`}
                 >
                   <SelectValue placeholder="Pilih Profesi/Kebutuhan" />
                 </SelectTrigger>
                 <SelectContent
-                  className="bg-card border-border shadow-lg"
+                  className={`${darkMode ? "bg-gray-900 text-white" : "bg-white"}`}
                   position="popper"
                 >
                   {professionItems.map((item) => {
@@ -107,7 +129,7 @@ export const ProfileModal = ({
                       <SelectItem
                         key={item.value}
                         value={item.value}
-                        className="cursor-pointer hover:bg-primary hover:text-card focus:bg-primary focus:text-card"
+                        className={`cursor-pointer hover:bg-primary hover:text-card focus:bg-primary focus:text-card ${darkMode ? "text-white focus:bg-gray-800" : "text-black focus:bg-primary"} transition-all duration-500`}
                       >
                         <div className="flex gap-2 items-center">
                           <PIcon className="h-4 w-4 text-muted-foreground" />
@@ -139,14 +161,12 @@ export const ProfileModal = ({
                 onValueChange={field.onChange}
               >
                 <SelectTrigger
-                  className={`w-full ${
-                    !field.value ? "text-gray-500" : "text-black"
-                  }`}
+                  className={`w-full ${!field.value ? "text-gray-500" : "text-black"} ${darkMode ? "text-card" : "bg-white"} border border-gray-200 transition-all duration-500`}
                 >
                   <SelectValue placeholder="Pilih Merek Laptop" />
                 </SelectTrigger>
                 <SelectContent
-                  className="bg-card border-border shadow-lg"
+                  className={`${darkMode ? "bg-gray-900 text-white" : "bg-white"}`}
                   position="popper"
                 >
                   {brandItems.map((item) => {
@@ -155,7 +175,7 @@ export const ProfileModal = ({
                       <SelectItem
                         key={item.value}
                         value={item.value}
-                        className="cursor-pointer hover:bg-primary hover:text-card focus:bg-primary focus:text-card"
+                        className={`cursor-pointer hover:bg-primary hover:text-card focus:bg-primary focus:text-card ${darkMode ? "text-white focus:bg-gray-800" : "text-black focus:bg-primary"} transition-all duration-500`}
                       >
                         <div className="flex gap-2 items-center">
                           <PIcon className="h-4 w-4 text-muted-foreground" />
@@ -189,14 +209,12 @@ export const ProfileModal = ({
                 onValueChange={field.onChange}
               >
                 <SelectTrigger
-                  className={`w-full ${
-                    !field.value ? "text-gray-500" : "text-black"
-                  }`}
+                  className={`w-full ${!field.value ? "text-gray-500" : "text-black"} ${darkMode ? "text-card" : "bg-white"} border border-gray-200 transition-all duration-500`}
                 >
                   <SelectValue placeholder="Pilih Sistem Operasi" />
                 </SelectTrigger>
                 <SelectContent
-                  className="bg-card border-border shadow-lg"
+                  className={`${darkMode ? "bg-gray-900 text-white" : "bg-white"}`}
                   position="popper"
                 >
                   {OSItems.map((item) => {
@@ -205,7 +223,7 @@ export const ProfileModal = ({
                       <SelectItem
                         key={item.value}
                         value={item.value}
-                        className="cursor-pointer hover:bg-primary hover:text-card focus:bg-primary focus:text-card"
+                        className={`cursor-pointer hover:bg-primary hover:text-card focus:bg-primary focus:text-card ${darkMode ? "text-white focus:bg-gray-800" : "text-black focus:bg-primary"} transition-all duration-500`}
                       >
                         <div className="flex gap-2 items-center">
                           <PIcon className="h-4 w-4 text-muted-foreground" />
@@ -273,7 +291,11 @@ export const ProfileModal = ({
             <X className="mr-2" />
             <span>Cancel</span>
           </Button>
-          <Button type="submit" disabled={isSubmitting}>
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            className={`${darkMode ? "bg-gray-900 hover:bg-card hover:text-black" : "bg-primary text-white"} transition-all duration-500`}
+          >
             <Save className="mr-2" />
             <span>Simpan</span>
           </Button>

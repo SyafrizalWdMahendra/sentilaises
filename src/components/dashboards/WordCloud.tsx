@@ -10,7 +10,9 @@ export function WordCloud({ isDark }: { isDark: boolean }) {
   return (
     <div className="flex flex-wrap items-center justify-center gap-2 p-4">
       {isEmpty ? (
-        <div className="flex flex-col gap-2 items-center py-22 text-muted-foreground">
+        <div
+          className={`flex flex-col gap-2 items-center py-22 ${isDark ? "text-gray-400" : "text-muted-foreground"}`}
+        >
           <div className="rounded-full bg-muted">
             <Inbox className="h-8 w-8" />
           </div>

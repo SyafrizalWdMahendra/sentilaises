@@ -299,6 +299,7 @@ export interface ExtendedModalProps extends ProfileModalProps {
   userData: any;
   onOptimisticUpdate: (data: ProfileFormData) => void;
   router: any;
+  darkMode: boolean;
 }
 
 export interface ProfileState {

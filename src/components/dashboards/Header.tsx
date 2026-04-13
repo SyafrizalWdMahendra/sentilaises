@@ -5,6 +5,7 @@ import {
   Laptop,
   LogOut,
   Moon,
+  Sun,
   User,
   UserCircle,
 } from "lucide-react";
@@ -21,6 +22,7 @@ import Link from "next/link";
 import { useHeader } from "@/src/hooks/useHeader";
 import { useDashboards } from "@/src/hooks/useDashboard";
 import { useState } from "react";
+import { is } from "zod/v4/locales";
 
 export function Header({
   onToggle,
@@ -40,7 +42,9 @@ export function Header({
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 cursor-pointer">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+            <div
+              className={`flex h-10 w-10 items-center justify-center rounded-xl ${isDark ? "bg-gray-700 text-white" : "bg-primary text-primary-foreground"}`}
+            >
               <BarChart3 className="h-5 w-5" />
             </div>
             <div>
@@ -75,10 +79,12 @@ export function Header({
 
                 <DropdownMenuContent
                   align="end"
-                  className="w-max bg-card border-border shadow-md"
+                  className={`bg-card ${isDark ? "bg-gray-800 text-white" : "bg-white"} transition-all duration-500`}
                 >
                   <Link href="/profile">
-                    <DropdownMenuItem className="cursor-pointer gap-2 focus:bg-primary focus:text-card transition-colors hover:text-primary">
+                    <DropdownMenuItem
+                      className={`cursor-pointer gap-2 transition-colors hover:text-primary ${isDark ? "text-white hover:bg-gray-900 hover:text-card" : "text-black hover:bg-primary hover:text-card"} transition-all duration-500`}
+                    >
                       <UserCircle className="h-4 w-4 text-muted-foreground" />
                       <span>Menu Profil</span>
                     </DropdownMenuItem>
@@ -87,7 +93,7 @@ export function Header({
                   <DropdownMenuSeparator className="bg-border" />
 
                   <DropdownMenuItem
-                    className="cursor-pointer gap-2 text-destructive focus:bg-red-500 focus:text-card transition-colors"
+                    className={`cursor-pointer gap-2 text-destructive transition-colors ${isDark ? "text-white focus:bg-sentiment-negative/10 focus:text-sentiment-negative" : "text-black focus:bg-sentiment-negative-light focus:text-sentiment-negative"} transition-all duration-500`}
                     onClick={() => signOut({ callbackUrl: "/" })}
                   >
                     <LogOut className="h-4 w-4" />
@@ -96,7 +102,17 @@ export function Header({
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
-            <Moon onClick={onToggle} className="h-4 w-4 cursor-pointer" />
+            {isDark ? (
+              <Sun
+                onClick={onToggle}
+                className={`h-4 w-4 cursor-pointer ${isDark ? "text-white" : "text-black"} `}
+              />
+            ) : (
+              <Moon
+                onClick={onToggle}
+                className={`h-4 w-4 cursor-pointer ${isDark ? "text-white" : "text-black"} `}
+              />
+            )}
           </div>
         </div>
       </div>

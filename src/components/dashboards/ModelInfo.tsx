@@ -54,7 +54,7 @@ export function ModelInfo({
               <SelectItem
                 key={model.modelName + index}
                 value={index.toString()}
-                className={`cursor-pointer hover:bg-primary hover:text-card focus:bg-primary focus:text-card ${isDark ? "bg-gray-900 text-white" : "bg-white"} transition-all duration-500`}
+                className={`cursor-pointer hover:bg-primary hover:text-card focus:bg-primary focus:text-card ${isDark ? "text-white focus:bg-gray-800" : "text-black focus:bg-primary"} transition-all duration-500`}
               >
                 {model.modelName}
               </SelectItem>

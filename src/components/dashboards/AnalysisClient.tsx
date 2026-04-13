@@ -28,7 +28,7 @@ export default function AnalysisClient({ isDark }: { isDark: boolean }) {
     <div className="w-full mx-auto">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className={`p-6 rounded-lg mb-8 ${isDark ? "bg-gray-800" : "bg-white border border-gray-200"} transition-all duration-500`}
+        className={`p-6 rounded-lg mb-8 ${isDark ? "bg-gray-800 border-transparent" : "bg-white border border-gray-200"} transition-all duration-500`}
       >
         <div className="mb-4 flex items-center gap-2">
           <Sparkles
@@ -125,7 +125,7 @@ export default function AnalysisClient({ isDark }: { isDark: boolean }) {
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2.5">
               <div
-                className="bg-primary h-2.5 rounded-full transition-all duration-500"
+                className={`h-2.5 rounded-full transition-all duration-500 ${isDark ? "bg-gray-900" : "bg-primary"}`}
                 style={{ width: `${progress.percent}%` }}
               ></div>
             </div>
@@ -138,7 +138,7 @@ export default function AnalysisClient({ isDark }: { isDark: boolean }) {
               type="button"
               variant="destructive"
               onClick={handleCancel}
-              className="w-full bg-sentiment-negative text-white md:w-max px-6 py-3 mt-6 rounded-md transition-colors disabled:bg-gray-400"
+              className="w-full bg-sentiment-negative/10 text-sentiment-negative md:w-max px-6 py-3 mt-6 rounded-md transition-colors disabled:bg-gray-400"
             >
               <X className="h-4 w-4" />
               <span>Cancel</span>
@@ -148,7 +148,7 @@ export default function AnalysisClient({ isDark }: { isDark: boolean }) {
             type="submit"
             hidden={loading}
             disabled={!isValid}
-            className={`w-full md:w-max bg-primary text-white px-6 py-3 mt-6 rounded-md transition-colors disabled:bg-gray-400`}
+            className={`w-full md:w-max ${isDark ? "bg-gray-900 hover:bg-card hover:text-black" : "bg-primary text-white"} px-6 py-3 mt-6 rounded-md transition-colors disabled:bg-gray-400`}
           >
             <Sparkles className="h-4 w-4" />
             {loading ? "Menganalisis..." : "Analisis Sekarang"}

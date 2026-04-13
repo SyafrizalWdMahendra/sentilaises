@@ -1,13 +1,17 @@
-import Footer from "@/src/components/dashboards/Footer";
-import { Header } from "@/src/components/dashboards/Header";
 import ProfileClient from "@/src/components/dashboards/ProfileClient";
+import { getAnotherUserData } from "./lib/action";
 
 export default async function ProfilePage() {
+  const user = await getAnotherUserData();
   return (
-    <div className="min-h-screen bg-[#F8FBFF]">
-      <Header />
-      <ProfileClient />
-     
-    </div>
+    <ProfileClient
+      name={user?.name || ""}
+      bio={user?.bio || "None"}
+      profession={user?.preference?.profession || ""}
+      preferenceBrand={user?.preference?.brand?.name || ""}
+      preferenceOS={user?.preference?.preferredOS || ""}
+      budgetMax={user?.preference?.budgetMax || 0}
+      budgetMin={user?.preference?.budgetMin || 0}
+    />
   );
 }

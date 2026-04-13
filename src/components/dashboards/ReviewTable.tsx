@@ -24,7 +24,7 @@ import {
 import { useSearchParams } from "next/navigation";
 import { getVisiblePages } from "@/src/utils/datas";
 
-export function ReviewTable() {
+export function ReviewTable({ isDark }: { isDark: boolean }) {
   const searchParams = useSearchParams();
   const selectedBrand = searchParams.get("brand");
   const { currentData, isLoading, pagination } = useReviewTable(
@@ -36,8 +36,10 @@ export function ReviewTable() {
 
   if (isLoading) {
     return (
-      <div className="flex h-75 w-full flex-col items-center justify-center gap-2 rounded-xl border bg-card text-muted-foreground">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      <div
+        className={`flex h-75 w-full flex-col items-center justify-center gap-2 rounded-xl border bg-card text-muted-foreground ${isDark ? "bg-gray-800 border-transparent" : "border-gray-200"} transition-all duration-500`}
+      >
+        <Loader2 className={`h-8 w-8 animate-spin ${isDark ? "text-white" : "text-black"}`} />
         <p className="text-sm">Memuat data ulasan...</p>
       </div>
     );
@@ -45,10 +47,14 @@ export function ReviewTable() {
 
   return (
     <div className="space-y-4">
-      <div className="rounded-xl border border-gray-200 bg-card">
-        <Table>
+      <div
+        className={`rounded-xl border ${isDark ? " bg-gray-800 border-transparent" : "border-gray-200 bg-card"} transition-all duration-500`}
+      >
+        <Table className="transition-all duration-500">
           <TableHeader>
-            <TableRow className="hover:bg-transparent">
+            <TableRow
+              className={`hover:bg-transparent transition-all duration-500 ${isDark ? "text-white" : "text-neutral"}`}
+            >
               <TableHead className="w-62.5">Produk</TableHead>
               <TableHead className="w-auto min-w-75 text-center">
                 Ulasan & Kata Kunci
@@ -90,11 +96,13 @@ export function ReviewTable() {
                   <TableCell className="align-top">
                     <div className="flex flex-col gap-1.5">
                       <div className="flex items-center gap-2">
-                        <span className="inline-flex items-center rounded-md bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary ring-1 ring-inset ring-primary/20">
+                        <span
+                          className={`inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium ${isDark ? "bg-gray-900 text-white ring-1 ring-inset ring-primary/20" : "bg-primary/10 text-primary ring-1 ring-inset ring-primary/20"} transition-all duration-500`}
+                        >
                           {review.product?.brand?.name || "Generic"}
                         </span>
                       </div>
-                      <span className="text-sm font-medium leading-tight text-foreground line-clamp-2">
+                      <span className="text-sm font-medium leading-tight text-foreground line-clamp-2 transition-all duration-500">
                         {review.product?.name || "Unknown Product"}
                       </span>
                     </div>
@@ -102,7 +110,7 @@ export function ReviewTable() {
 
                   <TableCell className="align-top">
                     <div className="flex flex-col gap-3">
-                      <p className="text-sm leading-relaxed text-muted-foreground line-clamp-3 group-hover:text-foreground transition-colors">
+                      <p className="text-sm leading-relaxed text-muted-foreground line-clamp-3 group-hover:text-foreground transition-all duration-500">
                         {review.content}
                       </p>
 
@@ -112,7 +120,7 @@ export function ReviewTable() {
                             <Badge
                               key={i}
                               variant="secondary"
-                              className="h-5 px-1.5 text-[10px] font-normal text-muted-foreground border-border bg-muted group-hover:bg-background transition-all"
+                              className="h-5 px-1.5 text-[10px] font-normal text-muted-foreground border-border bg-muted group-hover:bg-background transition-all duration-500"
                             >
                               {k}
                             </Badge>
@@ -123,7 +131,7 @@ export function ReviewTable() {
                   </TableCell>
 
                   <TableCell className="align-top whitespace-nowrap">
-                    <span className="text-xs text-muted-foreground font-medium">
+                    <span className="text-xs text-muted-foreground font-medium transition-all duration-500">
                       {review.createdAt
                         ? new Date(review.createdAt).toLocaleDateString(
                             "id-ID",
@@ -138,11 +146,11 @@ export function ReviewTable() {
                   </TableCell>
 
                   <TableCell className="align-top text-center">
-                    {getSentimentBadge(review.sentiment ?? null)}
+                    {getSentimentBadge(review.sentiment ?? null, isDark)}
                   </TableCell>
 
                   <TableCell className="align-top text-center">
-                    <span className="font-mono text-sm font-semibold text-foreground">
+                    <span className="font-mono text-sm font-semibold text-foreground transition-all duration-500">
                       {review.confidenceScore
                         ? `${(review.confidenceScore * 100).toFixed(1)}%`
                         : "-"}
@@ -168,7 +176,7 @@ export function ReviewTable() {
                     className={
                       currentPage === 1
                         ? "pointer-events-none opacity-50"
-                        : "cursor-pointer hover:bg-[#F8FBFF] hover:text-primary"
+                        : `text-card cursor-pointer hover:bg-[#F8FBFF] hover:text-primary ${isDark ? "hover:bg-gray-900 hover:text-card" : "text-black"} transition-all duration-500`
                     }
                   />
                 </PaginationItem>
@@ -185,6 +193,7 @@ export function ReviewTable() {
                           pagination.goToPage(page as number);
                         }}
                         isActive={currentPage === page}
+                        className={`transition-all duration-500 ${isDark ? "text-white hover:bg-gray-200 hover:text-black focus:bg-gray-200 focus:text-black" : "text-black hover:bg-primary hover:text-card bg-transparent"}`}
                       >
                         {page}
                       </PaginationLink>
@@ -202,7 +211,7 @@ export function ReviewTable() {
                     className={
                       currentPage === totalPages
                         ? "pointer-events-none opacity-50"
-                        : "cursor-pointer hover:bg-primary hover:text-card"
+                        : `cursor-pointer  ${isDark ? "text-white hover:bg-gray-200 hover:text-black" : "text-black hover:bg-primary hover:text-card"} transition-all duration-500`
                     }
                   />
                 </PaginationItem>
