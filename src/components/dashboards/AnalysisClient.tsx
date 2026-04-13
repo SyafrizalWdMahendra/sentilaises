@@ -6,8 +6,9 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import ResultSection from "./ResultSection";
 import UrlInputList from "./UrlInputList";
+import { useTheme } from "@/src/context/ThemeContext";
 
-export default function AnalysisClient({ isDark }: { isDark: boolean }) {
+export default function AnalysisClient() {
   const {
     isValid,
     errors,
@@ -23,19 +24,20 @@ export default function AnalysisClient({ isDark }: { isDark: boolean }) {
     handleCancel,
     setVisibleFields,
   } = useAnalyseText();
+  const { darkMode } = useTheme();
 
   return (
     <div className="w-full mx-auto">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className={`p-6 rounded-lg mb-8 ${isDark ? "bg-gray-800 border-transparent" : "bg-white border border-gray-200"} transition-all duration-500`}
+        className={`p-6 rounded-lg mb-8 ${darkMode ? "bg-gray-800 border-transparent" : "bg-white border border-gray-200"} transition-all duration-500`}
       >
         <div className="mb-4 flex items-center gap-2">
           <Sparkles
-            className={`h-5 w-5 text-primary ${isDark ? "text-white" : "text-black"} transition-all duration-500`}
+            className={`h-5 w-5 text-primary ${darkMode ? "text-white" : "text-black"} transition-all duration-500`}
           />
           <h3
-            className={`text-lg font-semibold ${isDark ? "text-white" : "text-black"} transition-all duration-500`}
+            className={`text-lg font-semibold ${darkMode ? "text-white" : "text-black"} transition-all duration-500`}
           >
             Analisis Sentimen Real-time
           </h3>
@@ -45,14 +47,14 @@ export default function AnalysisClient({ isDark }: { isDark: boolean }) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="w-full">
               <label
-                className={`block mb-1 text-sm font-medium ${isDark ? "text-white" : "text-gray-700"} transition-all duration-500`}
+                className={`block mb-1 text-sm font-medium ${darkMode ? "text-white" : "text-gray-700"} transition-all duration-500`}
               >
                 Tautan Produk 1
               </label>
               <Input
                 type="url"
                 placeholder="Contoh: https://tokopedia.com/..."
-                className={`${errors.url1 ? "border-sentiment-negative" : "focus:ring-primary"} ${isDark ? "bg-gray-800 text-white" : "bg-white"} transition-all duration-500 w-full`}
+                className={`${errors.url1 ? "border-sentiment-negative" : "focus:ring-primary"} ${darkMode ? "bg-gray-800 text-white" : "bg-white"} transition-all duration-500 w-full`}
                 {...register("url1")}
               />
               {errors.url1 && (
@@ -64,14 +66,14 @@ export default function AnalysisClient({ isDark }: { isDark: boolean }) {
 
             <div className="w-full">
               <label
-                className={`block mb-1 text-sm font-medium ${isDark ? "text-white" : "text-gray-700"} transition-all duration-500`}
+                className={`block mb-1 text-sm font-medium ${darkMode ? "text-white" : "text-gray-700"} transition-all duration-500`}
               >
                 Tautan Produk 2
               </label>
               <Input
                 type="url"
                 placeholder="Contoh: https://tokopedia.com/..."
-                className={`${errors.url2 ? "border-sentiment-negative" : "focus:ring-primary"} ${isDark ? "bg-gray-800 text-white" : "bg-white"} transition-all duration-500 w-full`}
+                className={`${errors.url2 ? "border-sentiment-negative" : "focus:ring-primary"} ${darkMode ? "bg-gray-800 text-white" : "bg-white"} transition-all duration-500 w-full`}
                 {...register("url2")}
               />
               {errors.url2 && (
@@ -87,7 +89,7 @@ export default function AnalysisClient({ isDark }: { isDark: boolean }) {
               urlDatas={urlDatas}
               visibleFields={visibleFields}
               setVisibleFields={setVisibleFields}
-              isDark={isDark}
+              isDark={darkMode}
             />
 
             {visibleFields < 2 && (
@@ -105,7 +107,7 @@ export default function AnalysisClient({ isDark }: { isDark: boolean }) {
                     border-dashed border border-primary/20 shadow-xs
                     transition-all duration-500 animate-in fade-in zoom-in-95
                     ${visibleFields === 0 ? "w-full md:w-1/2" : "w-full"}
-                    ${isDark ? "bg-gray-800 text-white hover:bg-gray-900 border-dashed border border-white" : "text-black hover:bg-[#F8FBFF] "}
+                    ${darkMode ? "bg-gray-800 text-white hover:bg-gray-900 border-dashed border border-white" : "text-black hover:bg-[#F8FBFF] "}
                   `}
                 >
                   {visibleFields === 0
@@ -125,7 +127,7 @@ export default function AnalysisClient({ isDark }: { isDark: boolean }) {
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2.5">
               <div
-                className={`h-2.5 rounded-full transition-all duration-500 ${isDark ? "bg-gray-900" : "bg-primary"}`}
+                className={`h-2.5 rounded-full transition-all duration-500 ${darkMode ? "bg-gray-900" : "bg-primary"}`}
                 style={{ width: `${progress.percent}%` }}
               ></div>
             </div>
@@ -148,7 +150,7 @@ export default function AnalysisClient({ isDark }: { isDark: boolean }) {
             type="submit"
             hidden={loading}
             disabled={!isValid}
-            className={`w-full md:w-max ${isDark ? "bg-gray-900 hover:bg-card hover:text-black" : "bg-primary text-white"} px-6 py-3 mt-6 rounded-md transition-colors disabled:bg-gray-400`}
+            className={`w-full md:w-max ${darkMode ? "bg-gray-900 hover:bg-card hover:text-black" : "bg-primary text-white"} px-6 py-3 mt-6 rounded-md transition-colors disabled:bg-gray-400`}
           >
             <Sparkles className="h-4 w-4" />
             {loading ? "Menganalisis..." : "Analisis Sekarang"}
