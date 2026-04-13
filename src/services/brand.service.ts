@@ -46,10 +46,19 @@ export const formatBrandStats = (userAnalysis: AnalysisData[]) => {
 
 export const getBrandId = async (brandName: string) => {
   const response = await fetch(
-    `/api/brand?brandName=${encodeURIComponent(brandName)}`,
+    `/api/brand?name=${encodeURIComponent(brandName)}`,
   );
+
+  const text = await response.text();
+  console.log("Response status:", response.status);
+  console.log("Response body:", text);
+
   if (!response.ok) return null;
 
-  const data = await response.json();
-  return data.brandId;
+  try {
+    return JSON.parse(text).brandId;
+  } catch {
+    console.error("Bukan JSON:", text);
+    return null;
+  }
 };
