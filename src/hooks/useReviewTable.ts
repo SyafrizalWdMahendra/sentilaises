@@ -15,9 +15,18 @@ export const useReviewTable = (
     const getReviewData = async () => {
       try {
         setIsLoading(true);
-        console.log(reviewPath);
+        // 1. CEK URL SEBELUM FETCH: Pastikan tidak ada kata "undefined" di console browser
+        console.log("Menembak ke URL:", reviewPath);
+
         const req = await fetch(reviewPath);
+
+        // 2. CEK STATUS HTTP: Pastikan statusnya 200 OK, bukan 404 atau 500
+        console.log("HTTP Status:", req.status);
+
         const res: ApiResponse = await req.json();
+
+        // 3. CEK STRUKTUR PAYLOAD: Lihat isi JSON asli dari FastAPI di deploy mode
+        console.log("Raw Response dari Backend:", res);
 
         if (res.data && Array.isArray(res.data)) {
           setData(res.data);
