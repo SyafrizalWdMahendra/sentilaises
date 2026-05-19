@@ -81,14 +81,14 @@ const reviewDatas = [
 
 const scrapePath = "/api/scrape";
 // const backendUrl = process.env.BACKEND_URL || "http://localhost:8000";
-const backendUrl = process.env.BACKEND_URL;
+const backendUrl = process.env.NEXT_PUBLIC_API_URL;
 const aiRecommendPath = `${backendUrl}/recommend`;
 const userMetricPath = "/api/user-metric";
 const profilePath = "/api/profile";
 const chromiumUrl =
   "https://github.com/Sparticuz/chromium/releases/download/v131.0.1/chromium-v131.0.1-pack.tar";
 const sentimentStatsPath = "/api/review/sentiment-stats";
-const productPath = "/api/product";
+const productPath = "/api/product"
 const reviewPath = "/api/review";
 const positiveWords = [
   "bagus",
