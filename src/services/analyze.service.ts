@@ -71,7 +71,7 @@ export const getAIRecommendation = async (
   },
   options?: { signal?: AbortSignal },
 ): Promise<AIRecommendationResponse> => {
-  const base_url = process.env.BACKEND_URL? process.env.BACKEND_URL.replace(/\/+$/, "") : "http://localhost:8000";
+  const base_url = process.env.BACKEND_URL;
 
   const aiRes = await fetch(`${base_url}/recommend`, {
     method: "POST",
