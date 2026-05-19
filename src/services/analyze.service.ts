@@ -72,7 +72,8 @@ export const getAIRecommendation = async (
   options?: { signal?: AbortSignal },
 ): Promise<AIRecommendationResponse> => {
   const base_url = process.env.BACKEND_URL;
-
+  console.log("BASE URL:", base_url);
+  console.log("FULL TARGET URL:", `${base_url}/recommend`);
   const aiRes = await fetch(`${base_url}/recommend`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
