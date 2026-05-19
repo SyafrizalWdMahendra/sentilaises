@@ -15,6 +15,7 @@ export const useReviewTable = (
     const getReviewData = async () => {
       try {
         setIsLoading(true);
+        console.log(reviewPath);
         const req = await fetch(reviewPath);
         const res: ApiResponse = await req.json();
 
