@@ -175,6 +175,8 @@ export const useAnalyseText = () => {
       setResult(aiResult);
       setProgress({ status: "Selesai", percent: 100 });
 
+      window.dispatchEvent(new CustomEvent("analysis-complete"));
+
       setTimeout(() => {
         document
           .getElementById("analysis-result")

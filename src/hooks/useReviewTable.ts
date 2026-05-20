@@ -40,6 +40,8 @@ export const useReviewTable = (
       }
     };
     getReviewData();
+    window.addEventListener("analysis-complete", getReviewData);
+    return () => window.removeEventListener("analysis-complete", getReviewData);
   }, []);
 
   useEffect(() => {

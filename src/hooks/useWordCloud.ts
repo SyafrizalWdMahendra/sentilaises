@@ -80,6 +80,8 @@ export const useWordCloud = () => {
     };
 
     fetchWords();
+    window.addEventListener("analysis-complete", fetchWords);
+    return () => window.removeEventListener("analysis-complete", fetchWords);
   }, []);
 
   const maxValue = Math.max(...words.map((w) => w.value), 1);

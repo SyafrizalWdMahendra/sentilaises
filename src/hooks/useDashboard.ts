@@ -42,6 +42,8 @@ export const useDashboards = () => {
     }
 
     fetchStats();
+    window.addEventListener("analysis-complete", fetchStats);
+    return () => window.removeEventListener("analysis-complete", fetchStats);
   }, []);
 
   useEffect(() => {
@@ -57,6 +59,8 @@ export const useDashboards = () => {
     }
 
     fetchModelData();
+    window.addEventListener("analysis-complete", fetchModelData);
+    return () => window.removeEventListener("analysis-complete", fetchModelData);
   }, []);
 
   const filteredReviews = useMemo(() => {
