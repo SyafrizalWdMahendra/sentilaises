@@ -6,7 +6,6 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import ResultSection from "./ResultSection";
 import UrlInputList from "./UrlInputList";
-import { useTheme } from "@/src/context/ThemeContext";
 
 export default function AnalysisClient() {
   const {
@@ -18,13 +17,13 @@ export default function AnalysisClient() {
     progress,
     visibleFields,
     urlDatas,
+    darkMode,
     register,
     handleSubmit,
     onSubmit,
     handleCancel,
     setVisibleFields,
   } = useAnalyseText();
-  const { darkMode } = useTheme();
 
   return (
     <div className="w-full mx-auto">
@@ -39,7 +38,7 @@ export default function AnalysisClient() {
           <h3
             className={`text-lg font-semibold ${darkMode ? "text-white" : "text-black"} transition-all duration-500`}
           >
-            Analisis Sentimen Real-time
+            Analisis Sentimen
           </h3>
         </div>
 

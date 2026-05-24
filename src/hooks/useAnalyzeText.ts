@@ -9,7 +9,7 @@ import {
 } from "../services/analyze.service";
 import { analyzeSchema } from "../app/validation/analyze.schema";
 import { getMetricId } from "../services/metric.service";
-import { getBrandId } from "../services/brand.service";
+import { useTheme } from "../context/ThemeContext";
 
 export const useAnalyseText = () => {
   const { data: session } = useSession();
@@ -19,6 +19,7 @@ export const useAnalyseText = () => {
   const [progress, setProgress] = useState({ status: "", percent: 0 });
   const abortControllerRef = useRef<AbortController | null>(null);
   const [visibleFields, setVisibleFields] = useState(0);
+  const { darkMode, toggleDarkMode } = useTheme();
 
   const {
     control,
@@ -234,6 +235,8 @@ export const useAnalyseText = () => {
     resultRef,
     progress,
     urlDatas,
+    darkMode,
+    toggleDarkMode,
     register,
     handleSubmit,
     setValue,

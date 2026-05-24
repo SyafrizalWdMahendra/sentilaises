@@ -1,3 +1,4 @@
+import { useDashboards } from "@/src/hooks/useDashboard";
 import { RadarProps } from "@/src/types";
 import { radarFormat } from "@/src/utils/datas";
 import {
@@ -13,16 +14,26 @@ import {
 
 const RadarComparisonChart = ({ data }: RadarProps) => {
   const { chartData, colors } = radarFormat({ data });
+  const { darkMode } = useDashboards();
 
   return (
-    <div className="h-100 bg-card p-5 rounded-xl border items-center flex flex-col">
-      <h3 className="text-lg font-semibold text-center">
+    <div
+      className={`h-100 ${darkMode ? "bg-gray-800 border-transparent" : "bg-card"} p-5 rounded-xl border items-center flex flex-col transition-all duration-500`}
+    >
+      <h3 className="text-lg font-semibold text-center transition-all duration-500">
         Perbandingan Aspek Produk
       </h3>
-      <ResponsiveContainer width="100%" height="100%" className="border-none">
+      <ResponsiveContainer
+        width="100%"
+        height="100%"
+        className="border-transparent transition-all duration-500"
+      >
         <RadarChart cx="50%" cy="46%" outerRadius="80%" data={chartData}>
           <PolarGrid />
-          <PolarAngleAxis dataKey="subject" className="text-xs" />
+          <PolarAngleAxis
+            dataKey="subject"
+            className={`${darkMode ? "text-gray-400" : "text-gray-500"} text-xs`}
+          />
           <PolarRadiusAxis
             angle={90}
             domain={[0, 100]}
@@ -40,6 +51,7 @@ const RadarComparisonChart = ({ data }: RadarProps) => {
               fill={colors[index % colors.length]}
               fillOpacity={0.15}
               dot={{ r: 2, fillOpacity: 1 }}
+              className={`${darkMode ? "animate-in fade-in duration-500 text-card" : "animate-in fade-in duration-500"}`}
             />
           ))}
 
@@ -48,6 +60,8 @@ const RadarComparisonChart = ({ data }: RadarProps) => {
               borderRadius: "12px",
               border: "none",
               boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+              color: darkMode ? "#e0e0e0" : "#333",
+              backgroundColor: darkMode ? "#333" : "#fff",
             }}
           />
           <Legend
@@ -58,7 +72,9 @@ const RadarComparisonChart = ({ data }: RadarProps) => {
               fontWeight: 600,
             }}
             formatter={(value) => (
-              <span className="text-[10px] text-gray-500 uppercase tracking-wider">
+              <span
+                className={`${darkMode ? "text-card" : "text-gray-500"} text-[10px] uppercase tracking-wider transition-all duration-500`}
+              >
                 {value}
               </span>
             )}

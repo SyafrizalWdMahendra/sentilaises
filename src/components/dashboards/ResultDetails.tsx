@@ -1,3 +1,4 @@
+import { useDashboards } from "@/src/hooks/useDashboard";
 import { useResultDetails } from "@/src/hooks/useResultDetails";
 import { ResultProps } from "@/src/types";
 import { getHighlights, toTitleCase } from "@/src/utils/datas";
@@ -16,16 +17,19 @@ export default function ResultDetails({ result }: ResultProps) {
     nextProduct,
     prevProduct,
   } = useResultDetails({ result }) || {};
+  const { darkMode } = useDashboards();
 
   if (!result || !result.details || result.details.length === 0) return null;
 
   return (
     <div className="space-y-6">
-      <div className="relative group border p-8 rounded-xl bg-card h-100 overflow-hidden">
+      <div
+        className={`relative group border p-8 rounded-xl ${darkMode ? "bg-gray-800 border-transparent" : "bg-card"} h-100 overflow-hidden transition-all duration-500`}
+      >
         {activeProductIndex > 0 && (
           <button
             onClick={prevProduct}
-            className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full cursor-pointer bg-secondary text-primary hover:bg-primary hover:text-white transition-all z-2 shadow-md animate-in fade-in zoom-in duration-300"
+            className={`${darkMode ? "absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full cursor-pointer bg-gray-800/30 text-card hover:bg-gray-900 hover:text-card transition-all z-2 shadow-md animate-in fade-in zoom-in duration-300" : "absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full cursor-pointer bg-secondary text-primary hover:bg-primary hover:text-white transition-all z-2 shadow-md animate-in fade-in zoom-in duration-300"}`}
             aria-label="Previous Product"
           >
             <ChevronLeft size={24} />
@@ -61,14 +65,16 @@ export default function ResultDetails({ result }: ResultProps) {
                     <span className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">
                       Produk {index + 1} dari {totalProducts}
                     </span>
-                    <h4 className="font-bold text-2xl text-gray-800 mt-1 line-clamp-2">
+                    <h4
+                      className={`${darkMode ? "text-card" : "text-gray-800"} font-bold text-2xl mt-1 line-clamp-2 transition-all duration-500`}
+                    >
                       {toTitleCase(item.name)}
                     </h4>
                     <a
                       href={item.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-primary text-xs font-semibold inline-flex items-center mt-2 hover:underline gap-1"
+                      className={`${darkMode ? "text-gray-300" : "text-primary"} text-xs font-semibold inline-flex items-center mt-2 hover:underline gap-1 transition-all duration-500`}
                     >
                       Buka di Tokopedia <ExternalLink size={12} />
                     </a>
@@ -109,7 +115,9 @@ export default function ResultDetails({ result }: ResultProps) {
                   </div>
                 </div>
 
-                <div className="bg-secondary/50 p-5 rounded-2xl border border-blue-50 italic text-gray-600 text-sm leading-relaxed mb-4">
+                <div
+                  className={`${darkMode ? "bg-gray-900 text-card border-transparent" : "bg-secondary/50 text-gray-600"} p-5 rounded-2xl border border-blue-50 italic text-sm leading-relaxed mb-4 transition-all duration-500`}
+                >
                   &ldquo;{item.description}&rdquo;
                 </div>
               </div>
@@ -119,7 +127,7 @@ export default function ResultDetails({ result }: ResultProps) {
         {activeProductIndex < totalProducts - 1 && (
           <button
             onClick={nextProduct}
-            className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full cursor-pointer bg-secondary text-primary hover:bg-primary hover:text-white transition-all z-2 shadow-md animate-in fade-in zoom-in duration-300"
+            className={`${darkMode ? "absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full cursor-pointer bg-gray-800/30 text-card hover:bg-gray-900 hover:text-card transition-all z-2 shadow-md animate-in fade-in zoom-in duration-300" : "absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full cursor-pointer bg-secondary text-primary hover:bg-primary hover:text-white transition-all z-2 shadow-md animate-in fade-in zoom-in duration-300"}`}
             aria-label="Next Product"
           >
             <ChevronRight size={24} />

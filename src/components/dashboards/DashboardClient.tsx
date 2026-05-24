@@ -31,10 +31,11 @@ export default function DashboardClient() {
     neutralCount,
     loading,
     modelData,
+    darkMode,
+    toggleDarkMode,
     percentage,
     scrollToResult,
   } = useDashboards();
-  const { darkMode, toggleDarkMode } = useTheme();
 
   return (
     <div
@@ -63,6 +64,12 @@ export default function DashboardClient() {
             </Button>
           </div>
         </div>
+
+        <section id="analysis-form" className="scroll-mt-60">
+          <div className="mb-8 ">
+            <AnalysisClient />
+          </div>
+        </section>
 
         <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <StatCard
@@ -150,12 +157,6 @@ export default function DashboardClient() {
             </div>
           )}
         </div>
-
-        <section id="analysis-form" className="scroll-mt-60">
-          <div className="mb-8 ">
-            <AnalysisClient />
-          </div>
-        </section>
 
         <div className="space-y-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">

@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from "react";
 import { ModelDB, Review, StatCounts } from "@/src/types";
 import { getClassificationReport } from "../app/dashboard/lib/actions";
 import { sentimentStatsPath } from "../utils/const";
+import { useTheme } from "../context/ThemeContext";
 
 export const useDashboards = () => {
   const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
@@ -16,6 +17,7 @@ export const useDashboards = () => {
     negative: 0,
     neutral: 0,
   });
+  const { darkMode, toggleDarkMode } = useTheme();
 
   useEffect(() => {
     async function fetchStats() {
@@ -60,7 +62,8 @@ export const useDashboards = () => {
 
     fetchModelData();
     window.addEventListener("analysis-complete", fetchModelData);
-    return () => window.removeEventListener("analysis-complete", fetchModelData);
+    return () =>
+      window.removeEventListener("analysis-complete", fetchModelData);
   }, []);
 
   const filteredReviews = useMemo(() => {
@@ -88,6 +91,8 @@ export const useDashboards = () => {
     selectedBrand,
     loading,
     modelData,
+    darkMode,
+    toggleDarkMode,
     setSelectedBrand,
     percentage,
     scrollToResult,

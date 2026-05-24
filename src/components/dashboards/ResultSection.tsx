@@ -2,8 +2,10 @@ import { ResultProps } from "@/src/types";
 import { motion } from "framer-motion";
 import RadarComparisonChart from "./RadarComparisonChart";
 import ResultDetails from "./ResultDetails";
+import { useDashboards } from "@/src/hooks/useDashboard";
 
 export default function Resultection({ result }: ResultProps) {
+  const { darkMode } = useDashboards();
   return (
     <motion.div
       className="w-full mx-auto"
@@ -19,7 +21,9 @@ export default function Resultection({ result }: ResultProps) {
     >
       {result && (
         <div className="space-y-8 animate-in fade-in duration-700">
-          <div className="p-8 rounded-xl text-white shadow-xl flex flex-col md:flex-row justify-between items-center gap-4 bg-primary">
+          <div
+            className={`${darkMode ? "bg-gray-800" : "bg-primary"} p-8 rounded-xl text-white shadow-xl flex flex-col md:flex-row justify-between items-center gap-4 transition-all duration-500`}
+          >
             <div>
               <p className="mx-auto text-lg text-white/80">
                 Rekomendasi Terbaik Berdasarkan Analisis
