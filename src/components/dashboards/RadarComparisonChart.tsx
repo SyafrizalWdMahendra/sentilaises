@@ -44,7 +44,7 @@ const RadarComparisonChart = ({ data }: RadarProps) => {
 
           {data.map((product, index) => (
             <Radar
-              key={product.name}
+              key={`${product.name}-${index}`}
               name={product.name}
               dataKey={product.name}
               stroke={colors[index % colors.length]}
